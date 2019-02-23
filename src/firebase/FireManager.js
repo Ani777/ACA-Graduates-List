@@ -1,6 +1,17 @@
 import { firestore } from "firebase";
+import firebase from 'firebase';
 
 export default class FireManager {
+    static createUserWithEmailAndPassword (email, password){
+        return firebase.auth().createUserWithEmailAndPassword(email, password)
+    }
+    static createCompanyInFirebase(companyData, id) {
+        return firestore()
+        .collection("companies")
+        .doc(id)
+        .set(companyData)
+    }
+
     static addStudent(student) {
         if (student.id) {
             return firestore()
