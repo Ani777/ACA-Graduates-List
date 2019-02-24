@@ -28,4 +28,4 @@ export  function initFirebase() {
 //         // ...
 //     });
 // }
-export default {initFirebase, createUserInfirebase}
+export default {initFirebase}
