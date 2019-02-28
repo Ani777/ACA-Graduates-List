@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import initFirebase from "./firebase/fireConfig";
-import LoginLogout from "./LoginLogout";
+import LoginLogout from "./components/LoginLogout";
 
 
 class App extends Component {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { Link } from 'react-router-dom';
 import initFirebase from "../firebase/fireConfig";
 
 class Login extends Component {
