@@ -3,18 +3,51 @@ import './App.css';
 import { AddCompanyPage } from './components/companies/AddCompanyPage';
 import Courses from "./components/courses";
 import CompaniesList from './components/companies/CompaniesList';
+import ButtonAppBar from "./components/Header";
+import ScrollableTabsButtonForce from "./components/navbar";
+import Icon from "./components/navbar/icon";
+import firebase from 'firebase';
+import { BrowserRouter as Router, Link, NavLink, Redirect, Prompt } from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+
+
+
 
 class App extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            courses: []
+        }
+    }
+
+componentDidMount(){
+    firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
+        courses => {
+            this.setState({courses})
+        }
+    )
+}
   render() {
     return (
+        <Router>
       <div className="App">
 
-        <AddCompanyPage/>
-        <Courses/>
+              <ButtonAppBar />
+              {/*<Route path="/" exact strict component={Graduates} />*/}
+              <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
 
-        <CompaniesList/>
+
+
+
+
+        {/*<AddCompanyPage/>*/}
+        {/*<Courses/>*/}
+
+        {/*<CompaniesList/>*/}
 
       </div>
+        </Router>
     );
   }
 }

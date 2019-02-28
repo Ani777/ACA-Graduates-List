@@ -81,7 +81,7 @@ export default class FireManager {
                     return newCourses;
                 }
             })
-            .then(newCourses => db.collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').update({courses: newCourses}))
+            .then(newCourses => firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').update({courses: newCourses}))
     }
 
     static removeCourse(course) {
@@ -94,7 +94,7 @@ export default class FireManager {
                     return newCourses;
                 }
             })
-            .then(newCourses => db.collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').update({courses: newCourses}))
+            .then(newCourses => firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').update({courses: newCourses}))
     }
 
     // static addStudent(student) {
