@@ -2,6 +2,21 @@ import { firestore } from "firebase";
 import firebase from 'firebase';
 
 export default class FireManager {
+
+    static addCourse(id, name, icon){
+        return firestore()
+            .collection("courses")
+            .doc(id)
+            .set(name).then(()=>{
+                debugger;
+                const storageRef = firebase.storage().ref('courseIcons');
+                storageRef.put(icon).then(icon => {
+                    debugger;
+                });
+        });
+    }
+
+
     static createUserWithEmailAndPassword (email, password){
         return firebase.auth().createUserWithEmailAndPassword(email, password)
     }
