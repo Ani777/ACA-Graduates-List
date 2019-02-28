@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-
 import './App.css';
-import { AddCompanyPage } from './components/companies/AddCompanyPage';
+import initFirebase from "./firebase/fireConfig";
+import LoginLogout from "./LoginLogout";
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <AddCompanyPage/>
+        <LoginLogout/>
       </div>
     );
   }
 }
 
-export default App;
+ export default App;
+
