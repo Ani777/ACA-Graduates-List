@@ -41,8 +41,8 @@ function ButtonAppBar(props) {
                     <Typography variant="h5" align='left' color="inherit" className={classes.grow}>
                         Companies
                     </Typography>
-                    <Button color="inherit" >Login</Button>
-                    <Button color="inherit" >Logout</Button>
+                    <Button color="inherit" component={Link} to={"/login"} >Login</Button>
+                    <Button color="inherit" component={Link} to={"/login"}>Logout</Button>
                 </Toolbar>
             </AppBar>
         </div>

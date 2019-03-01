@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import initFirebase from "../firebase/fireConfig";
+import firebase from 'firebase';
 
 class Login extends Component {
   constructor(props) {
       super(props);
-      this.login = this.login.bind(this);
-      this.handleChange = this.handleChange.bind(this);
       this.state = {
           email: '',
           password: ''
       };
     }
 
-  handleChange(e) {
+  handleChange=(e)=> {
       this.setState({ [e.target.name]: e.target.value });
   }
 
-  login(e) {
+  login=(e)=> {
       e.preventDefault();
-      initFirebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+      firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -35,7 +33,7 @@ class Login extends Component {
             <input value={this.state.email} onChange={this.handleChange} type="email" name="email" id="exampleInputEmail1" placeholder="Enter email" />
               </div>
               <div>
-                <input value={this.state.password} onChange={this.handleChange} type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+                <input value={this.state.password} onChange={this.handleChange} type="password" name="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
               </div>
               <button type="submit" onClick={this.login}>Login</button>
         </form>

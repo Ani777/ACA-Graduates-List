@@ -10,6 +10,7 @@ import Icon from "./components/navbar/icon";
 import firebase from 'firebase';
 import { BrowserRouter as Router, Link, NavLink, Redirect, Prompt } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
+import Login from "./components/Login"
 
 
 
@@ -36,9 +37,11 @@ class App extends Component {
 
                     <ButtonAppBar />
                     {/*<Route path="/" exact strict component={Graduates} />*/}
+                    <Route path="/login" exact strict component={Login} />
+
                     <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
 
-                    <LoginLogout/>
+                    {/*<Login/>*/}
 
 
 
