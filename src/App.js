@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+
 import { AddCompanyPage } from './components/companies/AddCompanyPage';
 import Courses from "./components/courses";
 import CompaniesList from './components/companies/CompaniesList';
@@ -37,7 +38,7 @@ class App extends Component {
                     {/*<Route path="/" exact strict component={Graduates} />*/}
                     <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
 
-
+                    <LoginLogout/>
 
 
 
@@ -53,3 +54,7 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+
