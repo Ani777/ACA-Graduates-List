@@ -28,7 +28,7 @@ function ButtonAppBar(props) {
             <AppBar position="static">
                 <Toolbar>
 
-                    <Typography variant="h5" align='right' color="inherit" className={classes.grow}>
+                    <Typography variant="h5" align='right' color="inherit" className={classes.grow} component={Link} to={"/graduates"}>
                         Graduates
                     </Typography>
 

@@ -11,6 +11,7 @@ import firebase from 'firebase';
 import { BrowserRouter as Router, Link, NavLink, Redirect, Prompt } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import Login from "./components/Login"
+import GraduatesList from "./components/graduates/GraduatesList";
 
 
 
@@ -39,6 +40,7 @@ class App extends Component {
                     {/*<Route path="/" exact strict component={Graduates} />*/}
                     <Route path="/login" exact strict component={Login} />
                     <Route path="/companies" exact strict component={CompaniesList} />
+                    <Route path="/graduates" exact strict component={GraduatesList} />
 
                     <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
 

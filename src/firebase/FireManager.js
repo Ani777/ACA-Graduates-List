@@ -97,6 +97,11 @@ export default class FireManager {
             .then(newCourses => firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').update({courses: newCourses}))
     }
 
+    static getGraduates() {
+        const graduatesRef = firestore().collection("graduates");
+        return graduatesRef.get();
+    }
+
     // static addStudent(student) {
     //     if (student.id) {
     //         return firestore()
