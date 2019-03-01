@@ -38,8 +38,10 @@ class App extends Component {
                     <ButtonAppBar />
                     {/*<Route path="/" exact strict component={Graduates} />*/}
                     <Route path="/login" exact strict component={Login} />
+                    <Route path="/companies" exact strict component={CompaniesList} />
 
                     <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
+
 
                     {/*<Login/>*/}
 

@@ -38,7 +38,7 @@ function ButtonAppBar(props) {
 
                     </Typography>
 
-                    <Typography variant="h5" align='left' color="inherit" className={classes.grow}>
+                    <Typography variant="h5" align='left' color="inherit" className={classes.grow} component={Link} to={"/companies"}>
                         Companies
                     </Typography>
                     <Button color="inherit" component={Link} to={"/login"} >Login</Button>
