@@ -21,35 +21,35 @@ class App extends Component {
         }
     }
 
-componentDidMount(){
-    firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
-        courses => {
-            this.setState({courses})
-        }
-    )
-}
-  render() {
-    return (
-        <Router>
-      <div className="App">
+    componentDidMount(){
+        firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
+            courses => {
+                this.setState({courses})
+            }
+        )
+    }
+    render() {
+        return (
+            <Router>
+                <div className="App">
 
-              <ButtonAppBar />
-              {/*<Route path="/" exact strict component={Graduates} />*/}
-              <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
-
-
+                    <ButtonAppBar />
+                    {/*<Route path="/" exact strict component={Graduates} />*/}
+                    <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
 
 
 
-        {/*<AddCompanyPage/>*/}
-        {/*<Courses/>*/}
 
-        {/*<CompaniesList/>*/}
 
-      </div>
-        </Router>
-    );
-  }
+                    {/*<AddCompanyPage/>*/}
+                    {/*<Courses/>*/}
+
+                    {/*<CompaniesList/>*/}
+
+                </div>
+            </Router>
+        );
+    }
 }
 
 export default App;
