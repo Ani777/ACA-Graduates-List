@@ -23,7 +23,8 @@ class App extends Component {
             courses: [],
             userEmail: '',
             email: '',
-            password: ''
+            password: '',
+
         }
     }
 
@@ -74,11 +75,26 @@ class App extends Component {
                                                                     handleChange={this.handleChange}
                                                                     email={this.state.email}
                                                                     password={this.state.password}/>)} />
-                    <Route path="/companies" exact strict component={CompaniesList} />
-                    <Route path="/graduates" exact strict component={GraduatesList} />
+                    {/*<Route path="/companies" exact strict component={CompaniesList} />*/}
+                    {/*<Route path="/graduates" exact strict component={GraduatesList} />*/}
+                    {/*<Route path="/" exact strict component={GraduatesList} />*/}
 
-                    <Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />
+                    {/*<Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />*/}
+                    <Route path="/companies" exact strict render={()=>(
+                    this.state.userEmail? (<CompaniesList />) :(<Redirect to='/login'/>)
+                )}/>
 
+                    <Route path="/" exact strict render={()=>(
+                        this.state.userEmail? (<GraduatesList />) :(<Redirect to='/login'/>)
+                    )}/>
+
+                    <Route path="/graduates" exact strict render={()=>(
+                        this.state.userEmail? (<GraduatesList />) :(<Redirect to='/login'/>)
+                    )}/>
+
+                    <Route path="/courses" exact strict render={()=>(
+                        this.state.userEmail? (<ScrollableTabsButtonForce courses={this.state.courses} />) :(<Redirect to='/login'/>)
+                    )}/>
 
                     <h1>{this.state.userEmail}</h1>
                     {/*<Login/>*/}
