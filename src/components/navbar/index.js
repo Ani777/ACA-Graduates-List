@@ -13,6 +13,7 @@ import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import FireManager from "../../firebase/FireManager";
+import GraduatesList from "../graduates/GraduatesList";
 
 function TabContainer(props) {
     return (
@@ -40,17 +41,10 @@ class ScrollableTabsButtonForce extends React.Component {
     }
     state = {
         value: 0,
-        graduates: [],
 
     }
 
-    componentDidMount() {
-        FireManager.getGraduates().then(querySnapshot => {
-            this.setState({graduates: querySnapshot.docs.map(doc => doc.data())})
-        }).catch(error => {
-            console.error("Error getting graduates:", error);
-        });
-    }
+
 
     handleChange = (event, value) => {
         this.setState({ value });
@@ -60,7 +54,9 @@ class ScrollableTabsButtonForce extends React.Component {
         const { classes } = this.props;
         const { value } = this.state;
         const courses = this.props.courses;
-        const tabs = courses.map((course, index) => <Tab key={course+index} label={course} />)
+        const tabs = courses.map((course, index) => <Tab key={course+index} label={course} />);
+        const graduates = this.props.graduates.filter(graduate => graduate.course === courses[value])
+
 
 
         return (
@@ -85,7 +81,7 @@ class ScrollableTabsButtonForce extends React.Component {
                     </Tabs>
                 </AppBar>
 
-               <TabContainer>{courses[value]}</TabContainer>
+               <TabContainer><GraduatesList graduates={graduates}/></TabContainer>
                 {/*{value === 1 && <TabContainer>Item Two</TabContainer>}*/}
                 {/*{value === 2 && <TabContainer>Item Three</TabContainer>}*/}
                 {/*{value === 3 && <TabContainer>Item Four</TabContainer>}*/}

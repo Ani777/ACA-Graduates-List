@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Link, NavLink, Redirect, Prompt } from 'react-
 import Route from 'react-router-dom/Route';
 import Login from "./components/Login"
 import GraduatesList from "./components/graduates/GraduatesList";
+import FireManager from "./firebase/FireManager";
 
 
 
@@ -37,7 +38,11 @@ class App extends Component {
             courses => {
                 this.setState({courses})
             }
-        )
+        ).then( FireManager.getGraduates().then(querySnapshot => {
+            this.setState({graduates: querySnapshot.docs.map(doc => doc.data())})
+        }).catch(error => {
+            console.error("Error getting graduates:", error);
+        }))
     }
 
     login=(e)=> {
@@ -85,15 +90,15 @@ class App extends Component {
                 )}/>
 
                     <Route path="/" exact strict render={()=>(
-                        this.state.userEmail? (<GraduatesList />) :(<Redirect to='/login'/>)
+                        this.state.userEmail? (<GraduatesList graduates={this.state.graduates}/>) :(<Redirect to='/login'/>)
                     )}/>
 
                     <Route path="/graduates" exact strict render={()=>(
-                        this.state.userEmail? (<GraduatesList />) :(<Redirect to='/login'/>)
+                        this.state.userEmail? (<GraduatesList graduates={this.state.graduates}/>) :(<Redirect to='/login'/>)
                     )}/>
 
                     <Route path="/courses" exact strict render={()=>(
-                        this.state.userEmail? (<ScrollableTabsButtonForce courses={this.state.courses} />) :(<Redirect to='/login'/>)
+                        this.state.userEmail? (<ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} />) :(<Redirect to='/login'/>)
                     )}/>
 
                     <h1>{this.state.userEmail}</h1>
