@@ -11,18 +11,21 @@ import { NavLink, Link } from 'react-router-dom'
 const styles = {
     root: {
         flexGrow: 1,
+
     },
     grow: {
         flexGrow: 1,
         cursor: 'pointer',
         textDecoration: 'none'
     },
-
-
+    button:{
+     width: 250
+}
 };
 
 function ButtonAppBar(props) {
     const { classes } = props;
+    const logout= props.logout;
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -41,8 +44,8 @@ function ButtonAppBar(props) {
                     <Typography variant="h5" align='left' color="inherit" className={classes.grow} component={Link} to={"/companies"}>
                         Companies
                     </Typography>
-                    <Button color="inherit" component={Link} to={"/login"} >Login</Button>
-                    <Button color="inherit" component={Link} to={"/login"}>Logout</Button>
+                    <Button color="inherit" className={classes.button} component={Link} to={"/login"} >{props.userEmail? props.userEmail: 'Login'}</Button>
+                    <Button color="inherit" onClick={logout} component={Link} to={"/login"}>Logout</Button>
                 </Toolbar>
             </AppBar>
         </div>
