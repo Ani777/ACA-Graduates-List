@@ -14,6 +14,7 @@ import Login from "./components/Login"
 import GraduatesList from "./components/graduates/GraduatesList";
 import FireManager from "./firebase/FireManager";
 import AddCoursePage from "./components/courses/AddCoursePage"
+import SignIn from "./components/SignIn";
 
 class App extends Component {
     constructor(props){
@@ -47,7 +48,6 @@ class App extends Component {
     login=(e)=> {
         e.preventDefault();
         if (!this.state.userEmail) {
-
             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(() => this.setState({
                 user: firebase.auth().currentUser,
                 email: '',
@@ -77,7 +77,7 @@ class App extends Component {
 
 
                     {/*<Route path="/" exact strict component={Graduates} />*/}
-                    <Route path="/login" exact strict render={()=> (!this.state.user? (<Login login={this.login}
+                    <Route path="/login" exact strict render={()=> (!this.state.user? (<SignIn login={this.login}
                                                                                              handleChange={this.handleChange}
                                                                                              email={this.state.email}
                                                                                              password={this.state.password}/>):(<Redirect to='/'/>))}/>

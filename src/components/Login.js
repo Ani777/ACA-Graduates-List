@@ -15,16 +15,6 @@ class Login extends Component {
   //     this.setState({ [e.target.name]: e.target.value });
   // }
 
-  // login=(e)=> {
-  //     e.preventDefault();
-  //     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
-  //     // Handle Errors here.
-  //     var errorCode = error.code;
-  //     var errorMessage = error.message;
-  //     // ...
-  //     window.alert("Error: "+errorMessage);
-  //       });
-  // }
 
   render() {
       return (
