@@ -51,7 +51,7 @@ class App extends Component {
             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(() => this.setState({
                 user: firebase.auth().currentUser,
                 email: '',
-                password: ''
+                password: '',
             })).catch(function (error) {
                 // Handle Errors here.
                 var errorCode = error.code;

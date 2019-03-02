@@ -58,7 +58,7 @@ function SignIn(props) {
                 <Typography component="h1" variant="h5">
                     Log In
                 </Typography>
-                <form className={classes.form}>
+                <form className={classes.form} >
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email"  >Email Address</InputLabel>
                         <Input id="email" name="email" autoComplete value={props.email} onChange={props.handleChange} autoFocus />
