@@ -14,9 +14,6 @@ import Login from "./components/Login"
 import GraduatesList from "./components/graduates/GraduatesList";
 import FireManager from "./firebase/FireManager";
 
-
-
-
 class App extends Component {
     constructor(props){
         super(props);
