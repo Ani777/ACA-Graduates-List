@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import { AddCompanyPage } from './components/companies/AddCompanyPage';
-import Courses from "./components/courses";
+import Courses from "./components/courses/AddCoursePage";
 import CompaniesContainer from './components/companies/CompaniesContainer';
 import ButtonAppBar from "./components/Header";
 import ScrollableTabsButtonForce from "./components/navbar";
@@ -13,6 +13,7 @@ import Route from 'react-router-dom/Route';
 import Login from "./components/Login"
 import GraduatesList from "./components/graduates/GraduatesList";
 import FireManager from "./firebase/FireManager";
+import AddCoursePage from "./components/courses/AddCoursePage"
 
 class App extends Component {
     constructor(props){
@@ -87,18 +88,20 @@ class App extends Component {
                 )}/>
 
                     <Route path="/" exact strict render={()=>(
-                        this.state.userEmail? (<GraduatesList graduates={this.state.graduates}/>) :(<Redirect to='/login'/>)
-                    )}/>
-
-                    <Route path="/graduates" exact strict render={()=>(
-                        this.state.userEmail? (<GraduatesList graduates={this.state.graduates}/>) :(<Redirect to='/login'/>)
-                    )}/>
-
-                    <Route path="/courses" exact strict render={()=>(
                         this.state.userEmail? (<ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} />) :(<Redirect to='/login'/>)
                     )}/>
 
-                    <h1>{this.state.userEmail}</h1>
+
+                    <Route path="/graduates" exact strict render={()=>(
+                        this.state.userEmail? (<ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} />) :(<Redirect to='/login'/>)
+                    )}/>
+
+
+                    <Route path="/courses" exact strict render={()=>(
+                        this.state.userEmail? (<AddCoursePage />) :(<Redirect to='/login'/>)
+                    )}/>
+
+
                     {/*<Login/>*/}
 
 
