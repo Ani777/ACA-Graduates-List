@@ -55,7 +55,7 @@ class ScrollableTabsButtonForce extends React.Component {
         const { value } = this.state;
         const courses = this.props.courses;
         const tabs = courses.map((course, index) => <Tab key={course+index} label={course} />);
-        const graduates = this.props.graduates.filter(graduate => graduate.course === courses[value])
+        const graduates = value ===0 ? this.props.graduates: this.props.graduates.filter(graduate => graduate.course === courses[value-1])
 
 
 
@@ -70,6 +70,7 @@ class ScrollableTabsButtonForce extends React.Component {
                         indicatorColor="primary"
                         textColor="primary"
                     >
+                        <Tab label='All' />
                         {tabs}
                         {/*<Tab  icon={<PhoneIcon />} />*/}
                         {/*<Tab  icon={<FavoriteIcon />} />*/}
