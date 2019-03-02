@@ -4,6 +4,16 @@ import  firebase  from 'firebase';
 export default class FireManager {
 
 
+    static createCompanyInFirebase(companyData, id) {
+        return firebase.firestore().collection("companies").add(companyData);
+    }
+
+    static getCompanies() {
+        const companiesRef = firestore().collection("companies");
+        return companiesRef.get();
+    }
+
+
     static addCourse(id, name, icon){
         return firestore()
             .collection("courses")
@@ -52,10 +62,10 @@ export default class FireManager {
         return firebase.auth().createUserWithEmailAndPassword(email, password)
     }
 
-    static createCompanyInFirebase(companyData) {
-        return firebase.firestore().collection("companies").add(companyData)
-        .then(data =>console.log(data));
-    }
+    // static createCompanyInFirebase(companyData) {
+    //     return firebase.firestore().collection("companies").add(companyData)
+    //     .then(data =>console.log(data));
+    // }
 
     static removeCompany(id) {
             return firestore()

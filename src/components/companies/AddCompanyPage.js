@@ -1,36 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
-import { v4 } from 'uuid';
 import generatePassword from 'password-generator';
 import { isValidEmail } from '../validators/EmailValidator';
 import { isValidName } from '../validators/NameValidator';
 
 export default function AddCompanyPage(props) {
-    
     const name = useFormInput('');
     const email = useFormInput('');
-    const password = useFormInput('');
+
+    function getPassword () {
+        document.getElementById("password").value = generatePassword(6, false);
+    }
 
     function onCompanyFormSubmit (e) {
         if (!isValidName(name.value)) return;
         if (!isValidEmail(email.value)) return;
         e.preventDefault();
-        const id = v4();
         const data = {
             name: name.value,
             email: email.value,
-           // password: password.value
+            password: document.getElementById('password').value
         }
 
         props.addCompanyToList(data);
 
-        let a = generatePassword(7, null, null, `${data.name}-`);
-        data.password = a;
-        console.log(a);
-        FireManager.createCompanyInFirebase(data, id).then(() => {
-            FireManager.createUserWithEmailAndPassword(email.value, a).then(user => {
-                debugger;
+        FireManager.createCompanyInFirebase(data).then(() => {
+            FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
             }).catch(err => {
                 debugger;
             })
@@ -41,11 +37,9 @@ export default function AddCompanyPage(props) {
         <form onSubmit={onCompanyFormSubmit}>
             <input {...name}/>
             <input {...email} />
-            <input {...password} />
+            <input tyoe='text' id='password'/>
+            <button type='button'onClick={getPassword}>auto</button>
             <button type='submit'>add</button>
-            <div>
-
-            </div>
         </form>
     );
 }

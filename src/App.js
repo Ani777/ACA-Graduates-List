@@ -3,7 +3,7 @@ import './App.css';
 
 import { AddCompanyPage } from './components/companies/AddCompanyPage';
 import Courses from "./components/courses";
-import CompaniesList from './components/companies/CompaniesList';
+import CompaniesContainer from './components/companies/CompaniesContainer';
 import ButtonAppBar from "./components/Header";
 import ScrollableTabsButtonForce from "./components/navbar";
 import Icon from "./components/navbar/icon";
@@ -83,7 +83,7 @@ class App extends Component {
 
                     {/*<Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />*/}
                     <Route path="/companies" exact strict render={()=>(
-                    this.state.userEmail? (<CompaniesList />) :(<Redirect to='/login'/>)
+                    this.state.userEmail? (<CompaniesContainer />) :(<Redirect to='/login'/>)
                 )}/>
 
                     <Route path="/" exact strict render={()=>(
