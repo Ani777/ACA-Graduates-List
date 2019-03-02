@@ -1,43 +1,19 @@
-import React, { Component } from 'react';
-import AddCompanyPage from './AddCompanyPage';
+import React from 'react';
 
-class CompaniesList extends Component {
-    state = {
-        companies: []
-    };
+function CompaniesList (props) {
+    const { companies } = props;
+    const companiesList = companies.map(company => <tr key={company.name + company.password}>
+        <td key={company.name}>{company.name}</td>
+        <td key={company.email}>{company.email}</td>
+        <td key={company.password}>{company.password}</td>
+    </tr>);
 
-    addCompanyToList = company => {
-        const { companies } = this.state;
-        companies.push(company);
-        this.setState({ companies });
-    }
+    return(
+        <tbody>
+        {companiesList}
+        </tbody>
+    );
 
-    render() {
-        const { companies } = this.state;
-        const list = companies.map(obj => <tr>
-            <td>{obj.name}</td>
-            <td>{obj.email}</td>
-            <td>{obj.password}</td>
-        </tr>);
-
-        return(
-            <>
-                <AddCompanyPage addCompanyToList={this.addCompanyToList}/>
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>Email</td>
-                            <td>Password</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {list}
-                    </tbody>
-                </table>
-            </>
-        )
-    }
 }
 
 export default CompaniesList;
