@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
   // constructor(props) {

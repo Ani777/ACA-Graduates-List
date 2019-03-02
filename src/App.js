@@ -20,7 +20,8 @@ class App extends Component {
         super(props);
         this.state = {
             courses: [],
-            userEmail: '',
+            graduates: [],
+            user: '',
             email: '',
             password: '',
 
@@ -48,7 +49,7 @@ class App extends Component {
         if (!this.state.userEmail) {
 
             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(() => this.setState({
-                userEmail: firebase.auth().currentUser.email,
+                user: firebase.auth().currentUser,
                 email: '',
                 password: ''
             })).catch(function (error) {
@@ -56,14 +57,21 @@ class App extends Component {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 // ...
+
                 window.alert("Error: " + errorMessage);
             });
         }
     }
 
+    componentWillUnmount() {
+        firebase.auth().signOut().then(()=>{
+            this.setState({user: ''})
+        })
+    }
+
     logout=(e)=>{
         firebase.auth().signOut().then(()=>{
-            this.setState({userEmail: ''})
+            this.setState({user: ''})
         })
     }
 
@@ -72,33 +80,34 @@ class App extends Component {
             <Router>
                 <div className="App">
 
-                    <ButtonAppBar userEmail={this.state.userEmail} logout={this.logout}/>
+
                     {/*<Route path="/" exact strict component={Graduates} />*/}
-                    <Route path="/login" exact strict render={()=> (<Login login={this.login}
-                                                                    handleChange={this.handleChange}
-                                                                    email={this.state.email}
-                                                                    password={this.state.password}/>)} />
+                    <Route path="/login" exact strict render={()=> (!this.state.user? (<Login login={this.login}
+                                                                                             handleChange={this.handleChange}
+                                                                                             email={this.state.email}
+                                                                                             password={this.state.password}/>):(<Redirect to='/'/>))}/>
                     {/*<Route path="/companies" exact strict component={CompaniesList} />*/}
                     {/*<Route path="/graduates" exact strict component={GraduatesList} />*/}
                     {/*<Route path="/" exact strict component={GraduatesList} />*/}
 
                     {/*<Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />*/}
+                    {/*<ButtonAppBar user={this.state.user} logout={this.logout}/>*/}
                     <Route path="/companies" exact strict render={()=>(
-                    this.state.userEmail? (<CompaniesContainer />) :(<Redirect to='/login'/>)
+                    this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><CompaniesContainer /></>) :(<Redirect to='/login'/>)
                 )}/>
 
                     <Route path="/" exact strict render={()=>(
-                        this.state.userEmail? (<ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} />) :(<Redirect to='/login'/>)
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} /></>) :(<Redirect to='/login'/>)
                     )}/>
 
 
                     <Route path="/graduates" exact strict render={()=>(
-                        this.state.userEmail? (<ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} />) :(<Redirect to='/login'/>)
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} /></>) :(<Redirect to='/login'/>)
                     )}/>
 
 
                     <Route path="/courses" exact strict render={()=>(
-                        this.state.userEmail? (<AddCoursePage />) :(<Redirect to='/login'/>)
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><AddCoursePage /></>) :(<Redirect to='/login'/>)
                     )}/>
 
 
