@@ -63,11 +63,6 @@ class App extends Component {
         }
     }
 
-    componentWillUnmount() {
-        firebase.auth().signOut().then(()=>{
-            this.setState({user: ''})
-        })
-    }
 
     logout=(e)=>{
         firebase.auth().signOut().then(()=>{
