@@ -56,7 +56,7 @@ function SignIn(props) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Log In
                 </Typography>
                 <form className={classes.form}>
                     <FormControl margin="normal" required fullWidth>
@@ -75,7 +75,7 @@ function SignIn(props) {
                         className={classes.submit}
                         onClick={props.login}
                     >
-                        Sign in
+                        Log In
                     </Button>
                 </form>
             </Paper>
