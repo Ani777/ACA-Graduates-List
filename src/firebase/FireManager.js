@@ -60,9 +60,9 @@ export default class FireManager {
             .update({...newData})
     }
 
-    static createUserWithEmailAndPassword (email, password){
-        return firebase.auth().createUserWithEmailAndPassword(email, password)
-    }
+    // static createUserWithEmailAndPassword (email, password){
+    //     return firebase.auth().createUserWithEmailAndPassword(email, password)
+    // }
 
     // static createCompanyInFirebase(companyData) {
     //     return firebase.firestore().collection("companies").add(companyData)
@@ -83,18 +83,18 @@ export default class FireManager {
             .update({...newData})
     }
 
-    static addCourse(newCourse) {
-        firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').get()
-            .then(doc => {
-                const courses = doc.data().courses;
-                if (!courses.includes(newCourse)) {
-                    const newCourses = [...courses];
-                    newCourses.push(newCourse);
-                    return newCourses;
-                }
-            })
-            .then(newCourses => firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').update({courses: newCourses}))
-    }
+    // static addCourse(newCourse) {
+    //     firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').get()
+    //         .then(doc => {
+    //             const courses = doc.data().courses;
+    //             if (!courses.includes(newCourse)) {
+    //                 const newCourses = [...courses];
+    //                 newCourses.push(newCourse);
+    //                 return newCourses;
+    //             }
+    //         })
+    //         .then(newCourses => firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').update({courses: newCourses}))
+    // }
 
     static removeCourse(course) {
        firestore().collection('courses').doc('ZtsTO8Ldz0B6tCHNEHlY').get()

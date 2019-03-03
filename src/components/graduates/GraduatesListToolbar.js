@@ -60,7 +60,7 @@ function GraduatesListToolbar (props) {
             <div className={classes.actions}>
                 {numSelected > 0 ? (
                     <Tooltip title="Delete">
-                        <IconButton aria-label="Delete" onClick={() => props.removeGraduate()}>
+                        <IconButton aria-label="Delete" onClick={props.removeGraduate}>
                             <DeleteIcon />
                         </IconButton>
                     </Tooltip>

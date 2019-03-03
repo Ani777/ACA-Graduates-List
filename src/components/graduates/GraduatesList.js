@@ -60,7 +60,7 @@ class GraduatesList extends Component {
     state = {
         order: 'asc',
         orderBy: 'testResults',
-        selected: [],
+
         page: 0,
         rowsPerPage: 10,
     };
@@ -82,13 +82,7 @@ class GraduatesList extends Component {
     //     });
     // }
 
-    handleDeleteButtonClick = () => {
-        const { selected } = this.state;
-        selected.forEach(id => {
-            FireManager.removeGraduate(id);
-        });
-        this.setState({selected: []});
-    }
+
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -101,34 +95,9 @@ class GraduatesList extends Component {
         this.setState({ order, orderBy });
     };
 
-    handleSelectAllClick = event => {
-        if (event.target.checked) {
-            this.setState({ selected: this.props.graduates.map(n => n.id) });
-            return;
-        }
-        this.setState({ selected: [] });
-    };
 
-    handleClick = (event, id) => {
-        const { selected } = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
 
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
 
-        this.setState({ selected: newSelected });
-    };
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -138,24 +107,24 @@ class GraduatesList extends Component {
         this.setState({ rowsPerPage: event.target.value });
     };
 
-    isSelected = id => this.state.selected.indexOf(id) !== -1;
+    isSelected = id => this.props.selected.indexOf(id) !== -1;
 
     render() {
-        const { classes } = this.props;
-        const { order, orderBy, selected, rowsPerPage, page } = this.state;
-        const {graduates}= this.props;
+        const { classes, selected, graduates } = this.props;
+        const { order, orderBy, rowsPerPage, page } = this.state;
+
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, graduates.length - page * rowsPerPage);
 
         return (
             <Paper className={classes.root}>
-                <GraduatesListToolbar numSelected={selected.length} removeGraduate={this.handleDeleteButtonClick}/>
+                <GraduatesListToolbar numSelected={selected.length} removeGraduate={this.props.handleDeleteButtonClick}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <GraduatesListHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={this.handleSelectAllClick}
+                            onSelectAllClick={this.props.handleSelectAllClick}
                             onRequestSort={this.handleRequestSort}
                             rowCount={graduates.length}
                         />
@@ -164,7 +133,7 @@ class GraduatesList extends Component {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(graduate => {
                                     const isSelected = this.isSelected(graduate.id);
-                                    return ( <Graduate obj={{isSelected, graduate}} onClick={this.handleClick} key={graduate.id}/>
+                                    return ( <Graduate obj={{isSelected, graduate}} onClick={this.props.handleClick} key={graduate.id}/>
                                         // <TableRow
                                         //   hover
                                         //   onClick={event => this.handleClick(event, n.id)}
