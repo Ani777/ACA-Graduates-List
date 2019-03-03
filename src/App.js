@@ -20,8 +20,7 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            courses: [],
-            graduates: [],
+
             user: '',
             email: '',
             password: '',
@@ -33,24 +32,7 @@ class App extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    componentDidMount(){
-        firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
-            courses => {
-                this.setState({courses})
-            }
-        ).then(()=>{FireManager.getGraduates().then(querySnapshot => {
-            this.setState({graduates: querySnapshot.docs.map(doc => {
-                    const docData = doc.data();
-                    return {
-                        ...docData,
-                        id: doc.id
-                    };
-                })
-            });
-        })}).catch(error => {
-            console.error("Error getting graduates:", error);
-        })
-    }
+
 
 
     login=(e)=> {
@@ -100,12 +82,12 @@ class App extends Component {
                 )}/>
 
                     <Route path="/" exact strict render={()=>(
-                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} /></>) :(<Redirect to='/login'/>)
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce /></>) :(<Redirect to='/login'/>)
                     )}/>
 
 
                     <Route path="/graduates" exact strict render={()=>(
-                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce courses={this.state.courses} graduates={this.state.graduates} /></>) :(<Redirect to='/login'/>)
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce  /></>) :(<Redirect to='/login'/>)
                     )}/>
 
 
