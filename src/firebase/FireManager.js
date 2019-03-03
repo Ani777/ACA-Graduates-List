@@ -44,11 +44,13 @@ export default class FireManager {
             .set(studentData)
     }
 
-    static removeStudent(id) {
-        return firestore()
-            .collection("students")
-            .doc(id)
-            .delete();
+    static removeGraduate(graduateId) {
+        if (graduateId) {
+            return firestore()
+                .collection("graduates")
+                .doc(graduateId)
+                .delete();
+        }
     }
 
     static editStudent(id, newData) {

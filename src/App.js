@@ -38,12 +38,20 @@ class App extends Component {
             courses => {
                 this.setState({courses})
             }
-        ).then( FireManager.getGraduates().then(querySnapshot => {
-            this.setState({graduates: querySnapshot.docs.map(doc => doc.data())})
-        }).catch(error => {
+        ).then(()=>{FireManager.getGraduates().then(querySnapshot => {
+            this.setState({graduates: querySnapshot.docs.map(doc => {
+                    const docData = doc.data();
+                    return {
+                        ...docData,
+                        id: doc.id
+                    };
+                })
+            });
+        })}).catch(error => {
             console.error("Error getting graduates:", error);
-        }))
+        })
     }
+
 
     login=(e)=> {
         e.preventDefault();
