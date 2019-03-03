@@ -28,7 +28,7 @@ export default function AddCompanyPage(props) {
         FireManager.createCompanyInFirebase(data).then(() => {
             FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
             }).catch(err => {
-                debugger;
+                console.log(err.message)
             })
         });
     }
@@ -37,7 +37,7 @@ export default function AddCompanyPage(props) {
         <form onSubmit={onCompanyFormSubmit}>
             <input {...name}/>
             <input {...email} />
-            <input tyoe='text' id='password'/>
+            <input type='text' id='password'/>
             <button type='button'onClick={getPassword}>auto</button>
             <button type='submit'>add</button>
         </form>

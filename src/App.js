@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { AddCompanyPage } from './components/companies/AddCompanyPage';
-import Courses from "./components/courses/AddCoursePage";
 import CompaniesContainer from './components/companies/CompaniesContainer';
 import ButtonAppBar from "./components/Header";
 import ScrollableTabsButtonForce from "./components/navbar";
-import Icon from "./components/navbar/icon";
 import firebase from 'firebase';
-import { BrowserRouter as Router, Link, NavLink, Redirect, Prompt } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
-import Login from "./components/Login"
-import GraduatesList from "./components/graduates/GraduatesList";
-import FireManager from "./firebase/FireManager";
 import AddCoursePage from "./components/courses/AddCoursePage"
 import SignIn from "./components/SignIn";
 
@@ -44,7 +38,6 @@ class App extends Component {
                 password: '',
             })).catch(function (error) {
                 // Handle Errors here.
-                var errorCode = error.code;
                 var errorMessage = error.message;
                 // ...
 
@@ -59,6 +52,7 @@ class App extends Component {
             this.setState({user: ''})
         })
     }
+
 
     render() {
         return (

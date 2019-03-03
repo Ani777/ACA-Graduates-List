@@ -28,8 +28,8 @@ export default class FireManager {
     }
 
 
-    static createUserWithEmailAndPassword (email, password){
-        return firebase.auth().createUserWithEmailAndPassword(email, password)}
+    // static createUserWithEmailAndPassword (email, password){
+    //     return firebase.auth().createUserWithEmailAndPassword(email, password)}
 
     static  writeUserData(course, dateOfBirth, email, feedback, firstName, lastName, phone, testResults, works){
         return firebase.writeUserData(course, dateOfBirth, email, feedback, firstName, lastName, phone, testResults, works)
@@ -60,9 +60,9 @@ export default class FireManager {
             .update({...newData})
     }
 
-    // static createUserWithEmailAndPassword (email, password){
-    //     return firebase.auth().createUserWithEmailAndPassword(email, password)
-    // }
+    static createUserWithEmailAndPassword (email, password){
+        return firebase.auth().createUserWithEmailAndPassword(email, password)
+    }
 
     // static createCompanyInFirebase(companyData) {
     //     return firebase.firestore().collection("companies").add(companyData)

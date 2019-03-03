@@ -4,13 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
-import HelpIcon from '@material-ui/icons/Help';
-import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
-import ThumbDown from '@material-ui/icons/ThumbDown';
-import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import FireManager from "../../firebase/FireManager";
 import GraduatesList from "../graduates/GraduatesList";
@@ -37,9 +30,7 @@ const styles = theme => ({
 });
 
 class ScrollableTabsButtonForce extends React.Component {
-    constructor(props){
-        super(props)
-    }
+
     state = {
         value: 0,
         courses: [],
@@ -167,13 +158,6 @@ class ScrollableTabsButtonForce extends React.Component {
                     >
                         <Tab label='All' />
                         {tabs}
-                        {/*<Tab  icon={<PhoneIcon />} />*/}
-                        {/*<Tab  icon={<FavoriteIcon />} />*/}
-                        {/*<Tab  icon={<PersonPinIcon />} />*/}
-                        {/*<Tab  icon={<HelpIcon />} />*/}
-                        {/*<Tab  icon={<ShoppingBasket />} />*/}
-                        {/*<Tab  icon={<ThumbDown />} />*/}
-                        {/*<Tab  icon={<ThumbUp />} />*/}
                     </Tabs>
                 </AppBar>
 
@@ -182,12 +166,6 @@ class ScrollableTabsButtonForce extends React.Component {
                                             handleSelectAllClick={this.handleSelectAllClick}
                                             handleDeleteButtonClick={this.handleDeleteButtonClick}
                                             handleClick={this.handleClick}/></TabContainer>
-                {/*{value === 1 && <TabContainer>Item Two</TabContainer>}*/}
-                {/*{value === 2 && <TabContainer>Item Three</TabContainer>}*/}
-                {/*{value === 3 && <TabContainer>Item Four</TabContainer>}*/}
-                {/*{value === 4 && <TabContainer>Item Five</TabContainer>}*/}
-                {/*{value === 5 && <TabContainer>Item Six</TabContainer>}*/}
-                {/*{value === 6 && <TabContainer>Item Seven</TabContainer>}*/}
             </div>
         );
     }

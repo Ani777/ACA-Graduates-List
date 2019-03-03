@@ -1,4 +1,4 @@
-import React, { Components } from 'react';
+import React from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
 import { v4 } from 'uuid';
