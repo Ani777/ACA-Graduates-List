@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import { Link } from 'react-router-dom';
 
 
 const toolbarStyles = theme => ({
@@ -67,7 +68,7 @@ function GraduatesListToolbar (props) {
                 ) : (
                     <Tooltip title="Add graduate">
                         <IconButton aria-label="Add graduate">
-                            <AddIcon />
+                            <Link to="/graduates/addgraduate"> <AddIcon /></Link>
                         </IconButton>
                     </Tooltip>
                 )}

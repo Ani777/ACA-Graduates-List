@@ -7,6 +7,7 @@ import { isValidName } from '../validators/NameValidator';
 
 export default function AddCompanyPage(props) {
     const name = useFormInput('');
+    const phone = useFormInput('');
     const email = useFormInput('');
 
     function getPassword () {
@@ -19,6 +20,7 @@ export default function AddCompanyPage(props) {
         e.preventDefault();
         const data = {
             name: name.value,
+            phone: phone.value ? phone.value : '━',
             email: email.value,
             password: document.getElementById('password').value
         }
@@ -27,8 +29,8 @@ export default function AddCompanyPage(props) {
 
         FireManager.createCompanyInFirebase(data).then(() => {
             FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
-            }).catch(err => {
-                console.log(err.message)
+            }).catch(function(error) {
+                console.error("Error creating user:", error);
             })
         });
     }
@@ -36,8 +38,9 @@ export default function AddCompanyPage(props) {
     return (
         <form onSubmit={onCompanyFormSubmit}>
             <input {...name}/>
+            <input {...phone}/>
             <input {...email} />
-            <input type='text' id='password'/>
+            <input tyoe='text' id='password'/>
             <button type='button'onClick={getPassword}>auto</button>
             <button type='submit'>add</button>
         </form>

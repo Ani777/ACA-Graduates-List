@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Redirect } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import AddCoursePage from "./components/courses/AddCoursePage"
 import SignIn from "./components/SignIn";
+import ReactVirtualizedTable from "./components/visibility/ReactVirtualizedTable";
+import AddGraduate from "./components/graduates/AddGraduatePage";
 
 class App extends Component {
     constructor(props){
@@ -88,7 +90,9 @@ class App extends Component {
                     <Route path="/courses" exact strict render={()=>(
                         this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><AddCoursePage /></>) :(<Redirect to='/login'/>)
                     )}/>
-
+                    <Route path="/graduates/addgraduate" exact strict render={()=>(
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><AddGraduate /></>) :(<Redirect to='/login'/>)
+                    )}/>
 
                     {/*<Login/>*/}
 
