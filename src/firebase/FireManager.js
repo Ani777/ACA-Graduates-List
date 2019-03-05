@@ -5,12 +5,45 @@ export default class FireManager {
 
 
     static createCompanyInFirebase(companyData, id) {
-        return firebase.firestore().collection("companies").add(companyData);
+        return firebase.firestore().collection("companies").doc(id).set(companyData);
     }
 
     static getCompanies() {
         const companiesRef = firestore().collection("companies");
         return companiesRef.get();
+}
+
+    static async getAvailableGraduates (company){
+        debugger;
+            const graduatesIds = company.availableGraduates || [];
+            const refs = graduatesIds.map(graduatesId => firebase.firestore().collection('graduates').doc(graduatesId));
+            debugger;
+            let graduates = [];
+            let result;
+            if(refs.length){
+                debugger;
+                for(let i = 0; i < refs.length; i ++) {
+                    graduates.push(refs[i].get());
+                }
+                debugger;
+                result = await Promise.all(graduates);
+            debugger;
+        }
+        return result;
+    }
+
+    static async getCurrentCompany(id) {
+        let company = null;
+        const ref = firestore()
+                    .collection("companies")
+                    .doc(id);
+        await ref.get().then(doc => {
+            debugger;
+                if (doc.exists) {
+                    company = doc.data();
+                }
+            });
+        return company;
     }
 
 

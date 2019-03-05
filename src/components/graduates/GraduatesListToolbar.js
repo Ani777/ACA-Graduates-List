@@ -67,9 +67,9 @@ function GraduatesListToolbar (props) {
                     </Tooltip>
                 ) : (
                     <Tooltip title="Add graduate">
-                        <IconButton aria-label="Add graduate">
-                            <Link to="/graduates/addgraduate"> <AddIcon /></Link>
-                        </IconButton>
+                        <Link to="/graduates/addgraduate"><IconButton aria-label="Add graduate">
+                            <AddIcon />
+                        </IconButton></Link>
                     </Tooltip>
                 )}
             </div>

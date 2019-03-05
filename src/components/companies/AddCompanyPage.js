@@ -4,6 +4,7 @@ import { useFormInput } from '../../hooks';
 import generatePassword from 'password-generator';
 import { isValidEmail } from '../validators/EmailValidator';
 import { isValidName } from '../validators/NameValidator';
+import {APP_DEFAULT_COMPANY_ROLE} from "../../constants/appConstants";
 
 export default function AddCompanyPage(props) {
     const name = useFormInput('');
@@ -22,17 +23,21 @@ export default function AddCompanyPage(props) {
             name: name.value,
             phone: phone.value ? phone.value : '━',
             email: email.value,
-            password: document.getElementById('password').value
-        }
+            password: document.getElementById('password').value,
+            role: APP_DEFAULT_COMPANY_ROLE
+        };
 
-        props.addCompanyToList(data);
 
-        FireManager.createCompanyInFirebase(data).then(() => {
-            FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
-            }).catch(function(error) {
-                console.error("Error creating user:", error);
-            })
-        });
+
+        FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
+            FireManager.createCompanyInFirebase(data, user.user.uid).then(() => {
+                props.addCompanyToList(data);
+            });
+        }).catch(function(error) {
+            console.error("Error creating user:", error);
+        })
+
+
     }
 
     return (

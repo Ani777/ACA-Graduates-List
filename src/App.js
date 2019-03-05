@@ -11,29 +11,37 @@ import AddCoursePage from "./components/courses/AddCoursePage"
 import SignIn from "./components/SignIn";
 import ReactVirtualizedTable from "./components/visibility/ReactVirtualizedTable";
 import AddGraduate from "./components/graduates/AddGraduatePage";
+import FireManager from "./firebase/FireManager";
 
 class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-
             user: '',
             email: '',
             password: '',
-
+            company: null
         }
     }
 
     handleChange=(e)=> {
         this.setState({ [e.target.name]: e.target.value });
+    };
+
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged(user=> {
+            let userId = user.uid;
+            const company = FireManager.getCurrentCompany(userId).then(company => {
+                debugger;
+                this.setState({user, company});
+            });
+        });
     }
-
-
 
 
     login=(e)=> {
         e.preventDefault();
-        if (!this.state.userEmail) {
+        if (!this.state.user) {
             firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(() => this.setState({
                 user: firebase.auth().currentUser,
                 email: '',
@@ -46,14 +54,14 @@ class App extends Component {
                 window.alert("Error: " + errorMessage);
             });
         }
-    }
+    };
 
 
     logout=(e)=>{
         firebase.auth().signOut().then(()=>{
             this.setState({user: ''})
         })
-    }
+    };
 
 
     render() {
@@ -78,12 +86,12 @@ class App extends Component {
                 )}/>
 
                     <Route path="/" exact strict render={()=>(
-                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce /></>) :(<Redirect to='/login'/>)
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce company={this.state.company}/></>) :(<Redirect to='/login'/>)
                     )}/>
 
 
                     <Route path="/graduates" exact strict render={()=>(
-                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce  /></>) :(<Redirect to='/login'/>)
+                        this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce  company={this.state.company}/></>) :(<Redirect to='/login'/>)
                     )}/>
 
 

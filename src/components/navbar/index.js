@@ -114,9 +114,13 @@ class ScrollableTabsButtonForce extends React.Component {
     componentDidMount(){
         firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
             courses => {
+                debugger;
                 this.setState({courses})
             }
-        ).then(()=>{FireManager.getGraduates().then(querySnapshot => {
+        ).then(()=>{
+
+
+            FireManager.getGraduates().then(querySnapshot => {
             this.setState({graduates: querySnapshot.docs.map(doc => {
                     const docData = doc.data();
                     return {
@@ -125,7 +129,16 @@ class ScrollableTabsButtonForce extends React.Component {
                     };
                 })
             });
-        })}).catch(error => {
+        })
+// debugger;
+//             FireManager.getAvailableGraduates(this.props.company).then( graduates => {
+//                 this.setState({graduates})
+//             });
+
+
+
+
+        }).catch(error => {
             console.error("Error getting graduates:", error);
         })
     }
@@ -170,9 +183,5 @@ class ScrollableTabsButtonForce extends React.Component {
         );
     }
 }
-
-ScrollableTabsButtonForce.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(ScrollableTabsButtonForce);

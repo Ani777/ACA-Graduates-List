@@ -42,7 +42,8 @@ class CompaniesContainer extends Component {
         const { companies } = this.state;
         companies.push(company);
         this.setState({ companies });
-    }
+    };
+
     render () {
         const { classes } = this.props;
 
