@@ -38,7 +38,6 @@ export default class FireManager {
                     .collection("companies")
                     .doc(id);
         await ref.get().then(doc => {
-            debugger;
                 if (doc.exists) {
                     company = doc.data();
                 }

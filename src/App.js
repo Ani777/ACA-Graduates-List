@@ -30,13 +30,16 @@ class App extends Component {
 
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user=> {
-            let userId = user.uid;
-            const company = FireManager.getCurrentCompany(userId).then(company => {
-                debugger;
+            if(user){
+              let userId = user.uid;
+              FireManager.getCurrentCompany(userId).then(company => {
                 this.setState({user, company});
-            });
-        });
-    }
+            })
+            }else {
+                this.setState({user: null, company: null})
+            }
+        })};
+
 
 
     login=(e)=> {

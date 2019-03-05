@@ -114,7 +114,6 @@ class ScrollableTabsButtonForce extends React.Component {
     componentDidMount(){
         firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
             courses => {
-                debugger;
                 this.setState({courses})
             }
         ).then(()=>{
