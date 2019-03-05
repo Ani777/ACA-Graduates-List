@@ -4,12 +4,62 @@ import { useFormInput } from '../../hooks';
 import generatePassword from 'password-generator';
 import { isValidEmail } from '../validators/EmailValidator';
 import { isValidName } from '../validators/NameValidator';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import {APP_DEFAULT_COMPANY_ROLE} from "../../constants/appConstants";
+import { useEffect } from 'react';
 
-export default function AddCompanyPage(props) {
-    const name = useFormInput('');
-    const phone = useFormInput('');
-    const email = useFormInput('');
+const styles = theme => ({
+    main: {
+        position:'absolute',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        left: 0,
+        right: 0,
+        width: 'auto',
+        // marginLeft: theme.spacing.unit * 3,
+        // marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
+    paper: {
+        marginTop: theme.spacing.unit,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing.unit,
+    },
+    passwordRow: {
+        display: "flex",
+        justifyContent: "space-between"
+    },
+    auto: {
+        margin: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit}px ${theme.spacing.unit}px`,
+    },
+    buttons: {
+        display: "flex",
+        justifyContent:
+            "space-between",
+        marginTop: theme.spacing.unit * 6
+    }
+});
+
+
+ function AddCompanyPage(props) {
+    let name = useFormInput('');
+    let phone = useFormInput('');
+    let email = useFormInput('');
 
     function getPassword () {
         document.getElementById("password").value = generatePassword(6, false);
@@ -29,6 +79,8 @@ export default function AddCompanyPage(props) {
 
 
 
+
+
         FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
             FireManager.createCompanyInFirebase(data, user.user.uid).then(() => {
                 props.addCompanyToList(data);
@@ -40,14 +92,80 @@ export default function AddCompanyPage(props) {
 
     }
 
+
+    const { classes } = props;
+
     return (
-        <form onSubmit={onCompanyFormSubmit}>
-            <input {...name}/>
-            <input {...phone}/>
-            <input {...email} />
-            <input tyoe='text' id='password'/>
-            <button type='button'onClick={getPassword}>auto</button>
-            <button type='submit'>add</button>
-        </form>
+        <main className={classes.main} id='main' style={{display: 'none'}}>
+            <CssBaseline />
+            <Paper className={classes.paper}>
+                <Typography component="h1" variant="h5">
+                    Add Company
+                </Typography>
+                <form className={classes.form} onSubmit={onCompanyFormSubmit}>
+                    <TextField
+                        {...name}
+                        required
+                        fullWidth
+                        autoFocus
+                        label="Name"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        margin="normal"
+                    />
+                    <TextField
+                        {...phone}
+                        fullWidth
+                        label="Phone"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        margin="normal"
+                    />
+                    <TextField
+                        {...email}
+                        required
+                        fullWidth
+                        label="Email"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        margin="normal"
+                    />
+                    <div className={classes.passwordRow}>
+                        <TextField
+                            id="password"
+                            required
+                            fullWidth
+                            label="Password"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            margin="normal"
+                        />
+                        <Button
+                            type="button"
+                            onClick={getPassword}
+                            variant="outlined"
+                            color="primary"
+                            className={classes.auto}
+                        >
+                            auto
+                        </Button>
+                    </div>
+                    <div className={classes.buttons}>
+                        <Button variant="contained" color="secondary" onClick={props.hideAddCompanyPage}>
+                            Cancel
+                        </Button>
+                        <Button type='submit' variant="contained" color="primary">
+                            Add
+                        </Button>
+                    </div>
+                </form>
+            </Paper>
+        </main>
     );
 }
+
+export default withStyles(styles)(AddCompanyPage);

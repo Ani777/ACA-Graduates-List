@@ -7,11 +7,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Edit from '@material-ui/icons/Edit'
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import Typography from '@material-ui/core/Typography';
+
 
 
 const styles = theme => ({
@@ -27,7 +28,7 @@ const styles = theme => ({
 
 class CompaniesContainer extends Component {
     state = {
-        companies: []
+        companies: [],
     };
 
     componentDidMount() {
@@ -38,55 +39,67 @@ class CompaniesContainer extends Component {
         })
     }
 
+    showAddCompanyPage = () => {
+        const main = document.getElementById('main');
+        main.style.display = 'block';
+    }
+
+    hideAddCompanyPage = () => {
+        const main = document.getElementById('main');
+        main.style.display = 'none';
+    }
+
     addCompanyToList = company => {
         const { companies } = this.state;
         companies.push(company);
+        this.hideAddCompanyPage();
         this.setState({ companies });
-    };
-
+    }
     render () {
         const { classes } = this.props;
 
         return (
-            <Paper className={classes.root}>
-                <AddCompanyPage addCompanyToList={this.addCompanyToList}/>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Company name</TableCell>
-                            <TableCell align="center">Phone</TableCell>
-                            <TableCell align="right">Email</TableCell>
-                            <TableCell align="right">Password</TableCell>
-                            <TableCell align="right" style={{width: '48px'}}>
-                                <Tooltip title="Add company">
-                                    <IconButton aria-label="Add company">
-                                        <AddIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.state.companies.map(company => (
-                            <TableRow hover key={company.email + 'row'}>
-                                <TableCell component="th" scope="row" key={company.name}>
-                                    {company.name}
+            <>
+                <AddCompanyPage addCompanyToList={this.addCompanyToList} hideAddCompanyPage={this.hideAddCompanyPage}/>
+                <Paper className={classes.root}>
+                    <Table className={classes.table}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>
+                                    <Typography variant="h6">
+                                        Companies
+                                    </Typography>
                                 </TableCell>
-                                <TableCell align="center" key={company.phone}>{company.phone}</TableCell>
-                                <TableCell align="right" key={company.email}>{company.email}</TableCell>
-                                <TableCell align="right" key={company.password}>{company.password}</TableCell>
-                                <TableCell align="right" style={{width: '48px'}} key={company.password + 'edit'}>
-                                    <Tooltip title="Edit">
-                                        <IconButton aria-label="Edit">
-                                            <Edit />
+                                <TableCell colSpan={3} align='right'>
+                                    <Tooltip title="Add company">
+                                        <IconButton aria-label="Add company" onClick={this.showAddCompanyPage}>
+                                            <AddIcon />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Paper>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell align="center">Phone</TableCell>
+                                <TableCell align="right">Email</TableCell>
+                                <TableCell align="right">Password</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.companies.map(company => (
+                                <TableRow hover key={company.email + 'row'}>
+                                    <TableCell component="th" scope="row" key={company.name}>
+                                        {company.name}
+                                    </TableCell>
+                                    <TableCell align="center" key={company.phone}>{company.phone}</TableCell>
+                                    <TableCell align="right" key={company.email}>{company.email}</TableCell>
+                                    <TableCell align="right" key={company.password}>{company.password}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
+            </>
         );}
 }
 
