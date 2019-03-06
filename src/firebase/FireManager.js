@@ -3,6 +3,17 @@ import  firebase  from 'firebase';
 
 export default class FireManager {
 
+    static getCourses() {
+        const coursesRef = firestore().collection("courses");
+        return coursesRef.get();
+    }
+
+    static createCourseInFirebase(course) {
+        return firestore()
+            .collection("courses")
+            .add({...course})
+    }
+
 
     static createCompanyInFirebase(companyData, id) {
         return firebase.firestore().collection("companies").doc(id).set(companyData);

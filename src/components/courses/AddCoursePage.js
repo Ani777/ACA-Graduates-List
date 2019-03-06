@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Components } from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
-import { v4 } from 'uuid';
+//import { v4 } from 'uuid';
 import '../../App.css';
+//import {TextField} from '@material-ui/core/TextField';
 
-export default function AddCoursePage() {
+export default function AddCoursePage(props) {
 
     const name = useFormInput('');
 
@@ -12,20 +13,22 @@ export default function AddCoursePage() {
 
     function onCourseFormSubmit (e) {
         e.preventDefault();
-        const id = v4();
+        //const id = v4();
         const data = {
             name: name.value
 
         }
-        FireManager.createCourseInFirebase(data, id).then(() =>{
-            FireManager.writeUserData(name.value).then(user =>{
-                debugger;
-            }).catch(err=>{
-                debugger;
-            })
-        });
 
+
+
+        FireManager.createCourseInFirebase(data).then(()=> {
+            props.addCourseToList(data)
+        }).catch(err=>{
+            console.error(err.message)
+
+        });
     }
+
 
     return (
         <form onSubmit={onCourseFormSubmit}>
