@@ -85,9 +85,9 @@ export default class FireManager {
         }
     }
 
-    static editStudent(id, newData) {
+    static editGraduate(id, newData) {
         return firestore()
-            .collection('students')
+            .collection('graduates')
             .doc(id)
             .update({...newData})
     }

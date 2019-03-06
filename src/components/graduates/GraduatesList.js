@@ -118,7 +118,7 @@ class GraduatesList extends Component {
 
         return (
             <Paper className={classes.root}>
-                <GraduatesListToolbar numSelected={selected.length} removeGraduate={this.props.handleDeleteButtonClick}/>
+                <GraduatesListToolbar selectedGraduatesIds={selected} removeGraduate={this.props.handleDeleteButtonClick}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <GraduatesListHead

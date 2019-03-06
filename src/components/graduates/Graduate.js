@@ -27,7 +27,7 @@ export default function Graduate(props) {
             </TableCell>
             <TableCell component="th" scope="row" padding="none">{props.obj.graduate.lastName}</TableCell>
             <TableCell align="right">{props.obj.graduate.testResults}</TableCell>
-            <TableCell align="right">{props.obj.graduate.visibleFor}</TableCell>
+            <TableCell align="right">{props.obj.graduate.visibleFor ? props.obj.graduate.visibleFor.length : '0'}</TableCell>
             <TableCell align="right">
                 <Tooltip title="More">
                     <IconButton aria-label="More">

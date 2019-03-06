@@ -52,6 +52,9 @@ const styles = theme => ({
         justifyContent:
             "space-between",
         marginTop: theme.spacing.unit * 6
+    },
+    formWrapper: {
+        padding: 30
     }
 });
 
@@ -96,13 +99,8 @@ const styles = theme => ({
     const { classes } = props;
 
     return (
-        <main className={classes.main} id='main' style={{display: 'none'}}>
-            <CssBaseline />
-            <Paper className={classes.paper}>
-                <Typography component="h1" variant="h5">
-                    Add Company
-                </Typography>
-                <form className={classes.form} onSubmit={onCompanyFormSubmit}>
+        <div className={classes.formWrapper}>
+            <form className={classes.form} onSubmit={onCompanyFormSubmit}>
                     <TextField
                         {...name}
                         required
@@ -155,16 +153,12 @@ const styles = theme => ({
                         </Button>
                     </div>
                     <div className={classes.buttons}>
-                        <Button variant="contained" color="secondary" onClick={props.hideAddCompanyPage}>
-                            Cancel
-                        </Button>
                         <Button type='submit' variant="contained" color="primary">
                             Add
                         </Button>
                     </div>
                 </form>
-            </Paper>
-        </main>
+        </div>
     );
 }
 
