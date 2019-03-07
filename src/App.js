@@ -13,6 +13,7 @@ import ReactVirtualizedTable from "./components/visibility/ReactVirtualizedTable
 import AddGraduate from "./components/graduates/AddGraduatePage";
 import FireManager from "./firebase/FireManager";
 import CoursesContainer from "./components/courses/CoursesContainer";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class App extends Component {
     constructor(props){
@@ -21,7 +22,8 @@ class App extends Component {
             user: '',
             email: '',
             password: '',
-            company: null
+            company: null,
+            isAuthenticating: false
         }
     }
 
@@ -30,14 +32,15 @@ class App extends Component {
     };
 
     componentDidMount() {
+        this.setState({isAuthenticating: true})
         firebase.auth().onAuthStateChanged(user=> {
             if(user){
               let userId = user.uid;
               FireManager.getCurrentCompany(userId).then(company => {
-                this.setState({user, company});
+                this.setState({user, company, isAuthenticating: false});
             })
             }else {
-                this.setState({user: null, company: null})
+                this.setState({user: null, company: null, isAuthenticating: false})
             }
         })};
 
@@ -69,26 +72,26 @@ class App extends Component {
 
 
     render() {
-        return (
-            <Router>
+        const { isAuthenticating } = this.state;
+        return (<>
+            { isAuthenticating? <CircularProgress disableShrink /> : (<Router>
                 <div className="App">
-
-
-                    {/*<Route path="/" exact strict component={Graduates} />*/}
-                    <Route path="/login" exact strict render={()=> (!this.state.user? (<SignIn login={this.login}
-                                                                                             handleChange={this.handleChange}
-                                                                                             email={this.state.email}
-                                                                                             password={this.state.password}/>):(<Redirect to='/'/>))}/>
-                    {/*<Route path="/companies" exact strict component={CompaniesList} />*/}
-                    {/*<Route path="/graduates" exact strict component={GraduatesList} />*/}
-                    {/*<Route path="/" exact strict component={GraduatesList} />*/}
-
-                    {/*<Route path="/courses" exact strict render={()=> (<ScrollableTabsButtonForce courses={this.state.courses}/>)} />*/}
-                    {/*<ButtonAppBar user={this.state.user} logout={this.logout}/>*/}
+                    <Route path="/login" exact strict render={()=> (
+                        !this.state.user? (
+                            <SignIn login={this.login}
+                                    handleChange={this.handleChange}
+                                    email={this.state.email}
+                                    password={this.state.password}/>):
+                            (<Redirect to='/'/>))}/>
                     <Route path="/companies" exact strict render={()=>(
-                    this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><CompaniesContainer /></>) :(<Redirect to='/login'/>)
-                )}/>
-
+                        this.state.user? (
+                        <>
+                            <ButtonAppBar 
+                                user={this.state.user}
+                                logout={this.logout}/>
+                            <CompaniesContainer />
+                        </>) :(<Redirect to='/login'/>)
+                    )}/>
                     <Route path="/" exact strict render={()=>(
                         this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><ScrollableTabsButtonForce company={this.state.company}/></>) :(<Redirect to='/login'/>)
                     )}/>
@@ -105,18 +108,9 @@ class App extends Component {
                     <Route path="/graduates/addgraduate" exact strict render={()=>(
                         this.state.user? (<><ButtonAppBar user={this.state.user} logout={this.logout}/><AddGraduate /></>) :(<Redirect to='/login'/>)
                     )}/>
-
-                    {/*<Login/>*/}
-
-
-
-                    {/*<AddCompanyPage/>*/}
-                    {/*<Courses/>*/}
-
-                    {/*<CompaniesList/>*/}
-
                 </div>
-            </Router>
+            </Router>)}
+            </>
         );
     }
 }
