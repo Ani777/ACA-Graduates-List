@@ -48,10 +48,8 @@ export default class FireManager {
             .collection("courses")
             .doc(id)
             .set(name).then(()=>{
-                debugger;
                 const storageRef = firebase.storage().ref('courseIcons');
                 storageRef.put(icon).then(icon => {
-                    debugger;
                 });
         });
     }

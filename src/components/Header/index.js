@@ -44,7 +44,7 @@ function ButtonAppBar(props) {
                         Companies
                     </Typography>
                     <Button color="inherit" className={classes.button} >{ props.user.email }</Button>
-                    <Button color="inherit" onClick={logout} component={Link} to={"/login"}>LogOut</Button>
+                    <Button color="inherit" onClick={logout} component={Link} to={"/"}>LogOut</Button>
                 </Toolbar>
             </AppBar>
         </div>
