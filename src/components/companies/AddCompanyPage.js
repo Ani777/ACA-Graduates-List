@@ -77,10 +77,6 @@ const styles = theme => ({
             role: APP_DEFAULT_COMPANY_ROLE
         };
 
-
-
-
-
         FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
             FireManager.createCompanyInFirebase(data, user.user.uid).then(() => {
                 props.addCompanyToList(data);

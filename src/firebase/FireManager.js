@@ -24,24 +24,10 @@ export default class FireManager {
         return companiesRef.get();
 }
 
-    static async getAvailableGraduates (company){
-        debugger;
-            const graduatesIds = company.availableGraduates || [];
-            const refs = graduatesIds.map(graduatesId => firebase.firestore().collection('graduates').doc(graduatesId));
-            debugger;
-            let graduates = [];
-            let result;
-            if(refs.length){
-                debugger;
-                for(let i = 0; i < refs.length; i ++) {
-                    graduates.push(refs[i].get());
-                }
-                debugger;
-                result = await Promise.all(graduates);
-            debugger;
+    static async getAvailableGraduates (companyID){
+        firebase.firestore().collection('companies').doc(companyID).collection('availableGraduates').get()
         }
-        return result;
-    }
+
 
     static async getCurrentCompany(id) {
         let company = null;
@@ -156,6 +142,8 @@ export default class FireManager {
         const graduatesRef = firestore().collection("graduates");
         return graduatesRef.get();
     }
+
+
 
     // static addStudent(student) {
     //     if (student.id) {
