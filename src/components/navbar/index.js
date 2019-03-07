@@ -42,42 +42,23 @@ class ScrollableTabsButtonForce extends React.Component {
         const {selected} = this.state;
         Promise.all(selected.map(id => {
             return FireManager.removeGraduate(id)
-        })).then(() => {
-            this.setState({selected: []})
-        })
-    }
-
-    componentDidUpdate() {
-        FireManager.getGraduates().then(querySnapshot => {
+        })).then(FireManager.getGraduates().then(querySnapshot => {
             this.setState({graduates: querySnapshot.docs.map(doc => {
                     const docData = doc.data();
                     return {
                         ...docData,
                         id: doc.id
                     };
-                })
-            })}).catch(error => {
-    console.error("Error getting graduates:", error);
-})}
+                }),
+                selected:[]
+            })})).then(() => {
+            this.setState({selected: []})
+        })
+    }
 
 
 
-    // const {selected} = this.state;
-        // Promise.all( selected.map(id => {
-        //     FireManager.removeGraduate(id)}))
-        //     .then(()=>{
-        //         return FireManager.getGraduates()})
-        //         .then(querySnapshot => {
-        //                     querySnapshot.docs.map(doc => {
-        //                         const docData = doc.data();
-        //                         return {
-        //                             ...docData,
-        //                             id: doc.id
-        //                         };
-        //                     })
-        //                 }).then(graduates => {
-        //                         this.setState({graduates: graduates, selected: []})
-        //                     })
+
 
     handleSelectAllClick = event => {
         if (event.target.checked) {

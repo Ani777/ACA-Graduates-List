@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import AddCoursePage from './AddCoursePage';
-import CoursesList from './CoursesList';
 import FireManager from '../../firebase/FireManager';
-
-//import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-//import FormLabel from '@material-ui/core/FormLabel';
-//import FormControlLabel from '@material-ui/core/FormControlLabel';
-//import RadioGroup from '@material-ui/core/RadioGroup';
-//import Radio from '@material-ui/core/Radio';
 import Paper from '@material-ui/core/Paper';
 
 
@@ -52,7 +45,7 @@ class CoursesContainer extends Component {
                 <AddCoursePage addCourseToList={this.addCourseToList}/>
                 <Grid container spacing={24}>
                     {this.state.courses.map(course => (
-                        <Grid item xs={2}>
+                        <Grid item xs={2} key={course.name}>
                             <Paper className={classes.paper}>
                                 {course.name}
                             </Paper>

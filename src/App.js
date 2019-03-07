@@ -5,7 +5,6 @@ import SignIn from "./components/SignIn";
 import FireManager from "./firebase/FireManager";
 import Main from './Main';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 
 class App extends Component {
     constructor(props){

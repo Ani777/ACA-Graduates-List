@@ -115,7 +115,7 @@ class GraduatesListToolbar extends Component {
 
       addCompany = () => {
           debugger
-          const { companies, visibleFor } = this.state;
+          const { visibleFor } = this.state;
           const { selectedGraduatesIds } = this.props;
           selectedGraduatesIds.forEach(graduateId => FireManager.editGraduate(graduateId, { visibleFor }));
       }

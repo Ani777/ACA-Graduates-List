@@ -3,7 +3,7 @@ import './App.css';
 import CompaniesContainer from './components/companies/CompaniesContainer';
 import ButtonAppBar from "./components/Header";
 import ScrollableTabsButtonForce from "./components/navbar";
-import { BrowserRouter as Router, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import AddGraduate from "./components/graduates/AddGraduatePage";
 import CoursesContainer from "./components/courses/CoursesContainer";
