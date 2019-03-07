@@ -77,11 +77,11 @@ const styles = theme => ({
             role: APP_DEFAULT_COMPANY_ROLE
         };
 
-        FireManager.createUserWithEmailAndPassword(data.email, data.password).then(user => {
-            FireManager.createCompanyInFirebase(data, user.user.uid).then(() => {
+
+            FireManager.createCompanyInFirebase({...data}).then(() => {
                 props.addCompanyToList(data);
-            });
-        }).catch(function(error) {
+            })
+       .catch(function(error) {
             console.error("Error creating user:", error);
         })
 

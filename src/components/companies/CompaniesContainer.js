@@ -66,7 +66,6 @@ class CompaniesContainer extends Component {
     addCompanyToList = company => {
         const { companies } = this.state;
         companies.push(company);
-        this.hideAddCompanyPage();
         this.setState({ companies });
     }
     render () {

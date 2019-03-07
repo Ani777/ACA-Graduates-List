@@ -15,8 +15,8 @@ export default class FireManager {
     }
 
 
-    static createCompanyInFirebase(companyData, id) {
-        return firebase.firestore().collection("companies").doc(id).set(companyData);
+    static createCompanyInFirebase(companyData) {
+        return firebase.firestore().collection("companies").add(companyData);
     }
 
     static getCompanies() {

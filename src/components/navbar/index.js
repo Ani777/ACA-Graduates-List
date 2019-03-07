@@ -98,8 +98,6 @@ class ScrollableTabsButtonForce extends React.Component {
                 this.setState({courses})
             }
         ).then(()=>{
-
-
             FireManager.getGraduates().then(querySnapshot => {
             this.setState({graduates: querySnapshot.docs.map(doc => {
                     const docData = doc.data();
