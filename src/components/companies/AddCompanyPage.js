@@ -132,6 +132,7 @@ const styles = theme => ({
                     />
                     <div className={classes.passwordRow}>
                         <TextField
+                            value={password}
                             id="password"
                             required
                             fullWidth
