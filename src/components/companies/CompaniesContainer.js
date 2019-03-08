@@ -28,6 +28,9 @@ const styles = theme => ({
     },
     addCompanyDialog: {
         // width: 500
+    },
+    title :{
+        margin: '0 auto',
     }
 });
 
@@ -46,7 +49,7 @@ class CompaniesContainer extends Component {
         })
     }
 
-    showandHideAddCompanyPage = () => {
+    showAddCompanyPage = () => {
     //     const style = {
     //         display: this.state.style.display === 'none' ? 'block' : 'none'
     //         };
@@ -54,7 +57,7 @@ class CompaniesContainer extends Component {
     this.setState({openAddCompanyDialog: true})
     }
 
-    handleClose = () => {
+    handleClose = (e) => {
         this.setState({ openAddCompanyDialog: false });
     };
 
@@ -66,6 +69,7 @@ class CompaniesContainer extends Component {
     addCompanyToList = company => {
         const { companies } = this.state;
         companies.push(company);
+        this.handleClose();
         this.setState({ companies });
     }
     render () {
@@ -78,15 +82,16 @@ class CompaniesContainer extends Component {
                         fullWidth
                         className={classes.addCompanyDialog} 
                         open={openAddCompanyDialog} 
-                        onClose = {this.handleClose} 
+                        onClose = {this.handleClose}
                         aria-labelledby="simple-dialog-title"
                         onBackdropClick={this.handleClose}
                         onEscapeKeyDown={this.handleClose}
                     >
-                    <DialogTitle>Add Company</DialogTitle>
+                    <DialogTitle className={classes.title}>Add Company</DialogTitle>
                     <AddCompanyPage 
-                        addCompanyToList={this.addCompanyToList} 
-                        showandHideAddCompanyPage={this.showandHideAddCompanyPage}
+                        addCompanyToList={this.addCompanyToList}
+                        handleClose={this.handleClose}
+                        // hideAddCompanyPage={this.handleClose()}
                     />
                 </Dialog>
                 <Paper className={classes.root}>
@@ -100,7 +105,7 @@ class CompaniesContainer extends Component {
                                 </TableCell>
                                 <TableCell colSpan={3} align='right'>
                                     <Tooltip title="Add company">
-                                        <IconButton aria-label="Add company" onClick={this.showandHideAddCompanyPage}>
+                                        <IconButton aria-label="Add company" onClick={this.showAddCompanyPage}>
                                             <AddIcon />
                                         </IconButton>
                                     </Tooltip>

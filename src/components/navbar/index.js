@@ -123,6 +123,7 @@ class ScrollableTabsButtonForce extends React.Component {
 
 
 
+
     handleChange = (event, value) => {
         this.setState({ value });
     };
@@ -130,7 +131,6 @@ class ScrollableTabsButtonForce extends React.Component {
     render() {
         const { classes } = this.props;
         const { value, courses, graduates } = this.state;
-
         const tabs = courses.map((course, index) => <Tab key={course+index} label={course} />);
         const graduatesList = value ===0 ? graduates: graduates.filter(graduate => graduate.course === courses[value-1])
 

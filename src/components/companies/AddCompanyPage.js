@@ -48,7 +48,8 @@ const styles = theme => ({
         display: "flex",
         justifyContent:
             "space-between",
-        marginTop: theme.spacing.unit * 6
+        marginTop: theme.spacing.unit * 6,
+
     },
     formWrapper: {
         padding: 30
@@ -63,7 +64,10 @@ const styles = theme => ({
 
     function getPassword () {
         document.getElementById("password").value = generatePassword(6, false);
-    }
+    };
+
+
+
 
     function onCompanyFormSubmit (e) {
         if (!isValidName(name.value)) return;
@@ -145,8 +149,11 @@ const styles = theme => ({
                             auto
                         </Button>
                     </div>
-                    <div className={classes.buttons}>
-                        <Button type='submit' variant="contained" color="primary">
+                    <div className={classes.buttons} >
+                        <Button variant="contained" color="secondary" className={classes.button} onClick={props.handleClose}>
+                            Cancel
+                        </Button>
+                        <Button type='submit' variant="contained" color="primary"  >
                             Add
                         </Button>
                     </div>
