@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
 import generatePassword from 'password-generator';
@@ -61,9 +61,11 @@ const styles = theme => ({
     let name = useFormInput('');
     let phone = useFormInput('');
     let email = useFormInput('');
+    let [password, setPassword] = useState('')
 
     function getPassword () {
-        document.getElementById("password").value = generatePassword(6, false);
+        // document.getElementById("password").value = generatePassword(6, false);
+        setPassword(generatePassword(6, false))
     };
 
 
@@ -77,7 +79,7 @@ const styles = theme => ({
             name: name.value,
             phone: phone.value ? phone.value : '━',
             email: email.value,
-            password: document.getElementById('password').value,
+            password: password,
             role: APP_DEFAULT_COMPANY_ROLE
         };
 

@@ -120,7 +120,7 @@ class CompaniesContainer extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"Plaese create a user in database with following credentials:"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Please create a user in database with following credentials:"}</DialogTitle>
                     <DialogContent>
                         <Credentials email={this.state.companyEmail} password={this.state.companyPassword}/>
                         {/*<DialogContentText id="alert-dialog-description">*/}
