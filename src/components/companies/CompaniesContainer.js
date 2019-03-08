@@ -14,6 +14,11 @@ import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
+import Credentials from "./companyCredentials";
 
 
 
@@ -38,7 +43,10 @@ class CompaniesContainer extends Component {
     state = {
         companies: [],
         style: {display: 'none'},
-        openAddCompanyDialog: false
+        openAddCompanyDialog: false,
+        openAlertDialog: false,
+        companyEmail: '',
+        companyPassword: ''
     };
 
     componentDidMount() {
@@ -57,6 +65,13 @@ class CompaniesContainer extends Component {
     this.setState({openAddCompanyDialog: true})
     }
 
+    showAlertDialog =()=>{
+        this.setState({openAlertDialog: true})
+    }
+
+    hideAlertDialog =()=> {
+        this.setState({openAlertDialog: false})
+    }
     handleClose = (e) => {
         this.setState({ openAddCompanyDialog: false });
     };
@@ -70,11 +85,14 @@ class CompaniesContainer extends Component {
         const { companies } = this.state;
         companies.push(company);
         this.handleClose();
-        this.setState({ companies });
+        this.setState({ companies,
+                              openAlertDialog: true,
+                              companyEmail: company.email,
+                              companyPassword: company.password});
     }
     render () {
         const { classes } = this.props;
-        const { openAddCompanyDialog } = this.state;
+        const { openAddCompanyDialog, companyEmail, companyPassword } = this.state;
 
         return (
             <>
@@ -91,9 +109,36 @@ class CompaniesContainer extends Component {
                     <AddCompanyPage 
                         addCompanyToList={this.addCompanyToList}
                         handleClose={this.handleClose}
+                        showAlertDialog={this.showAlertDialog}
                         // hideAddCompanyPage={this.handleClose()}
                     />
                 </Dialog>
+
+                <Dialog
+                    open={this.state.openAlertDialog}
+                    onClose={this.hideAlertDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Plaese create a user in database with following credentials:"}</DialogTitle>
+                    <DialogContent>
+                        <Credentials email={this.state.companyEmail} password={this.state.companyPassword}/>
+                        {/*<DialogContentText id="alert-dialog-description">*/}
+                            {/*email: {companyEmail}*/}
+                            {/*password {companyPassword}*/}
+                        {/*</DialogContentText>*/}
+                    </DialogContent>
+                    <DialogActions>
+                        {/*<Button onClick={this.hideAlertDialog} color="primary">*/}
+                            {/*Disagree*/}
+                        {/*</Button>*/}
+                        <Button onClick={this.hideAlertDialog} variant="contained" color="primary" autoFocus>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>
