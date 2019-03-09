@@ -3,11 +3,12 @@ import './App.css';
 import CompaniesContainer from './components/companies/CompaniesContainer';
 import ButtonAppBar from "./components/Header";
 import NavBar from "./components/navbar";
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import AddGraduate from "./components/graduates/AddGraduatePage";
 import CoursesContainer from "./components/courses/CoursesContainer";
-import firebase from 'firebase'
+import firebase from 'firebase';
+import Profile from "./components/graduates/GraduateProfile";
 
 class Main extends Component {
     state={
@@ -26,9 +27,11 @@ class Main extends Component {
     render() {
         return (<Router>
             <div className="App">
+
                 <ButtonAppBar
                     user={this.props.user}
                     logout={this.props.logout}/>
+                <Switch>
                 <Route path="/companies" exact strict render={() =>
                     <CompaniesContainer/>}/>
                 {/*<Route path="/" exact strict render={() => (*/}
@@ -49,6 +52,9 @@ class Main extends Component {
                 <Route path="/graduates/addgraduate" exact strict render={() => (
                     <AddGraduate courses={this.state.courses}/>
                 )}/>
+
+                <Route path="/graduates/:graduatesid" exact strict component={Profile} />
+                </Switch>
             </div>
         </Router>)
     }

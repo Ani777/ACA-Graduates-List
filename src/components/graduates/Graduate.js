@@ -5,6 +5,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import { Link } from 'react-router-dom'
 
 
 export default function Graduate(props) {
@@ -29,11 +30,12 @@ export default function Graduate(props) {
             <TableCell align="right">{props.obj.graduate.testResults}</TableCell>
             <TableCell align="right">{props.obj.graduate.visibleFor ? props.obj.graduate.visibleFor.length : '0'}</TableCell>
             <TableCell align="right">
-                <Tooltip title="More">
+                <Link to={`/graduates/${props.obj.graduate.id}`}><Tooltip title="More">
                     <IconButton aria-label="More">
                         <ChevronRight/>
                     </IconButton>
                 </Tooltip>
+                </Link>
             </TableCell>
         </TableRow>
 

@@ -162,27 +162,20 @@ export default class FireManager {
     //     }
     // }
 
-    // static getStudent(student) {
-    //     if (student.id) {
-    //         const ref = firestore()
-    //             .collection("students")
-    //             .doc(student.id);
-
-    //         return ref
-    //             .get()
-    //             .then(doc => {
-    //                 if (doc.exists) {
-    //                     return doc.data();
-    //                 } else {
-    //                     console.error("No such student!");
-    //                 }
-    //             })
-    //             .catch(function(error) {
-    //                 console.error("Error getting student:", error);
-    //             });
-    //     }
-    // }
-
+    static getGraduate(graduateId) {
+    if (graduateId) {
+        return firestore().collection("graduates").doc(graduateId).get().then(doc => {
+            if (doc.exists) {
+                return doc.data();
+            } else {
+                console.error("No such graduate!");
+            }
+        })
+            .catch(function (error) {
+                console.error("Error getting graduate:", error);
+            });
+    }
+}
     // static getStudents() {
     //     const studentsRef = firestore().collection("students");
     //     console.log(" = ",studentsRef)

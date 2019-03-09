@@ -96,10 +96,10 @@ class Profile extends Component {
     };
 
     componentDidMount() {
-
-        const graduateId = "eHswEIZjyu4lxd9YWJGd";
-        if (graduateId) {
-            FireManager.getGraduate(graduateId).then(graduate => {
+        debugger;
+        const { graduatesid } = this.props.match.params;
+        if (graduatesid) {
+            FireManager.getGraduate(graduatesid).then(graduate => {
                 this.setState({graduate}
                     // firstName: graduate.firstName,
                     // lastName: graduate.lastName,
@@ -127,7 +127,7 @@ class Profile extends Component {
         const {phoneNumber} = this.state.graduate;
         const {email} = this.state.graduate;
         const {feedback} = this.state.graduate;
-        const {testResult} = this.state.graduate;
+        const {testResults} = this.state.graduate;
         const {isWorking} = this.state.graduate;
         const {works} = this.state.graduate;
         return (
@@ -189,7 +189,7 @@ class Profile extends Component {
                             Test Results
                         </Grid>
                         <Grid item xs={9} className={classes.info}>
-                            {testResult}
+                            {testResults}
                         </Grid>
 
 
@@ -231,13 +231,6 @@ class Profile extends Component {
                 </Paper>
 
             </main>
-
-
-
-
-
-
-
         )
     }
 }
@@ -248,4 +241,4 @@ Profile.propTypes = {
 
 
 
-export default withStyles(styles)(Profile);m
+export default withStyles(styles)(Profile);

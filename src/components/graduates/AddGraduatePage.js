@@ -64,6 +64,7 @@ function AddGraduate(props) {
     const testResults = useFormInput('');
     const works = useFormInput('');
     const isWorking = useFormInput('');
+    const [id, setId] = useState('');
 
 
 
@@ -140,11 +141,11 @@ function AddGraduate(props) {
         }
 
 
-
-
         FireManager.createGraduateInFirebase(data)
-            .then(()=>{
+            .then(doc=>{
+                setId(doc.id)
                 setAddedNewStudent(true)
+
             })
             .catch(err=>{
             console.error(err.message)
@@ -289,7 +290,7 @@ function AddGraduate(props) {
                 </form>
             </Paper>
         </main>
-    ):<Redirect to="/"/>
+    ):<Redirect to= {`/graduates/${id}`}/>
 }
 AddGraduate.propTypes = {
     classes: PropTypes.object.isRequired,
