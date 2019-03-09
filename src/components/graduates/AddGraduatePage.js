@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
 import {isValidEmail, isValidName, isValidPhoneNumber, isValidDateOfBirth, isValidTestResults} from "./Validator";
@@ -15,6 +14,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Select from '@material-ui/core/Select';
+import { Redirect} from "react-router-dom";
+
 
 const styles = theme => ({
     main: {
@@ -49,7 +50,9 @@ const styles = theme => ({
 });
 
 function AddGraduate(props) {
-    const { classes } = props;
+    let [addedNewStudent, setAddedNewStudent] = useState(false);
+    const { classes, courses } = props;
+    const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
 
     const course = useFormInput('');
     const dateOfBirth = useFormInput('');
@@ -116,51 +119,50 @@ function AddGraduate(props) {
     function onGraduateFormSubmit (e) {
 
         e.preventDefault();
-        //  const id = v4();
+
         const data = {
             course: course.value,
-            dateOfBirth: dateOfBirth.value,
+            dateOfBirth: Number(dateOfBirth.value),
             email: email.value,
             feedback: feedback.value,
             firstName: firstName.value,
             lastName: lastName.value,
             phoneNumber: phoneNumber.value,
-            testResults: testResults.value,
+            testResults: Number(testResults.value),
             works: works.value,
-            isWorking: document.getElementById("isWorking").value
+            isWorking: isWorking.value==="true" ? true : false
 
         }
 
-        debugger;
+
         if(!isValidSignUpForm()){
             return;
         }
-        debugger;
 
 
 
-        FireManager.createGraduateInFirebase(data).then(() =>{
-            FireManager.writeUserData(course.value, dateOfBirth.value, email.value,
-                feedback.value, firstName.value, lastName.value,
-                phoneNumber.value, testResults.value, works.value, isWorking.value).then(user =>{
-                debugger;
-            }).catch(err=>{
-                debugger;
+
+        FireManager.createGraduateInFirebase(data)
+            .then(()=>{
+                setAddedNewStudent(true)
             })
-        });
+            .catch(err=>{
+            console.error(err.message)
+        })
+
 
 
 
     }
 
-    return (
+    return !addedNewStudent?(
         <main className={classes.main}>
             <CssBaseline />
             <Paper className={classes.paper}>
                 <form className={classes.form}>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="firstName">First Name</InputLabel>
-                        <Input name="firstName"  className={classes.input}type="text" id="firstName" autoComplete="current-password" {...firstName} />
+                        <Input name="firstName"  className={classes.input}type="text" id="firstName" autoComplete="current-password" {...firstName}/>
                         <Hidden xlDown>
                             <Input  error={!!firstNameValidationErrors.length} {...firstName}  autoFocus />
                         </Hidden>
@@ -192,9 +194,12 @@ function AddGraduate(props) {
 
 
 
+
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="course">Course</InputLabel>
-                        <Input name="course" type="text" className={classes.input} id="course" autoComplete="current-password"  {...course} />
+                        <InputLabel htmlFor="course">Courses</InputLabel>
+                        <Select  {...course}>
+                            {tabs}
+                        </Select>
                     </FormControl>
 
 
@@ -215,7 +220,7 @@ function AddGraduate(props) {
 
 
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="phone">Phone Number</InputLabel>
+                        <InputLabel htmlFor="phone">Phone Number (0-- -- -- --)</InputLabel>
                         <Input name="phone" type="text" id="phoneNumber" className={classes.input} autoComplete="current-password" onFocus = {phoneNumberFormat} {...phoneNumber}/>
                         <Hidden xlDown>
                             <Input  error={!!phoneNumberValidationErrors.length} {...phoneNumber}  autoFocus />
@@ -284,7 +289,7 @@ function AddGraduate(props) {
                 </form>
             </Paper>
         </main>
-    );
+    ):<Redirect to="/"/>
 }
 AddGraduate.propTypes = {
     classes: PropTypes.object.isRequired,

@@ -64,11 +64,10 @@ export default class FireManager {
     }
 
 
-    static createStudentInFirebase(studentData, id) {
-        return firestore()
-            .collection("students")
-            .doc(id)
-            .set(studentData)
+    static createGraduateInFirebase(graduateData) {
+            return firestore()
+            .collection("graduates")
+            .add(graduateData)
     }
 
     static removeGraduate(graduateId) {

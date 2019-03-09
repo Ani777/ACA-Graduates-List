@@ -29,11 +29,10 @@ const styles = theme => ({
     },
 });
 
-class ScrollableTabsButtonForce extends React.Component {
+class NavBar extends React.Component {
 
     state = {
         value: 0,
-        courses: [],
         graduates: [],
         selected: [],
     }
@@ -93,11 +92,6 @@ class ScrollableTabsButtonForce extends React.Component {
 
 
     componentDidMount(){
-        firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
-            courses => {
-                this.setState({courses})
-            }
-        ).then(()=>{
             FireManager.getGraduates().then(querySnapshot => {
             this.setState({graduates: querySnapshot.docs.map(doc => {
                     const docData = doc.data();
@@ -107,16 +101,7 @@ class ScrollableTabsButtonForce extends React.Component {
                     };
                 })
             });
-        })
-// debugger;
-//             FireManager.getAvailableGraduates(this.props.company).then( graduates => {
-//                 this.setState({graduates})
-//             });
-
-
-
-
-        }).catch(error => {
+            }).catch(error => {
             console.error("Error getting graduates:", error);
         })
     }
@@ -130,7 +115,8 @@ class ScrollableTabsButtonForce extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { value, courses, graduates } = this.state;
+        const { value, graduates } = this.state;
+        const { courses } = this.props;
         const tabs = courses.map((course, index) => <Tab key={course+index} label={course} />);
         const graduatesList = value ===0 ? graduates: graduates.filter(graduate => graduate.course === courses[value-1])
 
@@ -162,4 +148,4 @@ class ScrollableTabsButtonForce extends React.Component {
     }
 }
 
-export default withStyles(styles)(ScrollableTabsButtonForce);
+export default withStyles(styles)(NavBar);

@@ -2,13 +2,26 @@ import React, { Component } from 'react';
 import './App.css';
 import CompaniesContainer from './components/companies/CompaniesContainer';
 import ButtonAppBar from "./components/Header";
-import ScrollableTabsButtonForce from "./components/navbar";
+import NavBar from "./components/navbar";
 import { BrowserRouter as Router } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import AddGraduate from "./components/graduates/AddGraduatePage";
 import CoursesContainer from "./components/courses/CoursesContainer";
+import firebase from 'firebase'
 
 class Main extends Component {
+    state={
+        courses: []
+    }
+
+    componentDidMount() {
+        firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
+            courses => {
+                this.setState({courses})
+            }
+        )
+    }
+
 
     render() {
         return (<Router>
@@ -23,10 +36,10 @@ class Main extends Component {
 
 
                 <Route path="/graduates" exact strict render={() => (
-                    <ScrollableTabsButtonForce/>)}/>
+                    <NavBar courses={this.state.courses} />)}/>
 
                 <Route path="/" exact strict render={() => (
-                    <ScrollableTabsButtonForce/>)}/>
+                    <NavBar courses={this.state.courses} />)}/>
 
 
 
@@ -34,7 +47,7 @@ class Main extends Component {
                    <CoursesContainer/>
                 )}/>
                 <Route path="/graduates/addgraduate" exact strict render={() => (
-                    <AddGraduate/>
+                    <AddGraduate courses={this.state.courses}/>
                 )}/>
             </div>
         </Router>)
