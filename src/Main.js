@@ -55,8 +55,9 @@ class Main extends Component {
                 )}/>
 
                 <Route path="/graduates/:graduatesid" exact strict component={Profile} />
+                <Route path="/graduates/:graduatesid/editgraduateprofile" exact strict component={EditGraduateProfile} />
                 </Switch>
-                <EditGraduateProfile/>
+                {/*<EditGraduateProfile/>*/}
             </div>
         </Router>)
     }

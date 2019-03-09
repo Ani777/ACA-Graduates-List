@@ -9,8 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
-import Link from '@material-ui/core/Link';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import { Link, matchPath} from 'react-router-dom'
 
 
 
@@ -76,6 +76,7 @@ const styles = theme => ({
     button: {
         margin: 'auto',
         width: 30,
+        textDecoration: 'none',
     },
 });
 
@@ -130,6 +131,8 @@ class Profile extends Component {
         const {testResults} = this.state.graduate;
         const {isWorking} = this.state.graduate;
         const {works} = this.state.graduate;
+        const { graduatesid } = this.props.match.params;
+
         return (
 
             <main className={classes.main}>
@@ -212,14 +215,14 @@ class Profile extends Component {
                             Works
                         </Grid>
                         <Grid item xs={9} className={classes.info}>
-                            <Link href={works}>{works}</Link>
+                           {works}
                         </Grid>
 
                     </Grid>
 
 
                     <Grid item xs={12}>
-                        <Button
+                       <Link to={`/graduates/${graduatesid}/editgraduateprofile`} > <Button
                             className={classes.button}
                             variant="contained"
                             color="primary"
@@ -227,6 +230,7 @@ class Profile extends Component {
 
                             Edit
                         </Button>
+                       </Link>
                     </Grid>
                 </Paper>
 

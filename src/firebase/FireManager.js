@@ -72,11 +72,11 @@ export default class FireManager {
         }
     }
 
-    static editGraduate(id, newData) {
+    static updateGraduate(id, data) {
         return firestore()
             .collection('graduates')
             .doc(id)
-            .update({...newData})
+            .update({...data})
     }
 
     static createUserWithEmailAndPassword (email, password){
