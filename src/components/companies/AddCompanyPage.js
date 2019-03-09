@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
 import generatePassword from 'password-generator';
-import { isValidEmail } from '../validators/EmailValidator';
-import { isValidName } from '../validators/NameValidator';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -61,7 +59,11 @@ const styles = theme => ({
     let name = useFormInput('');
     let phone = useFormInput('');
     let email = useFormInput('');
-    let [password, setPassword] = useState('')
+    let [password, setPassword] = useState('');
+
+    function handlePasswordChange (e){
+        setPassword(e.target.value)
+    }
 
     function getPassword () {
         // document.getElementById("password").value = generatePassword(6, false);
@@ -72,8 +74,6 @@ const styles = theme => ({
 
 
     function onCompanyFormSubmit (e) {
-        if (!isValidName(name.value)) return;
-        if (!isValidEmail(email.value)) return;
         e.preventDefault();
         const data = {
             name: name.value,
@@ -133,6 +133,7 @@ const styles = theme => ({
                     <div className={classes.passwordRow}>
                         <TextField
                             value={password}
+                            onChange={handlePasswordChange}
                             id="password"
                             required
                             fullWidth
