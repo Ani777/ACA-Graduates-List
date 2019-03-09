@@ -24,8 +24,8 @@ export default class FireManager {
         return companiesRef.get();
 }
 
-    static async getAvailableGraduates (companyID){
-        firebase.firestore().collection('companies').doc(companyID).collection('availableGraduates').get()
+    static getAvailableGraduates (companyID){
+       return firebase.firestore().collection('companies').doc(companyID).collection('availableGraduates').get()
         }
 
 
