@@ -288,7 +288,7 @@ function EditGraduateProfile(props) {
                         className={classes.submit}
                         onClick = {onGraduateFormEdit}
                     >
-                        Add
+                        Edit
                     </Button>
                 </form>
             </Paper>

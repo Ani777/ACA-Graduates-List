@@ -9,6 +9,7 @@ import AddGraduate from "./components/graduates/AddGraduatePage";
 import CoursesContainer from "./components/courses/CoursesContainer";
 import firebase from 'firebase';
 import Profile from "./components/graduates/GraduateProfile";
+import EditGraduateProfile from "./components/graduates/EditGraduateProfile";
 
 class Main extends Component {
     state={
@@ -55,6 +56,7 @@ class Main extends Component {
 
                 <Route path="/graduates/:graduatesid" exact strict component={Profile} />
                 </Switch>
+                <EditGraduateProfile/>
             </div>
         </Router>)
     }
