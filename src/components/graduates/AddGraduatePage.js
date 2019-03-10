@@ -123,13 +123,13 @@ function AddGraduate(props) {
 
         const data = {
             course: course.value,
-            dateOfBirth: Number(dateOfBirth.value),
+            dateOfBirth: dateOfBirth.value,
             email: email.value,
             feedback: feedback.value,
             firstName: firstName.value,
             lastName: lastName.value,
             phoneNumber: phoneNumber.value,
-            testResults: Number(testResults.value),
+            testResults: testResults.value,
             works: works.value,
             isWorking: isWorking.value==="true" ? true : false
 

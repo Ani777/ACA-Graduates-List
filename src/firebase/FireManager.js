@@ -73,7 +73,6 @@ export default class FireManager {
     }
 
     static updateGraduate(id, data) {
-        debugger;
         return firestore()
             .collection('graduates')
             .doc(id)
