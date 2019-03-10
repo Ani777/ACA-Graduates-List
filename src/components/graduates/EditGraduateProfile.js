@@ -94,10 +94,10 @@ function EditGraduateProfile(props) {
         const phoneNumberErrors = isValidPhoneNumber(phoneNumber.value);
         setPhoneNumberValidationErrors(phoneNumberErrors);
 
-        const dateOfBirthErrors = isValidDateOfBirth(dateOfBirth.value);
+        const dateOfBirthErrors = isValidDateOfBirth(String(dateOfBirth.value));
         setDateOfBirthValidationErrors(dateOfBirthErrors);
 
-        const testResultsErrors = isValidTestResults(testResults.value);
+        const testResultsErrors = isValidTestResults(String(testResults.value));
         setTestResultsValidationErrors(testResultsErrors);
 
 
@@ -124,13 +124,13 @@ function EditGraduateProfile(props) {
         e.preventDefault();
         const data = {
             course: course.value,
-            dateOfBirth: dateOfBirth.value,
+            dateOfBirth: Number(dateOfBirth.value),
             email: email.value,
             feedback: feedback.value,
             firstName: firstName.value,
             lastName: lastName.value,
             phoneNumber: phoneNumber.value,
-            testResults: testResults.value,
+            testResults: Number(testResults.value),
             works: works.value,
             isWorking: document.getElementById("isWorking").value
 
