@@ -84,7 +84,7 @@ const styles = theme => ({
         };
 
 
-            FireManager.createCompanyInFirebase({...data}).then(() => {
+            FireManager.createCompanyInFirebase({...data}, data.email).then(() => {
                 props.addCompanyToList(data);
             })
        .catch(function(error) {
