@@ -52,31 +52,21 @@ const styles = theme => ({
 
 function EditGraduateProfile(props) {
 
-    const profile = {
-        firstName: 'Ani',
-        lastName: 'Grigoryan',
-        course: 'JS',
-        dateOfBirth: '1985',
-        phoneNumber: '093 27 22 89',
-        email: 'ani@gmail.com',
-        feedback: 'ggggg',
-        testResults: '5',
-        isWorking: 'false',
-        works:'hgfds',
-        id: 'eHswEIZjyu4lxd9YWJGd',
-    }
+    const { graduate, graduatesid } = props;
 
-    const { classes } = props;
-    const course = useFormInput(profile.course);
-    const dateOfBirth = useFormInput(profile.dateOfBirth);
-    const email = useFormInput(profile.email);
-    const feedback = useFormInput(profile.feedback);
-    const firstName = useFormInput(profile.firstName);
-    const lastName = useFormInput(profile.lastName);
-    const phoneNumber = useFormInput(profile.phoneNumber);
-    const testResults = useFormInput(profile.testResults);
-    const works = useFormInput(profile.works);
-    const isWorking = useFormInput(profile.isWorking);
+
+    const { classes, courses } = props;
+    const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
+    const course = useFormInput(graduate.course);
+    const dateOfBirth = useFormInput(graduate.dateOfBirth);
+    const email = useFormInput(graduate.email);
+    const feedback = useFormInput(graduate.feedback);
+    const firstName = useFormInput(graduate.firstName);
+    const lastName = useFormInput(graduate.lastName);
+    const phoneNumber = useFormInput(graduate.phoneNumber);
+    const testResults = useFormInput(graduate.testResults);
+    const works = useFormInput(graduate.works);
+    const isWorking = useFormInput(graduate.isWorking);
 
 
 
@@ -150,11 +140,10 @@ function EditGraduateProfile(props) {
             return;
         }
 
-
-
-
-        FireManager.updateGraduate('eHswEIZjyu4lxd9YWJGd', data).
-        catch(err=>{
+        FireManager.updateGraduate(graduatesid, data).then(()=>{
+            props.handleClose()
+        })
+            .catch(err=>{
             console.error(err.message)
         })
 
@@ -202,8 +191,10 @@ function EditGraduateProfile(props) {
 
 
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="course">Course</InputLabel>
-                        <Input name="course" type="text" className={classes.input} id="course" autoComplete="current-password"  {...course} />
+                        <InputLabel htmlFor="course">Courses</InputLabel>
+                        <Select  {...course}>
+                            {tabs}
+                        </Select>
                     </FormControl>
 
 

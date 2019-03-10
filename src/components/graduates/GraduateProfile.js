@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import FireManager from '../../firebase/FireManager';
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,8 +7,10 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import { Link, matchPath} from 'react-router-dom'
+import PropTypes from 'prop-types';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
+import EditGraduateProfile from "./EditGraduateProfile";
 
 
 
@@ -80,6 +80,10 @@ const styles = theme => ({
     },
 });
 
+function Transition(props) {
+    return <Slide direction="up" {...props} />;
+}
+
 class Profile extends Component {
 
     state = {
@@ -93,12 +97,21 @@ class Profile extends Component {
         // testResult: '',
         // isWorking: '',
         // works:''
-        graduate: {}
+        graduate: {},
+        open: false
+    };
+
+    handleClickOpen = () => {
+        this.setState({ open: true });
+    };
+
+    handleClose = () => {
+        this.setState({ open: false });
     };
 
     componentDidMount() {
-        debugger;
-        const { graduatesid } = this.props.match.params;
+
+        const { graduatesid } = this.props;
         if (graduatesid) {
             FireManager.getGraduate(graduatesid).then(graduate => {
                 this.setState({graduate}
@@ -117,6 +130,15 @@ class Profile extends Component {
             });
         }
     }
+    componentDidUpdate() {
+        const { graduatesid } = this.props;
+        if (graduatesid) {
+            FireManager.getGraduate(graduatesid).then(graduate => {
+                this.setState({graduate})
+            });
+        }
+
+    }
 
 
     render(){
@@ -131,11 +153,20 @@ class Profile extends Component {
         const {testResults} = this.state.graduate;
         const {isWorking} = this.state.graduate;
         const {works} = this.state.graduate;
-        const { graduatesid } = this.props.match.params;
+        const { graduatesid, courses } = this.props;
 
         return (
-
+            <>
+                <Dialog
+                    fullScreen
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                    TransitionComponent={Transition}
+                >
+                    <EditGraduateProfile graduate={this.state.graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
+                </Dialog>
             <main className={classes.main}>
+
                 <CssBaseline />
                 <Paper className={classes.paper}>
                     <Grid item xs={12} className={classes.header}>
@@ -222,19 +253,21 @@ class Profile extends Component {
 
 
                     <Grid item xs={12}>
-                       <Link to={`/graduates/${graduatesid}/editgraduateprofile`} > <Button
+                        <Button
                             className={classes.button}
                             variant="contained"
                             color="primary"
+                            onClick={this.handleClickOpen}
                         >
 
                             Edit
                         </Button>
-                       </Link>
+
                     </Grid>
                 </Paper>
 
             </main>
+                </>
         )
     }
 }
@@ -242,7 +275,5 @@ class Profile extends Component {
 Profile.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-
-
 
 export default withStyles(styles)(Profile);

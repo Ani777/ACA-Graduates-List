@@ -9,7 +9,6 @@ import AddGraduate from "./components/graduates/AddGraduatePage";
 import CoursesContainer from "./components/courses/CoursesContainer";
 import firebase from 'firebase';
 import Profile from "./components/graduates/GraduateProfile";
-import EditGraduateProfile from "./components/graduates/EditGraduateProfile";
 
 class Main extends Component {
     state={
@@ -54,8 +53,8 @@ class Main extends Component {
                     <AddGraduate courses={this.state.courses}/>
                 )}/>
 
-                <Route path="/graduates/:graduatesid" exact strict component={Profile} />
-                <Route path="/graduates/:graduatesid/editgraduateprofile" exact strict component={EditGraduateProfile} />
+                <Route path="/graduates/:graduatesid" exact strict render={({match})=>(<Profile graduatesid={match.params.graduatesid} courses={this.state.courses}/>)} />
+                {/*<Route path="/graduates/:graduatesid/editgraduateprofile" exact strict component={EditGraduateProfile} />*/}
                 </Switch>
                 {/*<EditGraduateProfile/>*/}
             </div>

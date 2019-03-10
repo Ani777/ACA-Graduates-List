@@ -192,10 +192,6 @@ function AddGraduate(props) {
                         )}
                     </FormControl>
 
-
-
-
-
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="course">Courses</InputLabel>
                         <Select  {...course}>

@@ -73,6 +73,7 @@ export default class FireManager {
     }
 
     static updateGraduate(id, data) {
+        debugger;
         return firestore()
             .collection('graduates')
             .doc(id)
@@ -82,22 +83,6 @@ export default class FireManager {
     static createUserWithEmailAndPassword (email, password){
         return firebase.auth().createUserWithEmailAndPassword(email, password)
     }
-
-
-    static removeCompany(id) {
-            return firestore()
-                .collection("companies")
-                .doc(id)
-                .delete();
-    }
-
-    static updateCompany(id, newData) {
-        return firestore()
-            .collection('companies')
-            .doc(id)
-            .update({...newData})
-    }
-
 
 
     static removeCourse(course) {
@@ -118,27 +103,6 @@ export default class FireManager {
         return graduatesRef.get();
     }
 
-
-
-    // static addStudent(student) {
-    //     if (student.id) {
-    //         return firestore()
-    //             .collection("students")
-    //             .doc(student.id)
-    //             .set(student);
-    //     }
-    // }
-
-
-
-    // static editStudent(student) {
-    //     if (student.id) {
-    //         return firestore()
-    //             .collection("students")
-    //             .doc(student.id)
-    //             .update({ ...student });
-    //     }
-    // }
 
     static getGraduate(graduateId) {
     if (graduateId) {

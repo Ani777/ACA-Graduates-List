@@ -7,7 +7,6 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import FireManager from "../../firebase/FireManager";
 import GraduatesList from "../graduates/GraduatesList";
-import firebase from "firebase";
 
 function TabContainer(props) {
     return (

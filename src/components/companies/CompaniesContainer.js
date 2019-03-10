@@ -15,7 +15,6 @@ import Typography from '@material-ui/core/Typography';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import Credentials from "./companyCredentials";
@@ -122,7 +121,7 @@ class CompaniesContainer extends Component {
                 >
                     <DialogTitle id="alert-dialog-title">{"Please create a user in database with following credentials:"}</DialogTitle>
                     <DialogContent>
-                        <Credentials email={this.state.companyEmail} password={this.state.companyPassword}/>
+                        <Credentials email={companyEmail} password={companyPassword}/>
                         {/*<DialogContentText id="alert-dialog-description">*/}
                             {/*email: {companyEmail}*/}
                             {/*password {companyPassword}*/}
