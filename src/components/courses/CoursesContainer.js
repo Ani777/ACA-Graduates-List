@@ -21,33 +21,17 @@ const styles = theme => ({
 
 
 class CoursesContainer extends Component {
-    state = {
-        courses: []
-    };
-
-    componentDidMount() {
-        FireManager.getCourses().then(querySnapshot => {
-            this.setState({courses: querySnapshot.docs.map(doc => doc.data())})
-        }).catch(err => {
-            console.error(err.message)})
-    }
-
-    addCourseToList = course => {
-        const { courses } = this.state;
-        courses.push(course);
-        this.setState({ courses });
-    }
 
     render() {
         const { classes } = this.props;
         return(
             <div className={classes.root}>
-                <AddCoursePage addCourseToList={this.addCourseToList}/>
+                <AddCoursePage addCourseToList={this.props.handleChange}/>
                 <Grid container spacing={24}>
-                    {this.state.courses.map(course => (
-                        <Grid item xs={2} key={course.name}>
+                    {this.props.courses.map(course => (
+                        <Grid item xs={2} key={course}>
                             <Paper className={classes.paper}>
-                                {course.name}
+                                {course}
                             </Paper>
                         </Grid>
                     ))}

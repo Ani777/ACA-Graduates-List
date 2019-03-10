@@ -48,7 +48,7 @@ function AddCoursePage(props) {
                 name,
             }
             FireManager.createCourseInFirebase(data).then(() => {
-                props.addCourseToList(data);
+                props.addCourseToList(name);
                 setName('');
             }).catch(err => {
                 console.error(err.message)

@@ -15,6 +15,13 @@ class Main extends Component {
         courses: []
     }
 
+    handleCoursesChange = course => {
+            const { courses } = this.state;
+            courses.push(course);
+            this.setState({ courses });
+        }
+
+
     componentDidMount() {
         firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
             courses => {
@@ -47,7 +54,7 @@ class Main extends Component {
 
 
                 <Route path="/courses" exact strict render={() => (
-                   <CoursesContainer/>
+                   <CoursesContainer courses={this.state.courses} handleChange={this.handleCoursesChange}/>
                 )}/>
                 <Route path="/graduates/addgraduate" exact strict render={() => (
                     <AddGraduate courses={this.state.courses}/>
