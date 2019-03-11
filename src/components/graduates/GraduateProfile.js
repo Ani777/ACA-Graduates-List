@@ -12,6 +12,8 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import EditGraduateProfile from "./EditGraduateProfile";
 import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+
 
 const styles = theme => ({
     main: {
@@ -51,9 +53,6 @@ const styles = theme => ({
 
     header: {
         marginTop: theme.spacing.unit,
-        display: 'flex',
-        flexDirection: 'column',
-        textAlign: 'center',
         fontSize: 36,
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
     },
@@ -188,9 +187,7 @@ class Profile extends Component {
 
                 <CssBaseline />
                 <Paper className={classes.paper}>
-                    <Grid item xs={12} className={classes.header}>
-                        <Grid item xs={12}>{firstName } {lastName }</Grid>
-                    </Grid>
+                    <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
 
 
                     <Grid container className={classes.contact}>

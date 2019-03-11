@@ -191,7 +191,7 @@ function EditGraduateProfile(props) {
         <main className={classes.main}>
             <CssBaseline />
             <Paper className={classes.paper}>
-                <Grid xs ={12} className={classes.title}> Edit Graduate</Grid>
+                <Typography variant='h4' align='center' color='inherit'>Edit Graduate</Typography>
                 <form className={classes.form}>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="firstName">First Name</InputLabel>

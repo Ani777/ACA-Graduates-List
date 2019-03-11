@@ -199,7 +199,7 @@ function AddGraduate(props) {
             <CssBaseline />
             <Paper className={classes.paper}>
                 <form className={classes.form}>
-                    <Grid xs ={12} className={classes.title}> New Graduate</Grid>
+                    <Typography variant='h4' align='center' color='inherit'>New Graduate</Typography>
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="firstName" className={classes.inputLabel}>First Name</InputLabel>
