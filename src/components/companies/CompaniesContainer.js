@@ -35,6 +35,10 @@ const styles = theme => ({
     },
     title :{
         margin: '0 auto',
+    },
+    button: {
+        marginBottom: theme.spacing.unit * 1,
+        marginRight: theme.spacing.unit * 2,
     }
 });
 
@@ -131,7 +135,7 @@ class CompaniesContainer extends Component {
                         {/*<Button onClick={this.hideAlertDialog} color="primary">*/}
                             {/*Disagree*/}
                         {/*</Button>*/}
-                        <Button onClick={this.hideAlertDialog} variant="contained" color="primary" autoFocus>
+                        <Button className={classes.button} onClick={this.hideAlertDialog} variant="contained" color="primary" autoFocus>
                             OK
                         </Button>
                     </DialogActions>
