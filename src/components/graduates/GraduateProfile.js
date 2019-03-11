@@ -53,7 +53,7 @@ const styles = theme => ({
     },
 
     header: {
-        marginTop: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 5,
         fontSize: 36,
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
     },
@@ -80,6 +80,8 @@ const styles = theme => ({
         // justifyContent:
         //     "space-between",
         marginTop: theme.spacing.unit * 6,
+        marginBottom: theme.spacing.unit * 4,
+
     },
 
     back: {
