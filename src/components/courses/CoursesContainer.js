@@ -18,6 +18,8 @@ const styles = theme => ({
     root: {
         flexGrow: 1,
         padding: '2%',
+        marginTop: theme.spacing.unit * 2,
+        marginBottom: theme.spacing.unit * 2,
     },
     paper: {
         padding: theme.spacing.unit * 2,
@@ -29,8 +31,8 @@ const styles = theme => ({
 
     },
 
-    fab: {
-        margin: theme.spacing.unit * 2,
+    button: {
+        marginRight: theme.spacing.unit * 2.5
     },
 });
 
@@ -99,7 +101,7 @@ class CoursesContainer extends Component {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button type='submit' variant="contained" color="primary" onClick={this.onCourseFormSubmit} >
+                    <Button className={classes.button} type='submit' variant="contained" color="primary" onClick={this.onCourseFormSubmit} >
                         Add
                     </Button>
                 </DialogActions>
