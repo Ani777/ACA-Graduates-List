@@ -2,7 +2,14 @@ import React from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useState } from 'react';
 import { useFormInput } from '../../hooks';
-import {isValidEmail, isValidName, isValidPhoneNumber, isValidDateOfBirth, isValidTestResults} from "./Validator";
+import {
+    isValidEmail,
+    isValidName,
+    isValidPhoneNumber,
+    isValidDateOfBirth,
+    isValidTestResults,
+    isValidRequired
+} from "./Validator";
 import PropTypes from 'prop-types';
 import Hidden from '@material-ui/core/Hidden';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -15,6 +22,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Select from '@material-ui/core/Select';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
     main: {
@@ -35,6 +43,15 @@ const styles = theme => ({
         alignItems: 'center',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
+
+    title: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        fontSize: 23,
+        fontWeight: 'bold',
+    },
+
 
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -76,6 +93,8 @@ function EditGraduateProfile(props) {
     const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
     const [dateOfBirthValidationErrors, setDateOfBirthValidationErrors] = useState([]);
     const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
+    const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
+    const [courseValidationErrors, setCourseValidationErrors] = useState([]);
 
 
 
@@ -100,6 +119,12 @@ function EditGraduateProfile(props) {
         const testResultsErrors = isValidTestResults(String(testResults.value));
         setTestResultsValidationErrors(testResultsErrors);
 
+        const feedbackErrors = isValidRequired(feedback.value);
+        setFeedbackValidationErrors(feedbackErrors);
+
+        const courseErrors = isValidRequired(course.value);
+        setCourseValidationErrors(courseErrors);
+
 
 
 
@@ -108,6 +133,8 @@ function EditGraduateProfile(props) {
             !emailErrors.length &&
             !phoneNumberErrors.length &&
             !dateOfBirthErrors.length &&
+            !feedbackErrors.length &&
+            !courseErrors.length &&
             !testResultsErrors.length ){
             return true
         }
@@ -144,8 +171,8 @@ function EditGraduateProfile(props) {
             props.handleClose()
         })
             .catch(err=>{
-            console.error(err.message)
-        })
+                console.error(err.message)
+            })
 
 
 
@@ -155,6 +182,7 @@ function EditGraduateProfile(props) {
         <main className={classes.main}>
             <CssBaseline />
             <Paper className={classes.paper}>
+                <Grid xs ="12" className={classes.title}> Edit Graduate</Grid>
                 <form className={classes.form}>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="firstName">First Name</InputLabel>
@@ -195,6 +223,16 @@ function EditGraduateProfile(props) {
                         <Select  {...course}>
                             {tabs}
                         </Select>
+
+                        <Hidden xlDown>
+                            <Input  error={!!courseValidationErrors.length} {...course}  autoFocus />
+                        </Hidden>
+                        {!!courseValidationErrors.length && (
+                            courseValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+
                     </FormControl>
 
 
@@ -246,6 +284,15 @@ function EditGraduateProfile(props) {
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="lastName">Feedback</InputLabel>
                         <Input name="feedback" type="text" id="feedback" className={classes.input} autoComplete="current-password"  {...feedback}/>
+                        <Hidden xlDown>
+                            <Input  error={!!feedbackValidationErrors.length} {...feedback} />
+                        </Hidden>
+                        {!!feedbackValidationErrors.length && (
+                            feedbackValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+
                     </FormControl>
 
 
@@ -272,15 +319,21 @@ function EditGraduateProfile(props) {
                         <InputLabel htmlFor="lastName">Works</InputLabel>
                         <Input name="lastName" type="text" id="lastName" className={classes.input} autoComplete="current-password"  {...works}/>
                     </FormControl>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick = {onGraduateFormEdit}
-                    >
-                        Edit
-                    </Button>
+                    <Grid container xs={12}>
+                        <Grid  xs={10}>
+                        </Grid>
+                        <Grid  xs={2}>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick = {onGraduateFormEdit}
+                            >
+                                Edit
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </form>
             </Paper>
         </main>

@@ -10,6 +10,9 @@ const nameValidationMap = {
     digits: 'Should not have digits',
     oneOf: 'Should not equal "name", "firstname" or "lastname"'
 };
+const isValidValidationMap = {
+    min: 'Minimum length 2'
+};
 
 
 export const isValidEmail = email => {
@@ -41,15 +44,16 @@ const dateOfBirthValidationMap = {
 };
 
 const testResultValidationMap = {
-    min: 'Minimum length 1',
-    max: 'Maximum length 4',
+    min: 'This field is required',
     letters: 'Should not have letters',
     symbols: 'Should not have symbols',
 };
+const requiredValidationMap = {
+    min: 'This field is required'
+};
 
 const phoneNumberValidationMap = {
-    min: 'Length must be 12',
-    max: 'Length must be 12',
+    min: 'This field is required',
     letters: 'Should not have letters',
     symbols: 'Should not have symbols',
 };
@@ -89,7 +93,6 @@ export const isValidTestResults = testResults =>{
     let schema = new PasswordValidator();
     schema
         .is().min(1)
-        .is().max(4)
         .has().not().letters()
         .has().not().symbols()
 
@@ -98,18 +101,40 @@ export const isValidTestResults = testResults =>{
     return validateResult.map(errorKey => testResultValidationMap[errorKey]);
 };
 
+export const isValidRequired = testResults =>{
+    let schema = new PasswordValidator();
+    schema
+        .is().min(1)
+
+
+    const validateResult = schema.validate(testResults, {list: true});
+    return validateResult.map(errorKey => requiredValidationMap[errorKey]);
+};
+
+
+
 export const isValidPhoneNumber = phone =>{
     let schema = new PasswordValidator();
     schema
-        .is().min(12)
-        .is().max(12)
+        .is().min(8)
         .has().not().letters()
         .has().not().symbols()
         .has().digits()
-        .has().spaces()
 
 
 
     const validateResult = schema.validate(phone, {list: true});
     return validateResult.map(errorKey => phoneNumberValidationMap[errorKey]);
+};
+
+export const isValidField = field =>{
+    let schema = new PasswordValidator();
+    schema
+        .is().min(1)
+
+
+
+
+    const validateResult = schema.validate(field, {list: true});
+    return validateResult.map(errorKey => isValidValidationMap[errorKey]);
 };

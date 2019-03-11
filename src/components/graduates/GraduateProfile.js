@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import EditGraduateProfile from "./EditGraduateProfile";
-
-
+import Link from '@material-ui/core/Link';
 
 
 const styles = theme => ({
@@ -34,37 +33,43 @@ const styles = theme => ({
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
         color: theme.palette.text.primary,
     },
+
     info: {
         marginTop: theme.spacing.unit * 0.5,
         display: 'flex',
         flexDirection: 'column',
         padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
+
     },
+
+    label: {
+        marginTop: theme.spacing.unit * 0.5,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
+        fontWeight: 'bold',
+    },
+
     header: {
         marginTop: theme.spacing.unit,
-        marginBottom: theme.spacing.unit,
         display: 'flex',
         flexDirection: 'column',
         textAlign: 'center',
         fontSize: 36,
-        padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
     },
     mainInfo: {
         marginTop: theme.spacing.unit * 4,
         marginLeft: theme.spacing.unit * 5,
         marginRight: theme.spacing.unit * 4,
         textAlign: 'left',
-        padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
-    },
-    contact: {
-        marginTop: theme.spacing.unit * 0.5,
-        textAlign: 'left',
-        padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px`,
     },
 
     icon: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit * 1.7,
+        marginLeft: theme.spacing.unit * 5,
     },
     submit: {
         marginTop: theme.spacing.unit,
@@ -76,13 +81,13 @@ const styles = theme => ({
     button: {
         margin: 'auto',
         width: 30,
-        textDecoration: 'none',
     },
 });
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
+
 
 class Profile extends Component {
 
@@ -179,19 +184,19 @@ class Profile extends Component {
 
 
 
-                        <Grid item xs={6}>
+                        <Grid item xs={5}>
                             <EmailIcon className={classes.icon}/>
                         </Grid>
-                        <Grid item xs={6} className={classes.info}>
+                        <Grid item xs={7} className={classes.info}>
                             {email}
                         </Grid>
 
 
 
-                        <Grid item xs={6}>
+                        <Grid item xs={5}>
                             <PhoneIcon className={classes.icon}/>
                         </Grid>
-                        <Grid item xs={6} className={classes.info}>
+                        <Grid item xs={7} className={classes.info}>
                             {phoneNumber}
                         </Grid>
 
@@ -252,20 +257,23 @@ class Profile extends Component {
                     </Grid>
 
 
-                    <Grid item xs={12}>
-                        <Button
-                            className={classes.button}
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleClickOpen}
-                        >
+                    <Grid container xs={12}>
+                        <Grid  xs={10}>
+                        </Grid>
+                        <Grid  xs={2}>
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleClickOpen}
+                            >
 
-                            Edit
-                        </Button>
+                                Edit
+                            </Button>
+                        </Grid>
 
                     </Grid>
                 </Paper>
-
             </main>
                 </>
         )
