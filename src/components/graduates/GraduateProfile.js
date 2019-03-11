@@ -68,7 +68,7 @@ const styles = theme => ({
     icon: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit * 1.7,
-        marginLeft: theme.spacing.unit * 5,
+        marginLeft: theme.spacing.unit * 12,
     },
 
     input: {
@@ -95,6 +95,16 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit * 30,
 
     },
+    first: {
+        fontSize: theme.spacing.unit * 2,
+        fontWeight: 'bold',
+
+    },
+
+    second: {
+        fontSize: theme.spacing.unit * 2,
+        // paddingTop:  theme.spacing.unit * 0.5,
+    }
 
 });
 
@@ -218,52 +228,52 @@ class Profile extends Component {
                     <Grid container className={classes.mainInfo}>
 
 
-                        <Grid item xs={3} className={classes.info}>
-                            Course
+                        <Grid item xs={4} className={classes.info}>
+                            <Typography className={classes.first}>Course</Typography>
                         </Grid>
-                        <Grid item xs={9} className={classes.info}>
-                            {course}
-                        </Grid>
-
-
-
-
-                        <Grid item xs={3} className={classes.info}>
-                            Date Of Birth
-                        </Grid>
-                        <Grid item xs={9} className={classes.info}>
-                            {dateOfBirth}
+                        <Grid item xs={8} className={classes.info}>
+                            <Typography className={classes.second}>{course}</Typography>
                         </Grid>
 
 
-                        <Grid item xs={3} className={classes.info}>
-                            Test Results
+
+
+                        <Grid item xs={4} className={classes.info}>
+                            <Typography className={classes.first}>Date Of Birth</Typography>
                         </Grid>
-                        <Grid item xs={9} className={classes.info}>
-                            {testResults}
+                        <Grid item xs={8} className={classes.info}>
+                            <Typography className={classes.second}>{dateOfBirth}</Typography>
                         </Grid>
 
 
-                        <Grid item xs={3} className={classes.info}>
-                            Feedback
+                        <Grid item xs={4} className={classes.info}>
+                            <Typography className={classes.first}> Results</Typography>
                         </Grid>
-                        <Grid item xs={9} className={classes.info}>
-                            {feedback}
+                        <Grid item xs={8} className={classes.info}>
+                            <Typography className={classes.second}>{testResults}</Typography>
+                        </Grid>
+
+
+                        <Grid item xs={4} className={classes.info}>
+                            <Typography className={classes.first}>Feedback</Typography>
+                        </Grid>
+                        <Grid item xs={8} className={classes.info}>
+                            <Typography className={classes.second}>{feedback}</Typography>
                         </Grid>
 
 
-                        <Grid item xs={3} className={classes.info}>
-                            Is Graduate Working
+                        <Grid item xs={4} className={classes.info}>
+                            <Typography className={classes.first}>Is Graduate Working</Typography>
                         </Grid>
-                        <Grid item xs={9} className={classes.info}>
-                            {isWorking ? 'Yes' : 'No'}
+                        <Grid item xs={8} className={classes.info}>
+                            <Typography className={classes.second}>{isWorking ? 'Yes' : 'No'}</Typography>
                         </Grid>
 
-                        <Grid item xs={3} className={classes.info}>
-                            Works
+                        <Grid item xs={4} className={classes.info}>
+                            <Typography className={classes.first}>Works</Typography>
                         </Grid>
-                        <Grid item xs={9} className={classes.info}>
-                           {works}
+                        <Grid item xs={8} className={classes.info}>
+                            <Typography className={classes.second}>{works}</Typography>
                         </Grid>
 
                     </Grid>
