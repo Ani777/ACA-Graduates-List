@@ -63,6 +63,15 @@ const styles = theme => ({
     input: {
         height: 33,
     },
+
+    buttons: {
+        display: "flex",
+        justifyContent:
+            "space-between",
+        marginTop: theme.spacing.unit * 6,
+
+    },
+
 });
 
 
@@ -182,7 +191,7 @@ function EditGraduateProfile(props) {
         <main className={classes.main}>
             <CssBaseline />
             <Paper className={classes.paper}>
-                <Grid xs ="12" className={classes.title}> Edit Graduate</Grid>
+                <Grid xs ={12} className={classes.title}> Edit Graduate</Grid>
                 <form className={classes.form}>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="firstName">First Name</InputLabel>
@@ -319,10 +328,10 @@ function EditGraduateProfile(props) {
                         <InputLabel htmlFor="lastName">Works</InputLabel>
                         <Input name="lastName" type="text" id="lastName" className={classes.input} autoComplete="current-password"  {...works}/>
                     </FormControl>
-                    <Grid container xs={12}>
-                        <Grid  xs={10}>
-                        </Grid>
-                        <Grid  xs={2}>
+                    <div className={classes.buttons} >
+                        <Button variant="contained" color="secondary" className={classes.submit} onClick={props.handleClose}>
+                            Cancel
+                        </Button>
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -332,8 +341,7 @@ function EditGraduateProfile(props) {
                             >
                                 Edit
                             </Button>
-                        </Grid>
-                    </Grid>
+                    </div>
                 </form>
             </Paper>
         </main>

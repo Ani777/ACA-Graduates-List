@@ -16,6 +16,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import { Redirect} from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 
 const styles = theme => ({
@@ -53,6 +54,7 @@ const styles = theme => ({
     },
     submit: {
         marginTop: theme.spacing.unit,
+
     },
     input: {
         height: 27,
@@ -60,6 +62,15 @@ const styles = theme => ({
     inputLabel: {
         height: 5,
     },
+    buttons: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: theme.spacing.unit * 6,
+
+    },
+
+
+
 });
 
 function AddGraduate(props) {
@@ -188,7 +199,7 @@ function AddGraduate(props) {
             <CssBaseline />
             <Paper className={classes.paper}>
                 <form className={classes.form}>
-                    <Grid xs ="12" className={classes.title}> New Graduate</Grid>
+                    <Grid xs ={12} className={classes.title}> New Graduate</Grid>
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="firstName" className={classes.inputLabel}>First Name</InputLabel>
@@ -330,10 +341,11 @@ function AddGraduate(props) {
                         <InputLabel htmlFor="lastName">Works</InputLabel>
                         <Input name="lastName" type="text" id="lastName" className={classes.input}  {...works}/>
                     </FormControl>
-                    <Grid container xs={12}>
-                        <Grid  xs={10}>
-                        </Grid>
-                        <Grid  xs={2}>
+                    <div className={classes.buttons} >
+                        <Button  variant="contained" color="secondary" className={classes.submit} component={Link} to='/graduates'>
+                            Cancel
+                        </Button>
+
                             <Button
                                 type="submit"
                                 variant="contained"
@@ -343,8 +355,8 @@ function AddGraduate(props) {
                             >
                                 Add
                             </Button>
-                        </Grid>
-                    </Grid>
+                    </div>
+
                 </form>
             </Paper>
         </main>

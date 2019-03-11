@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import EditGraduateProfile from "./EditGraduateProfile";
-import Link from '@material-ui/core/Link';
-
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     main: {
@@ -71,17 +70,32 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 1.7,
         marginLeft: theme.spacing.unit * 5,
     },
-    submit: {
-        marginTop: theme.spacing.unit,
-    },
+
     input: {
         height: 33,
     },
 
-    button: {
-        margin: 'auto',
-        width: 30,
+    buttons: {
+        // display: "flex",
+        // justifyContent:
+        //     "space-between",
+        marginTop: theme.spacing.unit * 6,
     },
+
+    back: {
+        display: 'inline-block',
+        marginTop: theme.spacing.unit,
+        marginLeft:  theme.spacing.unit * 10,
+
+
+    },
+    submit: {
+        display: 'inline-block',
+        marginTop: theme.spacing.unit,
+        marginLeft: theme.spacing.unit * 30,
+
+    },
+
 });
 
 function Transition(props) {
@@ -256,13 +270,13 @@ class Profile extends Component {
 
                     </Grid>
 
+                    <div className={classes.buttons} >
+                        <Button  variant="contained" color="secondary" className={classes.back} component={Link} to='/graduates'>
+                           Back
+                        </Button>
 
-                    <Grid container xs={12}>
-                        <Grid  xs={10}>
-                        </Grid>
-                        <Grid  xs={2}>
                             <Button
-                                className={classes.button}
+                                className={classes.submit}
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleClickOpen}
@@ -270,9 +284,7 @@ class Profile extends Component {
 
                                 Edit
                             </Button>
-                        </Grid>
-
-                    </Grid>
+                    </div>
                 </Paper>
             </main>
                 </>
