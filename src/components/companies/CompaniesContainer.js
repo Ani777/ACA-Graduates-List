@@ -30,9 +30,7 @@ const styles = theme => ({
     table: {
         minWidth: 700,
     },
-    addCompanyDialog: {
-        // width: 500
-    },
+
     title :{
         margin: '0 auto',
     },
@@ -101,7 +99,6 @@ class CompaniesContainer extends Component {
             <>
                 <Dialog 
                         fullWidth
-                        className={classes.addCompanyDialog} 
                         open={openAddCompanyDialog} 
                         onClose = {this.handleClose}
                         aria-labelledby="simple-dialog-title"

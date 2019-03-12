@@ -13,7 +13,7 @@ class App extends Component {
             user: '',
             email: '',
             password: '',
-            company: null,
+            company: {},
             isAuthenticating: false
         }
     }
@@ -23,15 +23,15 @@ class App extends Component {
     };
 
     componentDidMount() {
-        this.setState({isAuthenticating: true})
+        this.setState({isAuthenticating: true});
         firebase.auth().onAuthStateChanged(user=> {
             if(user){
-              let userId = user.uid;
-              FireManager.getCurrentCompany(userId).then(company => {
+              let userEmail = user.email;
+              FireManager.getCurrentCompany(userEmail).then(company => {
                 this.setState({user, company, isAuthenticating: false});
             })
             }else {
-                this.setState({user: null, company: null, isAuthenticating: false})
+                this.setState({user: '', company: {}, isAuthenticating: false})
             }
         })};
 
@@ -83,7 +83,7 @@ class App extends Component {
         const { isAuthenticating, user } = this.state;
         return (<>
                 {isAuthenticating ? <CircularProgress disableShrink/> : user ?
-                    <Main user={user} logout={this.logout}/> : <SignIn login={this.login}
+                    <Main user={user} logout={this.logout} company={this.state.company}/> : <SignIn login={this.login}
                                                                        handleChange={this.handleChange}
                                                                        email={this.state.email}
                                                                        password={this.state.password}/>

@@ -9,10 +9,13 @@ import AddGraduate from "./components/graduates/AddGraduatePage";
 import CoursesContainer from "./components/courses/CoursesContainer";
 import firebase from 'firebase';
 import Profile from "./components/graduates/GraduateProfile";
+import HeaderForCustomers from "./components/Header/headerForCustomers";
+import ViewForCompanies from "./components/graduates/ViewForCompanies";
+
 
 class Main extends Component {
     state={
-        courses: []
+        courses: [],
     }
 
     handleCoursesChange = course => {
@@ -32,7 +35,19 @@ class Main extends Component {
 
 
     render() {
-        return (<Router>
+        return (
+            <>
+                {this.props.company.role==='customer'?(
+                    <Router>
+                        <>
+                       <HeaderForCustomers user={this.props.user}
+                                           logout={this.props.logout} />
+                                           <ViewForCompanies company={this.props.company}/>
+
+                                           </>
+                    </Router>
+                ):(
+            <Router>
             <div className="App">
 
                 <ButtonAppBar
@@ -64,8 +79,10 @@ class Main extends Component {
                 {/*<Route path="/graduates/:graduatesid/editgraduateprofile" exact strict component={EditGraduateProfile} />*/}
                 </Switch>
                 {/*<EditGraduateProfile/>*/}
+
             </div>
-        </Router>)
+            </Router>)  }
+                </>)
     }
 }
 
