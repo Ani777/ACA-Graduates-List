@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import FireManager from "../../firebase/FireManager";
 import Dialog from '@material-ui/core/Dialog';
 import ProfileForCompanies from "./GraduateProfileForCompanies";
+import AvailableGraduatesList from "../visibility/AvailableGraduatesList";
 
 
 export default class ViewForCompanies extends Component {
     state = {
         availableGraduates: [],
-        value: 0,
+        activeGraduate: {},
         open: false,
 
     }
 
-    handleClickOpen = (i) => {
-        this.setState({value: i,
+    handleClickOpen = (graduate) => {
+        this.setState({activeGraduate: graduate,
                              open: true });
     };
 
@@ -51,10 +52,11 @@ export default class ViewForCompanies extends Component {
                     aria-describedby="alert-dialog-description"
                 >
 
-                   <ProfileForCompanies graduate={this.state.availableGraduates[this.state.value]}/>
+                   <ProfileForCompanies graduate={this.state.activeGraduate}/>
                 </Dialog>
+                <AvailableGraduatesList graduates={this.state.availableGraduates} handleClick={this.handleClickOpen}/>
 
-            <ul>{list}</ul>
+            {/*<ul>{list}</ul>*/}
                 </>
         )
     }
