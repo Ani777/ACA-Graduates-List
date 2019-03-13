@@ -118,4 +118,18 @@ export default class FireManager {
     }
 }
 
+
+
+static RemoveGraduateForCompanies(companyIds, graduatesId) {
+        if(companyIds.length){
+    return Promise.all(companyIds.map(companyId => {
+        return firebase.firestore()
+            .collection('companies')
+            .doc(companyId)
+            .collection('availableGraduates')
+            .doc(graduatesId)
+            .delete()
+    }))}
+}
+
 }

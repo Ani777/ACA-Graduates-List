@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import FireManager from "../../firebase/FireManager";
 import GraduatesList from "../graduates/GraduatesList";
+import firebase from 'firebase';
 
 function TabContainer(props) {
     return (
@@ -38,19 +39,35 @@ class NavBar extends React.Component {
 
     handleDeleteButtonClick = (e) => {
         const {selected} = this.state;
+
         Promise.all(selected.map(id => {
+            return firebase.firestore().collection('graduates').doc(id).get()
+        })).then(docs => {
+            return docs.map(doc => {
+                return [doc.data().visibleFor, doc.id]
+            })
+        }).then(arrs => {
+            return Promise.all(arrs.map(arr => {
+                return FireManager.RemoveGraduateForCompanies(...arr)
+            }))
+        }).then(()=>
+
+        {return Promise.all(selected.map(id => {
             return FireManager.removeGraduate(id)
-        })).then(FireManager.getGraduates().then(querySnapshot => {
-            this.setState({graduates: querySnapshot.docs.map(doc => {
-                    const docData = doc.data();
-                    return {
-                        ...docData,
-                        id: doc.id
-                    };
-                }),
-                selected:[]
-            })})).then(() => {
-            this.setState({selected: []})
+        }))}).then(()=> {
+            return FireManager.getGraduates()})
+            .then(querySnapshot => {
+                this.setState({graduates: querySnapshot.docs.map(doc => {
+                        const docData = doc.data();
+                        return {
+                            ...docData,
+                            id: doc.id
+                        };
+                    }),
+                    selected:[]
+                })})
+        .catch(err => {
+            console.error((err.message))
         })
     }
 
