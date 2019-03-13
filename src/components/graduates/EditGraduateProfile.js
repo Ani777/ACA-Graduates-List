@@ -79,6 +79,7 @@ const styles = theme => ({
 function EditGraduateProfile(props) {
 
     const { graduate, graduatesid } = props;
+    const { visibleFor } = graduate;
 
 
     const { classes, courses } = props;
@@ -172,12 +173,26 @@ function EditGraduateProfile(props) {
 
         }
 
+        const dataForCompanies ={
+            course: course.value,
+            dateOfBirth: Number(dateOfBirth.value),
+            feedback: feedback.value,
+            firstName: firstName.value,
+            lastName: lastName.value,
+            testResults: Number(testResults.value),
+            works: works.value,
+        }
+
         if(!isValidSignUpForm()){
             return;
         }
 
         FireManager.updateGraduate(graduatesid, data).then(()=>{
             props.handleClose()
+        }).then(() => {
+            if(visibleFor.length){
+                return FireManager.updateGraduateForCompanies(visibleFor, graduatesid, dataForCompanies)
+            }
         })
             .catch(err=>{
                 console.error(err.message)

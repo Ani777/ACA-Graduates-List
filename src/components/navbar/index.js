@@ -52,8 +52,9 @@ class NavBar extends React.Component {
             }))
         }).then(()=>
 
-        {return Promise.all(selected.map(id => {
-            return FireManager.removeGraduate(id)
+        {
+            return Promise.all(selected.map(id => {
+                return FireManager.removeGraduate(id)
         }))}).then(()=> {
             return FireManager.getGraduates()})
             .then(querySnapshot => {

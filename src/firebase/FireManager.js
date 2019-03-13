@@ -79,6 +79,8 @@ export default class FireManager {
             .update({...data})
     }
 
+
+
     static createUserWithEmailAndPassword (email, password){
         return firebase.auth().createUserWithEmailAndPassword(email, password)
     }
@@ -131,5 +133,17 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
             .delete()
     }))}
 }
+
+    static updateGraduateForCompanies(visibleFor, graduateId, data){
+        return Promise.all(visibleFor.map(companyId =>{
+            return firebase
+                .firestore()
+                .collection('companies')
+                .doc(companyId)
+                .collection('availableGraduates')
+                .doc(graduateId)
+                .update(data)
+        } ))
+    }
 
 }
