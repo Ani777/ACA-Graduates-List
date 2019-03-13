@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import FireManager from '../../firebase/FireManager';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -12,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
+
 
 
 
@@ -27,11 +26,12 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit * 2,
     },
     paper: {
+        display: 'flex',
         width: theme.spacing.unit *16,
         padding: theme.spacing.unit * 2,
         height: 'auto',
-
-
+        justifyContent: 'center',
+        alignItems: 'center',
         textAlign: 'center',
         // verticalAlign: 'middle',
         color: '#3f51b5',
@@ -55,11 +55,11 @@ class CoursesContainer extends Component {
     state = {
         name: '',
         open: false,
-    }
+    };
 
     handleChange =(e)=>{
         this.setState({name: e.target.value})
-    }
+    };
 
     handleClickOpen = () => {
         this.setState({ open: true });
@@ -78,7 +78,8 @@ class CoursesContainer extends Component {
 
             const data = {
                 name,
-            }
+            };
+
             FireManager.createCourseInFirebase(data).then(() => {
                 this.props.handleChange(name);
                 this.setState({name: '',
@@ -87,7 +88,7 @@ class CoursesContainer extends Component {
                 console.error(err.message)
             });
         }
-    }
+    };
 
     render() {
         const { classes } = this.props;
