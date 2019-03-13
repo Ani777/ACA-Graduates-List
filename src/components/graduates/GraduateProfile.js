@@ -16,20 +16,13 @@ import Typography from '@material-ui/core/Typography';
 
 
 const styles = theme => ({
-    main: {
-        width: 'auto',
-        display: 'block', // Fix IE 11 issue.
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-            width: 600,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
+
     paper: {
+        maxWidth: 500,
         marginTop: theme.spacing.unit * 5,
         marginBottom: theme.spacing.unit * 5,
+        marginLeft: 'auto',
+        marginRight: 'auto',
         display: 'flex',
         flexDirection: 'column',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
@@ -59,7 +52,7 @@ const styles = theme => ({
     },
     mainInfo: {
         marginTop: theme.spacing.unit * 4,
-        marginLeft: theme.spacing.unit * 5,
+        // marginLeft: theme.spacing.unit * 5,
         marginRight: theme.spacing.unit * 4,
         textAlign: 'left',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px`,
@@ -67,8 +60,8 @@ const styles = theme => ({
 
     icon: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing.unit * 1.7,
-        marginLeft: theme.spacing.unit * 12,
+        marginTop: theme.spacing.unit * 1.5,
+        marginLeft: theme.spacing.unit * 10,
     },
 
     input: {
@@ -87,14 +80,14 @@ const styles = theme => ({
     back: {
         display: 'inline-block',
         marginTop: theme.spacing.unit,
-        marginLeft:  theme.spacing.unit * 10,
+        marginLeft:  theme.spacing.unit * 5,
 
 
     },
     submit: {
         display: 'inline-block',
         marginTop: theme.spacing.unit,
-        marginLeft: theme.spacing.unit * 30,
+        marginLeft: theme.spacing.unit * 35,
 
     },
     first: {
@@ -196,9 +189,9 @@ class Profile extends Component {
                 >
                     <EditGraduateProfile graduate={this.state.graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
                 </Dialog>
-            <main className={classes.main}>
+            {/*<main className={classes.main}>*/}
 
-                <CssBaseline />
+                {/*<CssBaseline />*/}
                 <Paper className={classes.paper}>
                     <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
 
@@ -296,7 +289,7 @@ class Profile extends Component {
                             </Button>
                     </div>
                 </Paper>
-            </main>
+            {/*</main>*/}
                 </>
         )
     }

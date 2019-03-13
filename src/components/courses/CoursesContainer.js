@@ -11,29 +11,41 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+
 
 
 
 const styles = theme => ({
     root: {
+        display: 'flex',
+        flexWrap: 'wrap',
         flexGrow: 1,
         padding: '2%',
         marginTop: theme.spacing.unit * 2,
         marginBottom: theme.spacing.unit * 2,
     },
     paper: {
+        width: theme.spacing.unit *16,
         padding: theme.spacing.unit * 2,
-        height:  theme.spacing.unit * 5,
+        height: 'auto',
+
+
         textAlign: 'center',
-        verticalAlign: 'middle',
+        // verticalAlign: 'middle',
         color: '#3f51b5',
-        margin: '5%',
+        margin: '1%',
+        // minWidth: theme.spacing.unit *15
 
     },
 
     button: {
         marginRight: theme.spacing.unit * 2.5
     },
+    text: {
+        verticalAlign: 'center',
+    }
 });
 
 
@@ -108,25 +120,25 @@ class CoursesContainer extends Component {
             </Dialog>
 
             <div className={classes.root}>
-                <Grid container spacing={24}>
-                    {this.props.courses.map(course => (
-                        <Grid item xs={2} key={course}>
-                            <Paper className={classes.paper}>
-                                {course}
-                            </Paper>
-                        </Grid>
-                    ))}
-                    <Grid item xs={2} key='addCourse'>
-                        <Paper className={classes.paper}>
 
+                    {this.props.courses.map(course => (
+
+                            <Paper className={classes.paper} key={course}>
+                               {course}
+                            </Paper>
+
+                    ))}
+
+                        <Paper className={classes.paper} key='addCourse'>
+                           <Tooltip title="Add Course">
                             <IconButton onClick={this.handleClickOpen} >
                                 <AddIcon />
                             </IconButton>
+                           </Tooltip>
 
                         </Paper>
 
-                </Grid>
-                </Grid>
+
             </div>
                 </>
         );
