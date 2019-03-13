@@ -268,7 +268,7 @@ class Profile extends Component {
                             <Typography className={classes.first}>Works</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{works}</Typography>
+                            <a href={works} target="_blank"><Typography className={classes.second} >{works}</Typography></a>
                         </Grid>
 
                     </Grid>
