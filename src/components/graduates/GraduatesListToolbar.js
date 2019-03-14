@@ -10,14 +10,14 @@ import AddIcon from '@material-ui/icons/Add';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { Link } from 'react-router-dom';
 
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import FireManager from '../../firebase/FireManager';
+// import Input from '@material-ui/core/Input';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import FormControl from '@material-ui/core/FormControl';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import Select from '@material-ui/core/Select';
+// import Checkbox from '@material-ui/core/Checkbox';
+// import FireManager from '../../firebase/FireManager';
 
 
 
@@ -64,20 +64,20 @@ const toolbarStyles = theme => ({
 
 
 class GraduatesListToolbar extends Component {
-    state = {
-        visibleFor: [],
-        companies: []         // [{ name, id } ...]
-    };
+    // state = {
+    //     visibleFor: [],
+    //     companies: []         // [{ name, id } ...]
+    // };
 
-    componentDidMount() {
-        FireManager.getCompanies().then(querySnapshot => {
-            this.setState({ 
-                companies: querySnapshot.docs.map(doc => ({ name: doc.data().name, id: doc.id}))
-             })
-        }).catch(function(error) {
-            console.error("Error getting companies:", error);
-        })
-    }
+    // componentDidMount() {
+    //     FireManager.getCompanies().then(querySnapshot => {
+    //         this.setState({
+    //             companies: querySnapshot.docs.map(doc => ({ name: doc.data().name, id: doc.id}))
+    //          })
+    //     }).catch(function(error) {
+    //         console.error("Error getting companies:", error);
+    //     })
+    // }
 
     // handleChange = event => {
     //     this.setState({ visibleFor: event.target.value });
@@ -96,29 +96,29 @@ class GraduatesListToolbar extends Component {
     //     });
     //   };
 
-    handleChange = event => {
-        this.setState({ visibleFor: event.target.value });
-      };
+    // handleChange = event => {
+    //     this.setState({ visibleFor: event.target.value });
+    //   };
     
-      handleChangeMultiple = event => {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-          if (options[i].selected) {
-            value.push(options[i].value);
-          }
-        }
-        this.setState({
-          visibleFor: value,
-        });
-      };
+      // handleChangeMultiple = event => {
+      //   const { options } = event.target;
+      //   const value = [];
+      //   for (let i = 0, l = options.length; i < l; i += 1) {
+      //     if (options[i].selected) {
+      //       value.push(options[i].value);
+      //     }
+      //   }
+      //   this.setState({
+      //     visibleFor: value,
+      //   });
+      // };
 
-      addCompany = () => {
-          debugger
-          const { visibleFor } = this.state;
-          const { selectedGraduatesIds } = this.props;
-          selectedGraduatesIds.forEach(graduateId => FireManager.editGraduate(graduateId, { visibleFor }));
-      }
+      // addCompany = () => {
+      //     debugger
+      //     const { visibleFor } = this.state;
+      //     const { selectedGraduatesIds } = this.props;
+      //     selectedGraduatesIds.forEach(graduateId => FireManager.editGraduate(graduateId, { visibleFor }));
+      // }
 
     render() {
 
@@ -166,38 +166,31 @@ class GraduatesListToolbar extends Component {
             </Select>
             </FormControl> */}
 
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
-          <Select
-            multiple
-            value={this.state.visibleFor}
-            onChange={this.handleChange}
-            input={<Input id="select-multiple-checkbox" />}
-            renderValue={selectedIds => {   // [id1, id2...]
-                const selectedCompanies = this.state.companies.filter(company => selectedIds.includes(company.id));
-                return selectedCompanies.map(selComp => selComp.name).join(', ')}
-            }
-            //MenuProps={MenuProps}
-          >
-            {this.state.companies.map(company => (
-              <MenuItem key={company.id} value={company.id}>
-                <Checkbox checked={this.state.visibleFor.indexOf(company.id) > -1} />
-                <ListItemText primary={company.name} />
-              </MenuItem>
-            ))}
-          </Select>
-          <Tooltip title="Add graduate">
-                            <IconButton aria-label="Add graduate" onClick={this.addCompany}>
-                                <AddIcon />
-                            </IconButton>
-                        </Tooltip>
-        </FormControl>
-
-                        <Tooltip title="Delete">
-                            <IconButton aria-label="Delete" onClick={this.props.removeGraduate}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
+        {/*<FormControl className={classes.formControl}>*/}
+          {/*<InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>*/}
+          {/*<Select*/}
+            {/*multiple*/}
+            {/*value={this.state.visibleFor}*/}
+            {/*onChange={this.handleChange}*/}
+            {/*input={<Input id="select-multiple-checkbox" />}*/}
+            {/*renderValue={selectedIds => {   // [id1, id2...]*/}
+                {/*const selectedCompanies = this.state.companies.filter(company => selectedIds.includes(company.id));*/}
+                {/*return selectedCompanies.map(selComp => selComp.name).join(', ')}*/}
+            {/*}*/}
+            {/*//MenuProps={MenuProps}*/}
+          {/*>*/}
+            {/*{this.state.companies.map(company => (*/}
+              {/*<MenuItem key={company.id} value={company.id}>*/}
+                {/*<Checkbox checked={this.state.visibleFor.indexOf(company.id) > -1} />*/}
+                {/*<ListItemText primary={company.name} />*/}
+              {/*</MenuItem>*/}
+            {/*))}*/}
+          {/*</Select>*/}
+                            <Tooltip title="Delete">
+                                <IconButton aria-label="Delete" onClick={this.props.removeGraduate}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
                         </div>
                     ) : (
                         <Tooltip title="Add graduate">
@@ -211,5 +204,4 @@ class GraduatesListToolbar extends Component {
         );
     }
 };
-
 export default withStyles(toolbarStyles)(GraduatesListToolbar);

@@ -24,9 +24,27 @@ export default class FireManager {
         return companiesRef.get();
 }
 
+    static editCompany(id, newData) {
+        return firestore()
+            .collection('companies')
+            .doc(id)
+            .update({...newData})
+    }
+
     static getAvailableGraduates (companyID){
        return firebase.firestore().collection('companies').doc(companyID).collection('availableGraduates').get()
         }
+
+    static addAvailableGraduate(companyId, graduateId, graduate) {
+        return firestore()
+            .collection("companies")
+            .doc(companyId)
+            .collection("availableGraduates")
+            .doc(graduateId)
+            .set(graduate);
+
+    }
+
 
 
     static async getCurrentCompany(id) {
@@ -43,16 +61,16 @@ export default class FireManager {
     }
 
 
-    static addCourse(id, name, icon){
-        return firestore()
-            .collection("courses")
-            .doc(id)
-            .set(name).then(()=>{
-                const storageRef = firebase.storage().ref('courseIcons');
-                storageRef.put(icon).then(icon => {
-                });
-        });
-    }
+    // static addCourse(id, name, icon){
+    //     return firestore()
+    //         .collection("courses")
+    //         .doc(id)
+    //         .set(name).then(()=>{
+    //             const storageRef = firebase.storage().ref('courseIcons');
+    //             storageRef.put(icon).then(icon => {
+    //             });
+    //     });
+    // }
 
 
 
@@ -78,6 +96,13 @@ export default class FireManager {
             .doc(id)
             .update({...data})
     }
+
+    // static editGraduate(id, newData) {
+    //     return firestore()
+    //         .collection('graduates')
+    //         .doc(id)
+    //         .update(newData)
+    // }
 
 
 
@@ -163,7 +188,7 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
 
     }
 
-    static removeAvailableGraduate(graduateId, companyId){
+    static removeAvailableGraduate(companyId, graduateId){
         return firebase
             .firestore()
             .collection('companies')
@@ -178,7 +203,7 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
             return querySnapshot.docs.map(doc => doc.id)
         }).then(ids => {
             return Promise.all(ids.map(id => {
-                return Promise.all([FireManager.removeVisibleFor(id, companyId), FireManager.removeAvailableGraduate(id, companyId)])
+                return Promise.all([FireManager.removeVisibleFor(id, companyId), FireManager.removeAvailableGraduate(companyId, id)])
             }))
         })
     }

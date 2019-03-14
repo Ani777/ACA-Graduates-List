@@ -134,7 +134,7 @@ class GraduatesList extends Component {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(graduate => {
                                     const isSelected = this.isSelected(graduate.id);
-                                    return ( <Graduate obj={{isSelected, graduate}} onClick={this.props.handleClick} key={graduate.id}/>
+                                    return ( <Graduate data={{isSelected, graduate}} onClick={this.props.handleClick} key={graduate.id}/>
                                         // <TableRow
                                         //   hover
                                         //   onClick={event => this.handleClick(event, n.id)}
