@@ -28,6 +28,17 @@ export default class FireManager {
        return firebase.firestore().collection('companies').doc(companyID).collection('availableGraduates').get()
         }
 
+    static addAvailableGraduate(companyId, graduateId, graduate) {
+        return firestore()
+            .collection("companies")
+            .doc(companyId)
+            .collection("availableGraduates")
+            .doc(graduateId)
+            .set(graduate);
+
+    }
+
+
 
     static async getCurrentCompany(id) {
         let company = null;
@@ -43,16 +54,16 @@ export default class FireManager {
     }
 
 
-    static addCourse(id, name, icon){
-        return firestore()
-            .collection("courses")
-            .doc(id)
-            .set(name).then(()=>{
-                const storageRef = firebase.storage().ref('courseIcons');
-                storageRef.put(icon).then(icon => {
-                });
-        });
-    }
+    // static addCourse(id, name, icon){
+    //     return firestore()
+    //         .collection("courses")
+    //         .doc(id)
+    //         .set(name).then(()=>{
+    //             const storageRef = firebase.storage().ref('courseIcons');
+    //             storageRef.put(icon).then(icon => {
+    //             });
+    //     });
+    // }
 
 
 
@@ -163,7 +174,7 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
 
     }
 
-    static removeAvailableGraduate(graduateId, companyId){
+    static removeAvailableGraduate(companyId, graduateId){
         return firebase
             .firestore()
             .collection('companies')
@@ -178,7 +189,7 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
             return querySnapshot.docs.map(doc => doc.id)
         }).then(ids => {
             return Promise.all(ids.map(id => {
-                return Promise.all([FireManager.removeVisibleFor(id, companyId), FireManager.removeAvailableGraduate(id, companyId)])
+                return Promise.all([FireManager.removeVisibleFor(id, companyId), FireManager.removeAvailableGraduate(companyId, id)])
             }))
         })
     }
