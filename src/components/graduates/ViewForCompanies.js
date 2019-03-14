@@ -39,9 +39,7 @@ export default class ViewForCompanies extends Component {
     }
 
     render(){
-        const list = this.state.availableGraduates.map((graduate, i)=> <li key={graduate.id}
-                                                                                     graduate={graduate}
-                                                                                     onClick={()=>this.handleClickOpen(i)}>{graduate.firstName} {graduate.lastName}</li>)
+
         return(
             <>
                 <Dialog
@@ -56,7 +54,6 @@ export default class ViewForCompanies extends Component {
                 </Dialog>
                 <AvailableGraduatesList graduates={this.state.availableGraduates} handleClick={this.handleClickOpen}/>
 
-            {/*<ul>{list}</ul>*/}
                 </>
         )
     }

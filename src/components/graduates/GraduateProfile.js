@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import FireManager from '../../firebase/FireManager';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import EmailIcon from '@material-ui/icons/Email';
@@ -268,7 +267,7 @@ class Profile extends Component {
                             <Typography className={classes.first}>Works</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
-                            <a href={works} target="_blank"><Typography className={classes.second} >{works}</Typography></a>
+                            <a href={works} target="_blank" rel="noopener noreferrer"><Typography className={classes.second} >{works}</Typography></a>
                         </Grid>
 
                     </Grid>

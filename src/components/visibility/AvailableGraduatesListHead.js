@@ -19,7 +19,7 @@ class AvailableGraduatesListHead extends Component {
     };
 
     render() {
-        const { order, orderBy, rowCount } = this.props;
+        const { order, orderBy } = this.props;
 
         return (
             <TableHead>

@@ -49,7 +49,7 @@ class AvailableGraduate extends Component {
 
 
     render() {
-        const { classes, graduate } = this.props;
+        const { graduate } = this.props;
 
         return (
 
