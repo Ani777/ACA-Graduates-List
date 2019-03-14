@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import Credentials from "./companyCredentials";
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 
@@ -43,7 +44,7 @@ const styles = theme => ({
 class CompaniesContainer extends Component {
     state = {
         companies: [],
-        style: {display: 'none'},
+        availableGraduates: {},    // id = email
         openAddCompanyDialog: false,
         openAlertDialog: false,
         companyEmail: '',
@@ -51,11 +52,21 @@ class CompaniesContainer extends Component {
     };
 
     componentDidMount() {
-        FireManager.getCompanies().then(querySnapshot => {
-            this.setState({ companies: querySnapshot.docs.map(doc => doc.data()) })
-        }).catch(function(error) {
-            console.error("Error getting companies:", error);
-        })
+        FireManager.getCompanies()
+            .then(querySnapshot => {
+                debugger
+                this.setState({ companies: querySnapshot.docs.map(doc => doc.data()) });
+                return querySnapshot.docs.map(doc => doc.data()) ;
+            })
+            .then(datas => {
+                debugger
+                datas.forEach(data => FireManager.getAvailableGraduates(data.email).then(querySnapshot1 => {
+                    const { availableGraduates } = this.state;
+                    availableGraduates[data.email] = querySnapshot1.docs.length;
+                    debugger
+                    this.setState({ availableGraduates });
+                }));
+            })
     }
 
     showAddCompanyPage = () => {
@@ -81,6 +92,15 @@ class CompaniesContainer extends Component {
     //     const main = document.getElementById('main');
     //     main.style.display = 'none';
     // }
+
+    handleClear = companyId => {
+        FireManager.removeAllAvailableGraduates(companyId);
+        debugger
+        const { availableGraduates } = this.state;
+        availableGraduates[companyId] = 0;
+        this.setState({ availableGraduates });
+    }
+
 
     addCompanyToList = company => {
         const { companies } = this.state;
@@ -148,7 +168,7 @@ class CompaniesContainer extends Component {
                                         Companies
                                     </Typography>
                                 </TableCell>
-                                <TableCell colSpan={3} align='right'>
+                                <TableCell colSpan={4} align='right'>
                                     <Tooltip title="Add company">
                                         <IconButton aria-label="Add company" onClick={this.showAddCompanyPage}>
                                             <AddIcon />
@@ -161,6 +181,7 @@ class CompaniesContainer extends Component {
                                 <TableCell align="center">Phone</TableCell>
                                 <TableCell align="right">Email</TableCell>
                                 <TableCell align="right">Password</TableCell>
+                                <TableCell align="right">Available Graduates</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -172,6 +193,16 @@ class CompaniesContainer extends Component {
                                     <TableCell align="center" key={company.phone}>{company.phone}</TableCell>
                                     <TableCell align="right" key={company.email}>{company.email}</TableCell>
                                     <TableCell align="right" key={company.password}>{company.password}</TableCell>
+                                    <TableCell align="right" key={'id-' + company.email}>
+                                        <Tooltip title="Clear List">
+                                            <IconButton aria-label="Clear List" onClick={() => this.handleClear(company.email)}>
+                                                <ClearIcon/>
+                                            </IconButton>
+                                        </Tooltip>
+
+                                        {
+                                            this.state.availableGraduates[company.email] ? this.state.availableGraduates[company.email] : 0
+                                        }</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

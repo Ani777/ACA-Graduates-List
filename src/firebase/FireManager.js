@@ -24,6 +24,13 @@ export default class FireManager {
         return companiesRef.get();
 }
 
+    static editCompany(id, newData) {
+        return firestore()
+            .collection('companies')
+            .doc(id)
+            .update({...newData})
+    }
+
     static getAvailableGraduates (companyID){
        return firebase.firestore().collection('companies').doc(companyID).collection('availableGraduates').get()
         }
@@ -89,6 +96,13 @@ export default class FireManager {
             .doc(id)
             .update({...data})
     }
+
+    // static editGraduate(id, newData) {
+    //     return firestore()
+    //         .collection('graduates')
+    //         .doc(id)
+    //         .update(newData)
+    // }
 
 
 
