@@ -59,7 +59,7 @@ function SignIn(props) {
                 <form className={classes.form} >
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email"  >Email Address</InputLabel>
-                        <Input id="email" name="email"  value={props.email} onChange={props.handleChange} autoFocus />
+                        <Input id="email" name="email"  value={props.email} onChange={props.handleChange} autoFocus autoComplete="on" />
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="password">Password</InputLabel>

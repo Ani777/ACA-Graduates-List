@@ -88,7 +88,7 @@ const styles = theme => ({
                 props.addCompanyToList(data);
             })
        .catch(function(error) {
-            console.error("Error creating user:", error);
+            console.error("Error creating company:", error);
         })
 
 
