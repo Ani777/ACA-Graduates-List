@@ -146,4 +146,41 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
         } ))
     }
 
+    static removeVisibleFor(graduateId, companyId){
+        const ref = firebase
+            .firestore()
+            .collection('graduates')
+            .doc(graduateId)
+        return ref.get()
+                .then(doc => doc.data().visibleFor)
+                .then(visibleFor => {
+                    visibleFor.splice(visibleFor.indexOf(companyId), 1);
+                    return visibleFor
+                })
+                .then(visibleFor => {
+                    return ref.update({visibleFor})
+            })
+
+    }
+
+    static removeAvailableGraduate(graduateId, companyId){
+        return firebase
+            .firestore()
+            .collection('companies')
+            .doc(companyId)
+            .collection('availableGraduates')
+            .doc(graduateId)
+            .delete()
+    }
+
+    static removeAllAvailableGraduates(companyId){
+        return FireManager.getAvailableGraduates(companyId).then(querySnapshot => {
+            return querySnapshot.docs.map(doc => doc.id)
+        }).then(ids => {
+            return Promise.all(ids.map(id => {
+                return Promise.all([FireManager.removeVisibleFor(id, companyId), FireManager.removeAvailableGraduate(id, companyId)])
+            }))
+        })
+    }
+
 }
