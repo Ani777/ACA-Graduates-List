@@ -82,7 +82,7 @@ class App extends Component {
     render() {
         const { isAuthenticating, user } = this.state;
         return (<>
-                {isAuthenticating ? <CircularProgress disableShrink /> : user ?
+                {isAuthenticating ? <CircularProgress disableShrink className="ban" /> : user ?
                     <Main user={user} logout={this.logout} company={this.state.company}/> : <SignIn login={this.login}
                                                                        handleChange={this.handleChange}
                                                                        email={this.state.email}

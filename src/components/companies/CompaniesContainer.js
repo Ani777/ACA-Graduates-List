@@ -17,7 +17,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
-import Credentials from "./companyCredentials";
+import Credentials from "./Credentials";
 import ClearIcon from '@material-ui/icons/Clear';
 
 
@@ -54,16 +54,13 @@ class CompaniesContainer extends Component {
     componentDidMount() {
         FireManager.getCompanies()
             .then(querySnapshot => {
-                debugger
                 this.setState({ companies: querySnapshot.docs.map(doc => doc.data()) });
                 return querySnapshot.docs.map(doc => doc.data()) ;
             })
             .then(datas => {
-                debugger
                 datas.forEach(data => FireManager.getAvailableGraduates(data.email).then(querySnapshot1 => {
                     const { availableGraduates } = this.state;
                     availableGraduates[data.email] = querySnapshot1.docs.length;
-                    debugger
                     this.setState({ availableGraduates });
                 }));
             })
@@ -95,7 +92,6 @@ class CompaniesContainer extends Component {
 
     handleClear = companyId => {
         FireManager.removeAllAvailableGraduates(companyId);
-        debugger
         const { availableGraduates } = this.state;
         availableGraduates[companyId] = 0;
         this.setState({ availableGraduates });
