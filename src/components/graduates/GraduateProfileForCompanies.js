@@ -11,21 +11,11 @@ const styles = theme => ({
     main: {
         maxWidth: 430,
         margin : 0,
-        display: 'block', // Fix IE 11 issue.
-        // marginLeft: theme.spacing.unit * 3,
-        // marginRight: theme.spacing.unit * 3,
-        // [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-        //     width: 400,
-        //     marginLeft: 'auto',
-        //     marginRight: 'auto',
-        // },
+        display: 'block',
     },
     paper: {
-        // marginTop: theme.spacing.unit * 5,
-        // marginBottom: theme.spacing.unit * 5,
         display: 'flex',
         flexDirection: 'column',
-        // padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
         color: theme.palette.text.primary,
     },
 
@@ -41,7 +31,6 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 0.5,
         display: 'flex',
         flexDirection: 'column',
-        // padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
         fontWeight: 'bold',
     },
 
@@ -53,12 +42,9 @@ const styles = theme => ({
     mainInfo: {
         marginTop: theme.spacing.unit * 4,
         marginBottom: theme.spacing.unit * 6,
-        // marginLeft: theme.spacing.unit * 5,
-        // marginRight: theme.spacing.unit * 4,
         textAlign: 'left',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px`,
     },
-
 
 
     input: {
@@ -66,9 +52,7 @@ const styles = theme => ({
     },
 
     buttons: {
-        // display: "flex",
-        // justifyContent:
-        //     "space-between",
+
         marginTop: theme.spacing.unit * 6,
         marginBottom: theme.spacing.unit * 4,
 
@@ -95,7 +79,6 @@ const styles = theme => ({
 
     second: {
         fontSize: theme.spacing.unit * 2,
-        // paddingTop:  theme.spacing.unit * 0.5,
     }
 
 });

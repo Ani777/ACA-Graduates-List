@@ -10,14 +10,6 @@ import GraduatesListHead from './GraduatesListHead';
 import GraduatesListToolbar from './GraduatesListToolbar';
 import Graduate from './Graduate';
 
-
-
-// let counter = 0;
-// function createData(firstName, lastName, testResults, dbId) {  // dbId - database id
-//   counter += 1;
-//   return { id: counter, firstName, lastName, testResults, dbId };
-// }
-
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -66,25 +58,6 @@ class GraduatesList extends Component {
         rowsPerPage: 10,
     };
 
-    // componentDidMount() {
-    //     FireManager.getGraduates().then(querySnapshot => {
-    //         this.setState({data: querySnapshot.docs.map(doc => {
-    //                 const docData = doc.data();
-    //                 return {
-    //                     firstName: docData.firstName,
-    //                     lastName: docData.lastName,
-    //                     testResults: docData.testResults,
-    //                     id: doc.id
-    //                 };
-    //             })
-    //         });
-    //     }).catch(error => {
-    //         console.error("Error getting graduates:", error);
-    //     });
-    // }
-
-
-
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -111,21 +84,21 @@ class GraduatesList extends Component {
     isSelected = id => this.props.selected.indexOf(id) !== -1;
 
     render() {
-        const { classes, selected, graduates } = this.props;
+        const { classes, selected, graduates, handleDeleteButtonClick, handleSelectAllClick  } = this.props;
         const { order, orderBy, rowsPerPage, page } = this.state;
 
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, graduates.length - page * rowsPerPage);
 
         return (
             <Paper className={classes.root}>
-                <GraduatesListToolbar selectedGraduatesIds={selected} removeGraduate={this.props.handleDeleteButtonClick}/>
+                <GraduatesListToolbar selectedGraduatesIds={selected} removeGraduate={handleDeleteButtonClick}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <GraduatesListHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={this.props.handleSelectAllClick}
+                            onSelectAllClick={handleSelectAllClick}
                             onRequestSort={this.handleRequestSort}
                             rowCount={graduates.length}
                         />
@@ -135,26 +108,6 @@ class GraduatesList extends Component {
                                 .map(graduate => {
                                     const isSelected = this.isSelected(graduate.id);
                                     return ( <Graduate data={{isSelected, graduate}} onClick={this.props.handleClick} key={graduate.id}/>
-                                        // <TableRow
-                                        //   hover
-                                        //   onClick={event => this.handleClick(event, n.id)}
-                                        //   role="checkbox"
-                                        //   aria-checked={isSelected}
-                                        //   tabIndex={-1}
-                                        //   key={n.id}
-                                        //   selected={isSelected}
-                                        // >
-                                        //   <TableCell padding="checkbox">
-                                        //     <Checkbox checked={isSelected} />
-                                        //   </TableCell>
-                                        //   <TableCell component="th" scope="row" padding="none">
-                                        //     {n.firstName}
-                                        //   </TableCell>
-                                        //   <TableCell align="right">{n.lastName}</TableCell>
-                                        //   <TableCell align="right">{n.testResults}</TableCell>
-                                        //   <TableCell align="right">{n.visibleFor}</TableCell>
-                                        //   {/* <TableCell align="right">{n.protein}</TableCell> */}
-                                        // </TableRow>
                                     );
                                 })}
                             {emptyRows > 0 && (

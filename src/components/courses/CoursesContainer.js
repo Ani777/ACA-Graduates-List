@@ -33,10 +33,8 @@ const styles = theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
-        // verticalAlign: 'middle',
         color: '#3f51b5',
         margin: '1%',
-        // minWidth: theme.spacing.unit *15
 
     },
 

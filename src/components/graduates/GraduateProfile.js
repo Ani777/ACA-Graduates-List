@@ -51,7 +51,6 @@ const styles = theme => ({
     },
     mainInfo: {
         marginTop: theme.spacing.unit * 4,
-        // marginLeft: theme.spacing.unit * 5,
         marginRight: theme.spacing.unit * 4,
         textAlign: 'left',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px`,
@@ -68,12 +67,8 @@ const styles = theme => ({
     },
 
     buttons: {
-        // display: "flex",
-        // justifyContent:
-        //     "space-between",
         marginTop: theme.spacing.unit * 6,
         marginBottom: theme.spacing.unit * 4,
-
     },
 
     back: {
@@ -97,7 +92,6 @@ const styles = theme => ({
 
     second: {
         fontSize: theme.spacing.unit * 2,
-        // paddingTop:  theme.spacing.unit * 0.5,
     }
 
 });
@@ -110,16 +104,6 @@ function Transition(props) {
 class Profile extends Component {
 
     state = {
-        // firstName: '',
-        // lastName: '',
-        // course: '',
-        // dateOfBirth: '',
-        // phoneNumber: '',
-        // email: '',
-        // feedback: '',
-        // testResult: '',
-        // isWorking: '',
-        // works:''
         graduate: {},
         open: false
     };
@@ -136,23 +120,13 @@ class Profile extends Component {
 
         const { graduatesid } = this.props;
         if (graduatesid) {
-            FireManager.getGraduate(graduatesid).then(graduate => {
-                this.setState({graduate}
-                    // firstName: graduate.firstName,
-                    // lastName: graduate.lastName,
-                    // course: graduate.course,
-                    // dateOfBirth: graduate.dateOfBirth,
-                    // phoneNumber: graduate.phoneNumber,
-                    // email: graduate.email,
-                    // feedback: graduate.feedback,
-                    // testResult: graduate.testResult,
-                    // isWorking: graduate.isWorking,
-                    // works: graduate.works,
-
-                )
+            FireManager.getGraduate(graduatesid)
+                .then(graduate => {
+                this.setState({graduate})
             });
         }
     }
+
     componentDidUpdate() {
         const { graduatesid } = this.props;
         if (graduatesid) {
@@ -188,9 +162,7 @@ class Profile extends Component {
                 >
                     <EditGraduateProfile graduate={this.state.graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
                 </Dialog>
-            {/*<main className={classes.main}>*/}
 
-                {/*<CssBaseline />*/}
                 <Paper className={classes.paper}>
                     <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
 
@@ -288,7 +260,6 @@ class Profile extends Component {
                             </Button>
                     </div>
                 </Paper>
-            {/*</main>*/}
                 </>
         )
     }

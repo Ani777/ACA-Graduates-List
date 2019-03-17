@@ -78,11 +78,9 @@ const styles = theme => ({
 
 function EditGraduateProfile(props) {
 
-    const { graduate, graduatesid } = props;
+    const { graduate, graduatesid, classes, courses } = props;
     const { visibleFor } = graduate;
 
-
-    const { classes, courses } = props;
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
     const course = useFormInput(graduate.course);
     const dateOfBirth = useFormInput(graduate.dateOfBirth);

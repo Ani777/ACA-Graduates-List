@@ -67,11 +67,7 @@ class CompaniesContainer extends Component {
     }
 
     showAddCompanyPage = () => {
-    //     const style = {
-    //         display: this.state.style.display === 'none' ? 'block' : 'none'
-    //         };
-    //     this.setState({ style });
-    this.setState({openAddCompanyDialog: true})
+        this.setState({openAddCompanyDialog: true})
     }
 
     showAlertDialog =()=>{
@@ -85,10 +81,6 @@ class CompaniesContainer extends Component {
         this.setState({ openAddCompanyDialog: false });
     };
 
-    // hideAddCompanyPage = () => {
-    //     const main = document.getElementById('main');
-    //     main.style.display = 'none';
-    // }
 
     handleClear = companyId => {
         FireManager.removeAllAvailableGraduates(companyId);
@@ -126,7 +118,6 @@ class CompaniesContainer extends Component {
                         addCompanyToList={this.addCompanyToList}
                         handleClose={this.handleClose}
                         showAlertDialog={this.showAlertDialog}
-                        // hideAddCompanyPage={this.handleClose()}
                     />
                 </Dialog>
 
@@ -139,15 +130,8 @@ class CompaniesContainer extends Component {
                     <DialogTitle id="alert-dialog-title">{"Please create a user in "}<a href='https://console.firebase.google.com/u/1/project/aca-graduate-s-list/authentication/users' target="_blank" rel="noopener noreferrer"  >database</a> {"with following credentials:"}</DialogTitle>
                     <DialogContent>
                         <Credentials email={companyEmail} password={companyPassword}/>
-                        {/*<DialogContentText id="alert-dialog-description">*/}
-                            {/*email: {companyEmail}*/}
-                            {/*password {companyPassword}*/}
-                        {/*</DialogContentText>*/}
                     </DialogContent>
                     <DialogActions>
-                        {/*<Button onClick={this.hideAlertDialog} color="primary">*/}
-                            {/*Disagree*/}
-                        {/*</Button>*/}
                         <Button className={classes.button} onClick={this.hideAlertDialog} variant="contained" color="primary" autoFocus>
                             OK
                         </Button>

@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-//import {TextField} from '@material-ui/core/TextField';
 
 const styles = theme => ({
     button: {
@@ -43,7 +42,6 @@ function AddCoursePage(props) {
 
         if (name) {
 
-            //const id = v4();
             const data = {
                 name,
             }

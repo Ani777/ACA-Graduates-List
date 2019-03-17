@@ -99,11 +99,6 @@ function AddGraduate(props) {
     const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
     const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
     const [courseValidationErrors, setCourseValidationErrors] = useState([]);
-    /*const [isWorkingValidationErrors, setIsWorkingValidationErrors] = useState([]);*/
-
-
-
-
 
     function isValidSignUpForm() {
 
@@ -131,13 +126,6 @@ function AddGraduate(props) {
         const courseErrors = isValidRequired(course.value);
         setCourseValidationErrors(courseErrors);
 
-        /*const isWorkingErrors = isValidRequired(isWorking.value);
-         setIsWorkingValidationErrors(isWorkingErrors);*/
-
-
-
-
-
         if(!firstNameErrors.length &&
             !lastNameErrors.length &&
             !phoneNumberErrors.length &&
@@ -145,7 +133,6 @@ function AddGraduate(props) {
             !feedbackErrors.length &&
             !dateOfBirthErrors.length &&
             !courseErrors.length &&
-            /*!isWorkingErrors.length &&*/
             !testResultsErrors.length ){
             return true
         }

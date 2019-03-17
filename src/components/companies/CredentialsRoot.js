@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 const styles = theme => ({
     button: {
         margin: `${theme.spacing.unit * 2}px 0 ${theme.spacing.unit * 2}px auto`,
-        // marginLeft: 'auto'
     },
 });
 
@@ -13,14 +12,7 @@ const styles = theme => ({
 
 function CredentialsRoot(props){
     function copyToClipboard (event) {
-        //event.currentTarget.previousSibling.select();
         let h2El = event.currentTarget.previousSibling;
-        // let range = document.createRange();
-        // range.selectNode(tag);
-        // window.getSelection().addRange(range);
-        // document.execCommand("copy");
-
-        //var selectText = document.getElementById('text');
         let range = document.createRange();
         range.selectNode(h2El)
         let sel = window.getSelection();

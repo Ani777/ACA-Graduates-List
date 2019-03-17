@@ -67,50 +67,26 @@ class Graduate extends Component {
         companies: [],      // [{ data, id } ...]
         visibleForSelectOpen: false,
         availableGraduates: [],
-        // isSelectHidden: true,
     };
 
     componentDidMount() {
-        // const companiesPromise = FireManager.getCompanies().then(querySnapshot => {
-        //   return querySnapshot.docs.map(doc => ({ data: doc.data(), id: doc.id}))
-        // });
-        // const avGraduatesPromise = FireManager.getAvailableGraduates().then(querySnapshot => {
-        //   return querySnapshot.docs.map(doc => doc.data())
-        // });
 
-        // Promise.all(companiesPromise, avGraduatesPromise).then(values =>
-        //   this.setState({ companies: values[0], availableGraduates: values[1] })
-        // ).catch(function(error) {
-        //   console.error("Error getting companies:", error);
-        // })
-        // const companies = [];
-        //const availableGraduates = [];
-
-        FireManager.getCompanies().then(querySnapshot => {
+        FireManager.getCompanies()
+            .then(querySnapshot => {
             this.setState({
                 companies: querySnapshot.docs.map(doc => ({data: doc.data(), id: doc.id})),
                 visibleFor: this.props.data.graduate.visibleFor
             });
-        });
+        })
+            .catch(err => {
+                console.error("Error getting companies", err.message)
+            });
 
     }
 
     handleChange = event => {
         this.setState({visibleFor: event.target.value});
     };
-
-    // handleChangeMultiple = event => {
-    //     const { options } = event.target;
-    //     const value = [];
-    //     for (let i = 0, l = options.length; i < l; i += 1) {
-    //       if (options[i].selected) {
-    //         value.push(options[i].value);
-    //       }
-    //     }
-    //     this.setState({
-    //       visibleFor: value,
-    //     });
-    //   };
 
     confirmVisibility = () => {
         const {companies, visibleFor} = this.state;
@@ -148,7 +124,7 @@ class Graduate extends Component {
     };
 
     render() {
-        const {classes, data} = this.props;
+        const {classes, data } = this.props;
 
         return (
 
@@ -200,27 +176,6 @@ class Graduate extends Component {
                                 }
                             </Select>
                         </FormControl>)
-
-                        // <FormControl className={classes.formControl}>
-                        // <InputLabel htmlFor="select-multiple-checkbox">Visible for</InputLabel>
-                        // <Select
-                        //     multiple
-                        //     value={this.state.name}
-                        //     onChange={this.handleChange}
-                        //     input={<Input id="select-multiple-checkbox" />}
-                        //     renderValue={selected => selected.join(', ')}
-                        //     // MenuProps={MenuProps}
-                        // >
-                        //     {this.state.visibleFor.map(id => (
-                        //     <MenuItem key={id} value={id}>
-                        //         <Checkbox checked={this.state.visibleFor.indexOf(id) > -1} />
-                        //         <ListItemText primary={id} />
-                        //     </MenuItem>
-                        //     ))}
-                        // </Select>
-                        // </FormControl>
-
-                        // data.graduate.visibleFor ? data.graduate.visibleFor.length : '0'}
                     }
                     {this.state.visibleFor.length}
                 </TableCell>
@@ -233,12 +188,6 @@ class Graduate extends Component {
                     </Link>
                 </TableCell>
             </TableRow>
-
-            // <tr>
-            //      <td>{props.data.firstName}</td>
-            //      <td>{props.data.lastName}</td>
-            //      <td>{props.data.course}</td>
-            // </tr>
         );
     }
 }
