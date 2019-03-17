@@ -19,12 +19,23 @@ import Graduate from './Graduate';
 // }
 
 function desc(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
+    debugger
+    if (orderBy === 'visibleFor') {
+        if (b[orderBy].length < a[orderBy].length) {
+            return -1;
+        }
+        if (b[orderBy].length > a[orderBy].length) {
+            return 1;
+        }
+    } else {
+        if (b[orderBy] < a[orderBy]) {
+            return -1;
+        }
+        if (b[orderBy] > a[orderBy]) {
+            return 1;
+        }
     }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
+    
     return 0;
 }
 

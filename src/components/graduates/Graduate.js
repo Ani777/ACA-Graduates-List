@@ -170,7 +170,7 @@ class Graduate extends Component {
                 <TableCell align="right">{data.graduate.testResults}</TableCell>
                 <TableCell align="right">
                     {!this.state.visibleForSelectOpen ? (
-                        <Tooltip title="Edit visibility">
+                        <Tooltip title="Edit visibility" align="left">
                             <IconButton aria-label="Edit visibility" onClick={this.handleOpen}>
                                 <List/>
                             </IconButton>
