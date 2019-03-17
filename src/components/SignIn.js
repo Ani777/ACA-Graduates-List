@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+
 const styles = theme => ({
     main: {
         width: 'auto',
@@ -41,6 +42,16 @@ const styles = theme => ({
     submit: {
         marginTop: theme.spacing.unit * 3,
     },
+
+    validData: {
+        display: 'none',
+    },
+
+    invalidData: {
+        display: 'block',
+        marginTop: theme.spacing.unit * 3,
+    },
+
 });
 
 function SignIn(props) {
@@ -56,6 +67,12 @@ function SignIn(props) {
                 <Typography component="h1" variant="h5">
                     Log In
                 </Typography>
+                <div className={props.isValid ? classes.validData : classes.invalidData}>
+                    <Typography color="error">Incorrect email or password</Typography>
+                </div>
+
+
+
                 <form className={classes.form} >
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email"  >Email Address</InputLabel>

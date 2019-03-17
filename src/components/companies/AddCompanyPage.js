@@ -6,7 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {APP_DEFAULT_COMPANY_ROLE} from "../../constants/appConstants";
-
+import { isValidEmail} from "../graduates/Validator";
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     main: {
@@ -55,23 +56,31 @@ const styles = theme => ({
 });
 
 
- function AddCompanyPage(props) {
+function AddCompanyPage(props) {
     let name = useFormInput('');
     let phone = useFormInput('');
     let email = useFormInput('');
     let [password, setPassword] = useState('');
+    const [emailValidationError, setEmailValidationError] = useState('');
+
 
     function handlePasswordChange (e){
         setPassword(e.target.value)
     }
 
     function getPassword () {
-        // document.getElementById("password").value = generatePassword(6, false);
         setPassword(generatePassword(6, false))
-    };
+    }
 
 
+    function isValidAddCompanyForm() {
 
+        const emailErrors = isValidEmail(email.value);
+        setEmailValidationError(emailErrors);
+        if(!emailErrors.length){
+            return true
+        }
+    }
 
     function onCompanyFormSubmit (e) {
         e.preventDefault();
@@ -82,14 +91,18 @@ const styles = theme => ({
             password: password,
             role: APP_DEFAULT_COMPANY_ROLE
         };
+        if(!isValidAddCompanyForm()){
+            return;
+        }
 
 
-            FireManager.createCompanyInFirebase({...data}, data.email).then(() => {
-                props.addCompanyToList(data);
-            })
-       .catch(function(error) {
-            console.error("Error creating company:", error);
+
+        FireManager.createCompanyInFirebase({...data}, data.email).then(() => {
+            props.addCompanyToList(data);
         })
+            .catch(function(error) {
+                console.error("Error creating company:", error);
+            })
 
 
     }
@@ -100,68 +113,73 @@ const styles = theme => ({
     return (
         <div className={classes.formWrapper}>
             <form className={classes.form} onSubmit={onCompanyFormSubmit}>
+                <TextField
+                    {...name}
+                    required
+                    fullWidth
+                    autoFocus
+                    label="Name"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    margin="normal"
+                />
+                <TextField
+                    {...phone}
+                    fullWidth
+                    label="Phone"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    margin="normal"
+                />
+                <TextField
+                    {...email}
+                    required
+                    fullWidth
+                    label="Email"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    margin="normal"
+                />
+                {!!emailValidationError.length && (
+                    emailValidationError.map(error => (
+                        <Typography color="error" key={error}>{error}</Typography>
+                    ))
+                )}
+                <div className={classes.passwordRow}>
                     <TextField
-                        {...name}
+                        value={password}
+                        onChange={handlePasswordChange}
+                        id="password"
                         required
                         fullWidth
-                        autoFocus
-                        label="Name"
+                        label="Password"
                         InputLabelProps={{
                             shrink: true,
                         }}
                         margin="normal"
                     />
-                    <TextField
-                        {...phone}
-                        fullWidth
-                        label="Phone"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        margin="normal"
-                    />
-                    <TextField
-                        {...email}
-                        required
-                        fullWidth
-                        label="Email"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        margin="normal"
-                    />
-                    <div className={classes.passwordRow}>
-                        <TextField
-                            value={password}
-                            onChange={handlePasswordChange}
-                            id="password"
-                            required
-                            fullWidth
-                            label="Password"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            margin="normal"
-                        />
-                        <Button
-                            type="button"
-                            onClick={getPassword}
-                            variant="outlined"
-                            color="primary"
-                            className={classes.auto}
-                        >
-                            auto
-                        </Button>
-                    </div>
-                    <div className={classes.buttons} >
-                        <Button variant="contained" color="secondary" className={classes.button} onClick={props.handleClose}>
-                            Cancel
-                        </Button>
-                        <Button type='submit' variant="contained" color="primary"  >
-                            Add
-                        </Button>
-                    </div>
-                </form>
+                    <Button
+                        type="button"
+                        onClick={getPassword}
+                        variant="outlined"
+                        color="primary"
+                        className={classes.auto}
+                    >
+                        auto
+                    </Button>
+                </div>
+                <div className={classes.buttons} >
+                    <Button variant="contained" color="secondary" className={classes.button} onClick={props.handleClose}>
+                        Cancel
+                    </Button>
+                    <Button type='submit' variant="contained" color="primary"  >
+                        Add
+                    </Button>
+                </div>
+            </form>
         </div>
     );
 }

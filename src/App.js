@@ -14,7 +14,8 @@ class App extends Component {
             email: '',
             password: '',
             company: {},
-            isAuthenticating: false
+            isAuthenticating: false,
+            isValid: true
         }
     }
 
@@ -26,10 +27,10 @@ class App extends Component {
         this.setState({isAuthenticating: true});
         firebase.auth().onAuthStateChanged(user=> {
             if(user){
-              let userEmail = user.email;
-              FireManager.getCurrentCompany(userEmail).then(company => {
-                this.setState({user, company, isAuthenticating: false});
-            })
+                let userEmail = user.email;
+                FireManager.getCurrentCompany(userEmail).then(company => {
+                    this.setState({user, company, isAuthenticating: false});
+                })
             }else {
                 this.setState({user: '', company: {}, isAuthenticating: false})
             }
@@ -57,35 +58,39 @@ class App extends Component {
                 user: firebase.auth().currentUser,
                 email: '',
                 password: '',
-            })).catch(function (error) {
-                // Handle Errors here.
-                // let errorMessage = error.message;
-                // ...
-                  console.log(error.message)
-                // window.alert("Error: " + errorMessage);
-            });
+            })).catch( () =>
+
+                this.setState({
+                    isValid: false
+                })
+            );
         }
 
     };
 
 
-    logout=(e)=>{
+    logout=()=>{
         firebase.auth().signOut()
-        //     .then(()=>{
-        //     this.setState({user: '',
-        //         company: null,
-        //         isAuthenticating: false})
-        // })
+            .then(()=>{
+                this.setState({
+                    isValid: true
+                })
+            })
     };
+
 
     render() {
         const { isAuthenticating, user } = this.state;
         return (<>
-                {isAuthenticating ? <div className="progress"><CircularProgress disableShrink /></div> : user ?
+                {isAuthenticating ? <CircularProgress disableShrink/> : user ?
                     <Main user={user} logout={this.logout} company={this.state.company}/> : <SignIn login={this.login}
-                                                                       handleChange={this.handleChange}
-                                                                       email={this.state.email}
-                                                                       password={this.state.password}/>
+                                                                                                    handleChange={this.handleChange}
+                                                                                                    email={this.state.email}
+                                                                                                    password={this.state.password}
+                                                                                                    isValid={this.state.isValid}
+
+                    />
+
                 }
             </>
         );
@@ -93,7 +98,6 @@ class App extends Component {
 }
 
 export default App;
-
 
 
 
