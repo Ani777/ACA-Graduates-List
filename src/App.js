@@ -59,10 +59,10 @@ class App extends Component {
                 password: '',
             })).catch(function (error) {
                 // Handle Errors here.
-                let errorMessage = error.message;
+                // let errorMessage = error.message;
                 // ...
-
-                window.alert("Error: " + errorMessage);
+                  console.log(error.message)
+                // window.alert("Error: " + errorMessage);
             });
         }
 
@@ -82,7 +82,7 @@ class App extends Component {
     render() {
         const { isAuthenticating, user } = this.state;
         return (<>
-                {isAuthenticating ? <CircularProgress disableShrink /> : user ?
+                {isAuthenticating ? <div className="progress"><CircularProgress disableShrink /></div> : user ?
                     <Main user={user} logout={this.logout} company={this.state.company}/> : <SignIn login={this.login}
                                                                        handleChange={this.handleChange}
                                                                        email={this.state.email}

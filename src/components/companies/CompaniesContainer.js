@@ -140,7 +140,7 @@ class CompaniesContainer extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"Please create a user in database with following credentials:"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">{"Please create a user in "}<a href='https://console.firebase.google.com/u/1/project/aca-graduate-s-list/authentication/users' target="_blank">database</a> {"with following credentials:"}</DialogTitle>
                     <DialogContent>
                         <Credentials email={companyEmail} password={companyPassword}/>
                         {/*<DialogContentText id="alert-dialog-description">*/}
