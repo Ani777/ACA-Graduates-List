@@ -78,7 +78,6 @@ class App extends Component {
         // })
     };
 
-
     render() {
         const { isAuthenticating, user } = this.state;
         return (<>

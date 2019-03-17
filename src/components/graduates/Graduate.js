@@ -8,13 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import FireManager from '../../firebase/FireManager';
 import { Link } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/icons/List';
 
