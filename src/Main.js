@@ -7,10 +7,10 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import AddGraduate from "./components/graduates/AddGraduatePage";
 import CoursesContainer from "./components/courses/CoursesContainer";
-import firebase from 'firebase';
 import Profile from "./components/graduates/GraduateProfile";
 import HeaderForCustomers from "./components/Header/headerForCustomers";
 import ViewForCompanies from "./components/graduates/ViewForCompanies";
+import FireManager from "./firebase/FireManager";
 
 
 class Main extends Component {
@@ -26,23 +26,31 @@ class Main extends Component {
 
 
     componentDidMount() {
-        firebase.firestore().collection('courses').get().then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name)).then(
-            courses => {
-                this.setState({courses})
-            }
-        )
+        FireManager.getCourses()
+            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
+            .then(
+                courses => {
+                    this.setState({courses})
+                })
+            .catch(err => {
+                console.error(err.message)
+            })
     }
 
 
     render() {
+        const { role } = this.props.company;
+        const { user, logout, company } = this.props;
+        const { courses } = this.state;
+
         return (
             <>
-                {this.props.company.role==='customer'?(
+                { role==='customer'?(
                     <Router>
                         <>
-                       <HeaderForCustomers user={this.props.user}
-                                           logout={this.props.logout} />
-                                           <ViewForCompanies company={this.props.company}/>
+                       <HeaderForCustomers user={user}
+                                           logout={logout} />
+                                           <ViewForCompanies company={company}/>
 
                                            </>
                     </Router>
@@ -51,34 +59,32 @@ class Main extends Component {
             <div className="App">
 
                 <ButtonAppBar
-                    user={this.props.user}
-                    logout={this.props.logout}/>
+                    user={user}
+                    logout={logout}/>
                 <Switch>
                 <Route path="/companies" exact strict render={() =>
                     <CompaniesContainer/>}/>
-                {/*<Route path="/" exact strict render={() => (*/}
-                   {/*<ScrollableTabsButtonForce/>)}/>*/}
-
 
                 <Route path="/graduates" exact strict render={() => (
-                    <NavBar courses={this.state.courses} />)}/>
+                    <NavBar courses={courses} />)}/>
 
                 <Route path="/" exact strict render={() => (
-                    <NavBar courses={this.state.courses} />)}/>
+                    <NavBar courses={courses} />)}/>
 
 
 
                 <Route path="/courses" exact strict render={() => (
-                   <CoursesContainer courses={this.state.courses} handleChange={this.handleCoursesChange}/>
+                   <CoursesContainer courses={courses}
+                                     handleChange={this.handleCoursesChange}/>
                 )}/>
                 <Route path="/graduates/addgraduate" exact strict render={() => (
-                    <AddGraduate courses={this.state.courses}/>
+                    <AddGraduate courses={courses}/>
                 )}/>
 
-                <Route path="/graduates/:graduatesid" exact strict render={({match})=>(<Profile graduatesid={match.params.graduatesid} courses={this.state.courses}/>)} />
-                {/*<Route path="/graduates/:graduatesid/editgraduateprofile" exact strict component={EditGraduateProfile} />*/}
+                <Route path="/graduates/:graduatesid" exact strict render={({match})=>(<Profile graduatesid={match.params.graduatesid}
+                                                                                                courses={courses}/>)} />
+
                 </Switch>
-                {/*<EditGraduateProfile/>*/}
 
             </div>
             </Router>)  }

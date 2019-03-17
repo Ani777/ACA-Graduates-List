@@ -57,24 +57,6 @@ class AvailableGraduatesList extends Component {
         rowsPerPage: 10,
     };
 
-    // componentDidMount() {
-    //     FireManager.getGraduates().then(querySnapshot => {
-    //         this.setState({data: querySnapshot.docs.map(doc => {
-    //                 const docData = doc.data();
-    //                 return {
-    //                     firstName: docData.firstName,
-    //                     lastName: docData.lastName,
-    //                     testResults: docData.testResults,
-    //                     id: doc.id
-    //                 };
-    //             })
-    //         });
-    //     }).catch(error => {
-    //         console.error("Error getting graduates:", error);
-    //     });
-    // }
-
-
 
     handleRequestSort = (event, property) => {
         const orderBy = property;

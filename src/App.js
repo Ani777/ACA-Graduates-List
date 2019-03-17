@@ -28,54 +28,52 @@ class App extends Component {
         firebase.auth().onAuthStateChanged(user=> {
             if(user){
                 let userEmail = user.email;
-                FireManager.getCurrentCompany(userEmail).then(company => {
+                FireManager.getCurrentCompany(userEmail)
+                    .then(company => {
                     this.setState({user, company, isAuthenticating: false});
+                })
+                    .catch(err=>{
+                    console.error("Error getting company:", err)
                 })
             }else {
                 this.setState({user: '', company: {}, isAuthenticating: false})
             }
         })};
 
-    // componentDidUpdate() {
-    //     this.setState({isAuthenticating: true})
-    //     firebase.auth().onAuthStateChanged(user=> {
-    //         if(user){
-    //             let userId = user.uid;
-    //             FireManager.getCurrentCompany(userId).then(company => {
-    //                 this.setState({user, company, isAuthenticating: false});
-    //             })
-    //         }else {
-    //             this.setState({user: null, company: null, isAuthenticating: false})
-    //         }
-    //     })};
-
-
 
     login=(e)=> {
         e.preventDefault();
         if (!this.state.user) {
-            firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(() => this.setState({
-                user: firebase.auth().currentUser,
-                email: '',
-                password: '',
-            })).catch( () =>
+            firebase
+                .auth()
+                .signInWithEmailAndPassword(this.state.email, this.state.password)
+                .then(() => this.setState({
+                    user: firebase.auth().currentUser,
+                    email: '',
+                    password: '',
+                }))
+                .catch(() =>
 
-                this.setState({
-                    isValid: false
-                })
-            );
+                    this.setState({
+                        isValid: false
+                    })
+                );
         }
-
     };
 
 
     logout=()=>{
-        firebase.auth().signOut()
+        firebase
+            .auth()
+            .signOut()
             .then(()=>{
                 this.setState({
                     isValid: true
                 })
             })
+            .catch(err => {
+                console.log('Error signing out:', err)
+        })
     };
 
 

@@ -43,7 +43,6 @@ class AvailableGraduate extends Component {
         companies: [],      // [{ data, id } ...]
         visibleForSelectOpen: false,
         availableGraduates: [],
-        // isSelectHidden: true,
     };
 
 

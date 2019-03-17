@@ -41,22 +41,28 @@ class NavBar extends React.Component {
         const {selected} = this.state;
 
         Promise.all(selected.map(id => {
-            return firebase.firestore().collection('graduates').doc(id).get()
-        })).then(docs => {
-            return docs.map(doc => {
-                return [doc.data().visibleFor, doc.id]
+            return firebase
+                .firestore()
+                .collection('graduates')
+                .doc(id)
+                .get()
+        }))
+            .then(docs => {
+                return docs.map(doc => {
+                    return [doc.data().visibleFor, doc.id]
             })
-        }).then(arrs => {
-            return Promise.all(arrs.map(arr => {
-                return FireManager.RemoveGraduateForCompanies(...arr)
+        })
+            .then(arrs => {
+                return Promise.all(arrs.map(arr => {
+                    return FireManager.RemoveGraduateForCompanies(...arr)
             }))
-        }).then(()=>
-
-        {
-            return Promise.all(selected.map(id => {
-                return FireManager.removeGraduate(id)
-        }))}).then(()=> {
-            return FireManager.getGraduates()})
+        })
+            .then(()=> {
+                return Promise.all(selected.map(id => {
+                    return FireManager.removeGraduate(id)
+        }))})
+            .then(()=> {
+                return FireManager.getGraduates()})
             .then(querySnapshot => {
                 this.setState({graduates: querySnapshot.docs.map(doc => {
                         const docData = doc.data();
@@ -71,10 +77,6 @@ class NavBar extends React.Component {
             console.error((err.message))
         })
     }
-
-
-
-
 
     handleSelectAllClick = event => {
         if (event.target.checked) {
@@ -109,18 +111,20 @@ class NavBar extends React.Component {
 
 
     componentDidMount(){
-            FireManager.getGraduates().then(querySnapshot => {
-            this.setState({graduates: querySnapshot.docs.map(doc => {
-                    const docData = doc.data();
-                    return {
-                        ...docData,
-                        id: doc.id
-                    };
+            FireManager.getGraduates()
+                .then(querySnapshot => {
+                    this.setState({graduates: querySnapshot.docs.map(doc => {
+                        const docData = doc.data();
+                        return {
+                            ...docData,
+                            id: doc.id
+                        };
+                    })
+                    });
                 })
-            });
-            }).catch(error => {
-            console.error("Error getting graduates:", error);
-        })
+                .catch(error => {
+                    console.error("Error getting graduates:", error);
+                })
     }
 
 

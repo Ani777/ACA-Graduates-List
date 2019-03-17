@@ -92,7 +92,6 @@ class CompaniesContainer extends Component {
 
     handleClear = companyId => {
         FireManager.removeAllAvailableGraduates(companyId);
-        debugger
         const { availableGraduates } = this.state;
         availableGraduates[companyId] = 0;
         this.setState({ availableGraduates });

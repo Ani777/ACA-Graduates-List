@@ -24,7 +24,8 @@ export default class ViewForCompanies extends Component {
 
 
     componentDidMount() {
-        FireManager.getAvailableGraduates(this.props.company.email).then(querySnapshot => {
+        FireManager.getAvailableGraduates(this.props.company.email)
+            .then(querySnapshot => {
                 this.setState({
                     availableGraduates: querySnapshot.docs.map(doc => {
                         const docData = doc.data();
@@ -36,23 +37,27 @@ export default class ViewForCompanies extends Component {
                 })
             }
         )
+            .catch((err)=>{
+                console.error('Error getting available graduates', err.message)
+            })
     }
 
     render(){
+        const { open, activeGraduate, availableGraduates } = this.state;
 
         return(
             <>
                 <Dialog
                     // fullWidth
-                    open={this.state.open}
+                    open={open}
                     onClose={this.handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
 
-                   <ProfileForCompanies graduate={this.state.activeGraduate}/>
+                   <ProfileForCompanies graduate={activeGraduate}/>
                 </Dialog>
-                <AvailableGraduatesList graduates={this.state.availableGraduates} handleClick={this.handleClickOpen}/>
+                <AvailableGraduatesList graduates={availableGraduates} handleClick={this.handleClickOpen}/>
 
                 </>
         )

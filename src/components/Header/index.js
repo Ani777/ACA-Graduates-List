@@ -23,28 +23,57 @@ const styles = {
 };
 
 function ButtonAppBar(props) {
-    const { classes } = props;
-    const logout= props.logout;
+    const { classes, logout, user } = props;
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
 
-                    <Typography variant="h5" align='right' color="inherit" className={classes.grow} component={Link} to={"/graduates"}>
+                    <Typography
+                        variant="h5"
+                        align='right'
+                        color="inherit"
+                        className={classes.grow}
+                        component={Link}
+                        to={"/graduates"}>
                         Graduates
                     </Typography>
 
-                    <Typography variant="h5" align='center' color="inherit" className={classes.grow} component={Link } to="/courses"  >
+                    <Typography
+                        variant="h5"
+                        align='center'
+                        color="inherit"
+                        className={classes.grow}
+                        component={Link }
+                        to="/courses"  >
 
                         Courses
 
                     </Typography>
 
-                    <Typography variant="h5" align='left' color="inherit" className={classes.grow} component={Link} to={"/companies"}>
+                    <Typography
+                        variant="h5"
+                        align='left'
+                        color="inherit"
+                        className={classes.grow}
+                        component={Link} to={"/companies"}>
                         Companies
                     </Typography>
-                    <Button color="inherit" className={classes.button} >{ props.user.email }</Button>
-                    <Button color="inherit" onClick={logout} component={Link} to={"/"}>LogOut</Button>
+
+                    <Button
+                        color="inherit"
+                        className={classes.button} >
+                        { user.email }
+                    </Button>
+
+                    <Button
+                        color="inherit"
+                        onClick={logout}
+                        component={Link}
+                        to={"/"}>
+                        LogOut
+                    </Button>
                 </Toolbar>
             </AppBar>
         </div>
