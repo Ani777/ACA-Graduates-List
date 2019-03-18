@@ -67,23 +67,27 @@ const styles = theme => ({
     },
 
     buttons: {
+        display: "flex",
+        justifyContent: "space-between",
         marginTop: theme.spacing.unit * 6,
         marginBottom: theme.spacing.unit * 4,
+        paddingLeft: theme.spacing.unit * 5,
+        paddingRight: theme.spacing.unit * 5,
     },
 
-    back: {
-        display: 'inline-block',
-        marginTop: theme.spacing.unit,
-        marginLeft:  theme.spacing.unit * 5,
+    // back: {
+    //     display: 'inline-block',
+    //     marginTop: theme.spacing.unit,
+    //     marginLeft:  theme.spacing.unit * 5,
+    //
+    //
+    // },
+    // submit: {
+    //     display: 'inline-block',
+    //     marginTop: theme.spacing.unit,
+    //     marginLeft: theme.spacing.unit * 35,
 
-
-    },
-    submit: {
-        display: 'inline-block',
-        marginTop: theme.spacing.unit,
-        marginLeft: theme.spacing.unit * 35,
-
-    },
+    // },
     first: {
         fontSize: theme.spacing.unit * 2,
         fontWeight: 'bold',
@@ -218,11 +222,10 @@ class Profile extends Component {
                         </Grid>
                     </Grid>
                     <div className={classes.buttons} >
-                        <Button  variant="contained" color="secondary" className={classes.back} component={Link} to='/graduates'>
+                        <Button  variant="contained" color="secondary" component={Link} to='/graduates'>
                            Back
                         </Button>
                             <Button
-                                className={classes.submit}
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleClickOpen}

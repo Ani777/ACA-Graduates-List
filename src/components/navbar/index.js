@@ -127,6 +127,21 @@ class NavBar extends React.Component {
                 })
     }
 
+    componentDidUpdate() {                 // for visibleFor sorting
+        FireManager.getGraduates().then(querySnapshot => {
+            this.setState({graduates: querySnapshot.docs.map(doc => {
+                    const docData = doc.data();
+                    return {
+                        ...docData,
+                        id: doc.id
+                    };
+                })
+            });
+        }).catch(error => {
+            console.error("Error getting graduates:", error);
+        })
+    }
+
 
 
 

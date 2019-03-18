@@ -44,7 +44,6 @@ const toolbarStyles = theme => ({
     },
 
     formControl: {
-        //margin: theme.spacing.unit,
         minWidth: 60,
         maxWidth: 60,
     },
@@ -71,16 +70,12 @@ class Graduate extends Component {
 
     componentDidMount() {
 
-        FireManager.getCompanies()
-            .then(querySnapshot => {
+        FireManager.getCompanies().then(querySnapshot => {
             this.setState({
                 companies: querySnapshot.docs.map(doc => ({data: doc.data(), id: doc.id})),
                 visibleFor: this.props.data.graduate.visibleFor
             });
-        })
-            .catch(err => {
-                console.error("Error getting companies", err.message)
-            });
+        });
 
     }
 
@@ -124,7 +119,7 @@ class Graduate extends Component {
     };
 
     render() {
-        const {classes, data } = this.props;
+        const {classes, data} = this.props;
 
         return (
 
@@ -144,14 +139,13 @@ class Graduate extends Component {
                 <TableCell align="right">{data.graduate.testResults}</TableCell>
                 <TableCell align="right">
                     {!this.state.visibleForSelectOpen ? (
-                        <Tooltip title="Edit visibility">
+                        <Tooltip title="Edit visibility" align="left">
                             <IconButton aria-label="Edit visibility" onClick={this.handleOpen}>
                                 <List/>
                             </IconButton>
                         </Tooltip>
                     ) : (
                         <FormControl className={classes.formControl}>
-                            {/* <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel> */}
                             <Select
                                 multiple
                                 value={this.state.visibleFor}

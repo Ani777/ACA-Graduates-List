@@ -10,13 +10,24 @@ import GraduatesListHead from './GraduatesListHead';
 import GraduatesListToolbar from './GraduatesListToolbar';
 import Graduate from './Graduate';
 
+
 function desc(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
+    if (orderBy === 'visibleFor') {
+        if (b[orderBy].length < a[orderBy].length) {
+            return -1;
+        }
+        if (b[orderBy].length > a[orderBy].length) {
+            return 1;
+        }
+    } else {
+        if (b[orderBy] < a[orderBy]) {
+            return -1;
+        }
+        if (b[orderBy] > a[orderBy]) {
+            return 1;
+        }
     }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
+
     return 0;
 }
 
@@ -58,6 +69,8 @@ class GraduatesList extends Component {
         rowsPerPage: 10,
     };
 
+
+
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -84,21 +97,21 @@ class GraduatesList extends Component {
     isSelected = id => this.props.selected.indexOf(id) !== -1;
 
     render() {
-        const { classes, selected, graduates, handleDeleteButtonClick, handleSelectAllClick  } = this.props;
+        const { classes, selected, graduates } = this.props;
         const { order, orderBy, rowsPerPage, page } = this.state;
 
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, graduates.length - page * rowsPerPage);
 
         return (
             <Paper className={classes.root}>
-                <GraduatesListToolbar selectedGraduatesIds={selected} removeGraduate={handleDeleteButtonClick}/>
+                <GraduatesListToolbar selectedGraduatesIds={selected} removeGraduate={this.props.handleDeleteButtonClick}/>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <GraduatesListHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
+                            onSelectAllClick={this.props.handleSelectAllClick}
                             onRequestSort={this.handleRequestSort}
                             rowCount={graduates.length}
                         />
