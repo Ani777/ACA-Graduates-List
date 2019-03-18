@@ -76,6 +76,7 @@ class CoursesContainer extends Component {
 
             const data = {
                 name,
+                graduates: []
             };
 
             FireManager.createCourseInFirebase(data).then(() => {

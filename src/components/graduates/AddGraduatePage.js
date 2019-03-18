@@ -157,7 +157,6 @@ function AddGraduate(props) {
             works: works.value,
             isWorking: isWorking.value==="true",
             visibleFor: []
-
         }
 
 

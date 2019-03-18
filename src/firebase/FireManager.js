@@ -12,7 +12,8 @@ export default class FireManager {
     static createCourseInFirebase(course) {
         return firestore()
             .collection("courses")
-            .add({...course})
+            .doc(course.name)
+            .set({...course})
     }
 
 

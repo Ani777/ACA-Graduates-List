@@ -139,18 +139,19 @@ class Profile extends Component {
 
 
     render(){
-        const {classes} = this.props;
-        const {firstName} = this.state.graduate;
-        const {lastName} = this.state.graduate;
-        const {course} = this.state.graduate;
-        const {dateOfBirth} = this.state.graduate;
-        const {phoneNumber} = this.state.graduate;
-        const {email} = this.state.graduate;
-        const {feedback} = this.state.graduate;
-        const {testResults} = this.state.graduate;
-        const {isWorking} = this.state.graduate;
-        const {works} = this.state.graduate;
-        const { graduatesid, courses } = this.props;
+        const { classes, graduatesid, courses } = this.props;
+        const { graduate: {
+            firstName,
+            lastName,
+            course,
+            dateOfBirth,
+            phoneNumber,
+            email,
+            feedback,
+            testResults,
+            isWorking,
+            works
+        } } = this.state;
 
         return (
             <>
@@ -162,100 +163,70 @@ class Profile extends Component {
                 >
                     <EditGraduateProfile graduate={this.state.graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
                 </Dialog>
-
                 <Paper className={classes.paper}>
                     <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
-
-
                     <Grid container className={classes.contact}>
-
-
-
-
                         <Grid item xs={5}>
                             <EmailIcon className={classes.icon}/>
                         </Grid>
                         <Grid item xs={7} className={classes.info}>
                             {email}
                         </Grid>
-
-
-
                         <Grid item xs={5}>
                             <PhoneIcon className={classes.icon}/>
                         </Grid>
                         <Grid item xs={7} className={classes.info}>
                             {phoneNumber}
                         </Grid>
-
                     </Grid>
-
-
                     <Grid container className={classes.mainInfo}>
-
-
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}>Course</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
                             <Typography className={classes.second}>{course}</Typography>
                         </Grid>
-
-
-
-
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}>Date Of Birth</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
                             <Typography className={classes.second}>{dateOfBirth}</Typography>
                         </Grid>
-
-
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}> Results</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
                             <Typography className={classes.second}>{testResults}</Typography>
                         </Grid>
-
-
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}>Feedback</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
                             <Typography className={classes.second}>{feedback}</Typography>
                         </Grid>
-
-
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}>Is Graduate Working</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
                             <Typography className={classes.second}>{isWorking ? 'Yes' : 'No'}</Typography>
                         </Grid>
-
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}>Works</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
                             <a href={works} target="_blank" rel="noopener noreferrer"><Typography className={classes.second} >{works}</Typography></a>
                         </Grid>
-
                     </Grid>
-
                     <div className={classes.buttons} >
                         <Button  variant="contained" color="secondary" className={classes.back} component={Link} to='/graduates'>
                            Back
                         </Button>
-
                             <Button
                                 className={classes.submit}
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleClickOpen}
                             >
-
                                 Edit
                             </Button>
                     </div>
