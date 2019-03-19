@@ -11,6 +11,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
 
 
 
@@ -124,7 +127,22 @@ class CoursesContainer extends Component {
                     {this.props.courses.map(course => (
 
                             <Paper className={classes.paper} key={course}>
-                               {course}
+                                {course}
+
+                                    {/*<Tooltip title="Edit">*/}
+                                        {/*<IconButton aria-label="Edit" >*/}
+                                            {/*<EditIcon />*/}
+                                        {/*</IconButton>*/}
+                                    {/*</Tooltip>*/}
+
+
+                                {/*<Tooltip title="Delete">*/}
+                                    {/*<IconButton aria-label="Delete" >*/}
+                                        {/*<DeleteIcon />*/}
+                                    {/*</IconButton>*/}
+                                {/*</Tooltip>*/}
+
+
                             </Paper>
 
                     ))}

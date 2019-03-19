@@ -28,6 +28,26 @@ export default class FireManager {
 
     }
 
+    static removeGraduateFromCourse(courseId, graduateId){
+        return firestore()
+            .collection('courses')
+            .doc(courseId)
+            .get()
+            .then(doc => doc.data().graduates)
+            .then(graduates => {
+                graduates.splice(graduates.indexOf(graduateId), 1);
+                return graduates;
+            })
+            .then(graduates =>{
+                firestore()
+                    .collection('courses')
+                    .doc(courseId)
+                    .update({graduates})
+            })
+
+    }
+
+
     static createCourseInFirebase(course) {
         return firestore()
             .collection("courses")

@@ -80,7 +80,9 @@ function EditGraduateProfile(props) {
 
     const { graduate, graduatesid, classes, courses } = props;
     const { visibleFor } = graduate;
+
     const oldCourse = graduate.course;
+
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
     const course = useFormInput(graduate.course);
     const dateOfBirth = useFormInput(graduate.dateOfBirth);
@@ -191,13 +193,16 @@ function EditGraduateProfile(props) {
             if(visibleFor.length){
                 return FireManager.updateGraduateForCompanies(visibleFor, graduatesid, dataForCompanies)
             }
-        }).then(()=> FireManager.addGraduateToCourse(dataForCompanies.course, graduatesid))
+        }).then(()=> {
+            if(oldCourse !== data.course){
+                return Promise.all([FireManager.removeGraduateFromCourse(oldCourse, graduatesid ),
+                    FireManager.addGraduateToCourse(data.course, graduatesid)])
+            }
+        })
+
             .catch(err=>{
                 console.error(err.message)
             })
-
-
-
     }
 
     return (
