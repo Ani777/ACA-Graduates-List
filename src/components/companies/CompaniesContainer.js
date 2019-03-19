@@ -154,7 +154,6 @@ class CompaniesContainer extends Component {
                     </DialogActions>
                 </Dialog>
 
-
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>

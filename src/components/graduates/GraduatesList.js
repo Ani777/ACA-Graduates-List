@@ -19,7 +19,6 @@ import Graduate from './Graduate';
 // }
 
 function desc(a, b, orderBy) {
-    debugger
     if (orderBy === 'visibleFor') {
         if (b[orderBy].length < a[orderBy].length) {
             return -1;
@@ -76,24 +75,6 @@ class GraduatesList extends Component {
         page: 0,
         rowsPerPage: 10,
     };
-
-    // componentDidMount() {
-    //     FireManager.getGraduates().then(querySnapshot => {
-    //         this.setState({data: querySnapshot.docs.map(doc => {
-    //                 const docData = doc.data();
-    //                 return {
-    //                     firstName: docData.firstName,
-    //                     lastName: docData.lastName,
-    //                     testResults: docData.testResults,
-    //                     id: doc.id
-    //                 };
-    //             })
-    //         });
-    //     }).catch(error => {
-    //         console.error("Error getting graduates:", error);
-    //     });
-    // }
-
 
 
     handleRequestSort = (event, property) => {

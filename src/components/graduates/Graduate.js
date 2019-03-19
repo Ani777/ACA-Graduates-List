@@ -17,6 +17,7 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/icons/List';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 
 
@@ -47,8 +48,9 @@ const toolbarStyles = theme => ({
 
     formControl: {
         //margin: theme.spacing.unit,
-        minWidth: 60,
-        maxWidth: 60,
+        minWidth: 170,
+        // maxWidth: 100,
+        height: 35
     },
     chips: {
         display: 'flex',
@@ -60,6 +62,9 @@ const toolbarStyles = theme => ({
     noLabel: {
         marginTop: theme.spacing.unit * 3,
     },
+    visibleForSelect: {
+        fontSize: '12px'
+    }
 });
 
 
@@ -101,18 +106,6 @@ class Graduate extends Component {
         this.setState({visibleFor: event.target.value});
     };
 
-    // handleChangeMultiple = event => {
-    //     const { options } = event.target;
-    //     const value = [];
-    //     for (let i = 0, l = options.length; i < l; i += 1) {
-    //       if (options[i].selected) {
-    //         value.push(options[i].value);
-    //       }
-    //     }
-    //     this.setState({
-    //       visibleFor: value,
-    //     });
-    //   };
 
     confirmVisibility = () => {
         const {companies, visibleFor} = this.state;
@@ -150,7 +143,8 @@ class Graduate extends Component {
     };
 
     render() {
-        const {classes, data} = this.props;
+        const { classes, data } = this.props;
+        const { visibleFor } = this.state;
 
         return (
 
@@ -169,25 +163,26 @@ class Graduate extends Component {
                 <TableCell component="th" scope="row" padding="none">{data.graduate.lastName}</TableCell>
                 <TableCell align="right">{data.graduate.testResults}</TableCell>
                 <TableCell align="right">
-                    {!this.state.visibleForSelectOpen ? (
-                        <Tooltip title="Edit visibility" align="left">
-                            <IconButton aria-label="Edit visibility" onClick={this.handleOpen}>
-                                <List/>
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                        <FormControl className={classes.formControl}>
-                            {/* <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel> */}
+                        <FormControl variant="outlined" className={classes.formControl}>
                             <Select
+                                displayEmpty
                                 multiple
+                                className={classes.visibleForSelect}
                                 value={this.state.visibleFor}
                                 onChange={this.handleChange}
-                                input={<Input id="select-multiple-checkbox"/>}
-                                renderValue={selectedIds => {   // [id1, id2...]
-                                    const selectedCompanies = this.state.companies.filter(company => selectedIds.includes(company.id));
-                                    return selectedCompanies.map(selComp => selComp.data.name).join(', ')
-                                }
-                                }
+                                input={
+                                    <OutlinedInput
+                                      name="companies"
+                                      labelWidth={0}
+                                      id="outlined-age-native-simple"
+                                    />
+                                  }
+                                renderValue={() => {
+                                    return (visibleFor.length ?
+                                    visibleFor.length === 1 ? `1 company selected` :
+                                    `${visibleFor.length} companies selected` : `no companies selected`)
+                                }}
+                                
                                 open={this.state.visibleForSelectOpen}
                                 onClose={this.handleClose}
                                 onOpen={this.handleOpen}
@@ -201,30 +196,11 @@ class Graduate extends Component {
                                 )
                                 }
                             </Select>
-                        </FormControl>)
+                        </FormControl>
 
-                        // <FormControl className={classes.formControl}>
-                        // <InputLabel htmlFor="select-multiple-checkbox">Visible for</InputLabel>
-                        // <Select
-                        //     multiple
-                        //     value={this.state.name}
-                        //     onChange={this.handleChange}
-                        //     input={<Input id="select-multiple-checkbox" />}
-                        //     renderValue={selected => selected.join(', ')}
-                        //     // MenuProps={MenuProps}
-                        // >
-                        //     {this.state.visibleFor.map(id => (
-                        //     <MenuItem key={id} value={id}>
-                        //         <Checkbox checked={this.state.visibleFor.indexOf(id) > -1} />
-                        //         <ListItemText primary={id} />
-                        //     </MenuItem>
-                        //     ))}
-                        // </Select>
-                        // </FormControl>
-
-                        // data.graduate.visibleFor ? data.graduate.visibleFor.length : '0'}
-                    }
-                    {this.state.visibleFor.length}
+                        
+                    
+                    {/* {this.state.visibleFor.length} */}
                 </TableCell>
                 <TableCell align="right">
                     <Link to={`/graduates/${this.props.data.graduate.id}`}><Tooltip title="More">
