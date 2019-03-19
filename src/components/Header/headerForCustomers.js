@@ -17,7 +17,8 @@ const styles = {
         textDecoration: 'none'
     },
     button:{
-        width: 250
+        width: 250,
+        textTransform: 'none'
     },
     buttons: {
         display: 'flex',

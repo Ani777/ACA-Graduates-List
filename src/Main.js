@@ -11,6 +11,7 @@ import Profile from "./components/graduates/GraduateProfile";
 import HeaderForCustomers from "./components/Header/headerForCustomers";
 import ViewForCompanies from "./components/graduates/ViewForCompanies";
 import FireManager from "./firebase/FireManager";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 class Main extends Component {
@@ -52,7 +53,7 @@ class Main extends Component {
                            <ViewForCompanies company={company}/>
                         </>
                     </Router>
-                ):(
+                ): role === 'admin' ? (
             <Router>
             <div className="App">
 
@@ -76,7 +77,7 @@ class Main extends Component {
                 </Switch>
 
             </div>
-            </Router>)  }
+            </Router>) : <div className="progress"> <CircularProgress disableShrink className="progress"/></div> }
                 </>)
     }
 }
