@@ -26,10 +26,26 @@ class Main extends Component {
         };
 
     deleteCourse=(course)=>{
-        return FireManager.deleteCourse(course)
+        FireManager.findCourseId(course)
+            .then(courseId =>{
+        return FireManager.deleteCourse(courseId)})
             .then(()=>{
                 return FireManager.getCourses()
             })
+            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
+            .then(courses => {
+                this.setState({courses})
+            })
+            .catch(err => {
+                console.error(err.message)
+            })
+    }
+
+    editCourse =(courseId, newName)=> {
+        return FireManager.editCourse(courseId, newName)
+            .then(()=>{
+                    return FireManager.getCourses()
+                })
             .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
             .then(courses => {
                 this.setState({courses})
@@ -82,7 +98,8 @@ class Main extends Component {
                     <Route path="/courses" exact strict render={() => (
                        <CoursesContainer courses={courses}
                                          handleChange={this.handleCoursesChange}
-                                         deleteCourse={this.deleteCourse}/>
+                                         deleteCourse={this.deleteCourse}
+                                         editCourse={this.editCourse}/>
                     )}/>
                     <Route path="/graduates/addgraduate" exact strict render={() => (
                         <AddGraduate courses={courses}/>

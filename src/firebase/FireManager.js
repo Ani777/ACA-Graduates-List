@@ -44,47 +44,100 @@ export default class FireManager {
             })
     }
 
-    static editCourse(course, newName){
-        const courseRef=firestore()
-            .collection('courses')
-            .doc(course);
-        return courseRef.get()
+    static editCourse(courseId, newName){
+
+       const courseRef = firestore()
+           .collection('courses')
+           .doc(courseId);
+       return courseRef.update({name: newName})
+           .then(()=>{
+              return courseRef.get()
+           })
+           .then(doc => doc.data().graduates)
+           .then(graduates => {
+               return Promise.all(graduates.map(id => {
+               return firestore()
+                   .collection('graduates')
+                   .doc(id)
+                   .get()
+           }))})
+           .then(doc => {
+
+               return doc.map(graduate=>{
+               return [graduate.id, graduate.data().visibleFor]})
+           })
+           .then (arr => {
+               return Promise.all(arr.map(item => {
+                   return Promise.all([FireManager.updateGraduate(item[0], {course: newName}),
+                   FireManager.updateGraduateForCompanies(item[1], item[0], {course: newName})]
+               )}))
+           })
+
+
     }
 
-    static addGraduateToCourse(courseId, graduateId){
-        return firestore()
-            .collection('courses')
-            .doc(courseId)
-            .get()
-            .then(doc => doc.data().graduates)
-            .then(graduates => {
-                graduates.push(graduateId);
-                return graduates;
-            })
-            .then(graduates =>{
-                firestore()
+
+    static findCourseId(courseName){
+      return  FireManager.getCourses()
+            .then(querySnapshot => {
+                return querySnapshot.docs.map(doc => {
+                    return [doc.data().name, doc.id]})
+            }).then(arr =>{
+            return arr.find(item => item[0]===courseName)})
+            .then(arr => arr[1])
+    }
+
+    static addGraduateToCourse(course, graduateId){
+        FireManager.getCourses()
+            .then(querySnapshot => {
+                return querySnapshot.docs.map(doc => {
+                    return [doc.data().name, doc.id]})
+            }).then(arr =>{
+            return arr.find(item => item[0]===course)})
+            .then(arr => arr[1])
+            .then(courseId=> {
+                return firestore()
                     .collection('courses')
                     .doc(courseId)
-                    .update({graduates})
+                    .get()
+            })
+            .then(doc => [doc.data().graduates, doc.id])
+            .then(arr => {
+                arr[0].push(graduateId);
+                return arr;
+            })
+            .then(arr =>{
+                return firestore()
+                    .collection('courses')
+                    .doc(arr[1])
+                    .update({graduates: arr[0]})
             })
 
     }
 
-    static removeGraduateFromCourse(courseId, graduateId){
-        return firestore()
-            .collection('courses')
-            .doc(courseId)
-            .get()
-            .then(doc => doc.data().graduates)
-            .then(graduates => {
-                graduates.splice(graduates.indexOf(graduateId), 1);
-                return graduates;
+    static removeGraduateFromCourse(course, graduateId){
+        FireManager.getCourses()
+            .then(querySnapshot => {
+                return querySnapshot.docs.map(doc => {
+                    return [doc.data().name, doc.id]})
+            }).then(arr =>{
+            return arr.find(item => item[0]===course)})
+            .then(arr => arr[1])
+            .then(courseId=>{
+                   return firestore()
+                      .collection('courses')
+                      .doc(courseId)
+                       .get()})
+            .then(doc => [doc.data().graduates, doc.id])
+            .then(arr => {
+                arr[0].splice(arr[0].indexOf(graduateId), 1);
+                return arr;
             })
-            .then(graduates =>{
+            .then(arr =>{
                 firestore()
                     .collection('courses')
-                    .doc(courseId)
-                    .update({graduates})
+                    .doc(arr[1])
+                    .update({graduates: arr[0]})
             })
 
     }
@@ -93,8 +146,9 @@ export default class FireManager {
     static createCourseInFirebase(course) {
         return firestore()
             .collection("courses")
-            .doc(course.name)
-            .set({...course})
+            .add({...course})
+            // .doc(course.name)
+            // .set({...course})
     }
 
 

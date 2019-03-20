@@ -56,6 +56,8 @@ class CoursesContainer extends Component {
     state = {
         name: '',
         open: false,
+        editOpen: false,
+        activeCourseId: '',
     };
 
     handleChange =(e)=>{
@@ -69,6 +71,28 @@ class CoursesContainer extends Component {
     handleClose = () => {
         this.setState({ open: false, name: '' });
     };
+
+    handleEditClose = () => {
+        this.setState({ editOpen: false, name: '' });
+    };
+    handleEditOpen =(value)=>{
+        FireManager.findCourseId(value).then(id => {
+        this.setState({
+            name: value,
+            editOpen: true,
+            activeCourseId: id
+        })
+        })
+
+    }
+
+    editCourse =()=>{
+        const {name, activeCourseId } = this.state
+        this.props.editCourse(activeCourseId, name)
+            .then(()=>{
+                    this.handleEditClose()
+                })
+            }
 
 
     onCourseFormSubmit =(e)=> {
@@ -123,7 +147,35 @@ class CoursesContainer extends Component {
                 </DialogActions>
             </Dialog>
 
-            <div className={classes.root}>
+                <Dialog
+                    open={this.state.editOpen}
+                    onClose={this.handleEditClose}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Edit Course</DialogTitle>
+                    <DialogContent>
+
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Course Name"
+                            type="email"
+                            fullWidth
+                            value={this.state.name}
+                            onChange={this.handleChange}
+
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button className={classes.button} type='submit' variant="contained" color="primary" onClick={this.editCourse} >
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+
+                <div className={classes.root}>
 
                     {this.props.courses.map(course => (
 
@@ -131,7 +183,7 @@ class CoursesContainer extends Component {
                                 {course}
 
                                     <Tooltip title="Edit">
-                                        <IconButton aria-label="Edit"  >
+                                        <IconButton aria-label="Edit" onClick={()=>this.handleEditOpen(course)} >
                                             <EditIcon />
                                         </IconButton>
                                     </Tooltip>
