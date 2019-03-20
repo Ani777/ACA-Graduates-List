@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { Link } from 'react-router-dom';
+import AlertDialog from '../alertDialogs/AlertDialog';
 
 const toolbarStyles = theme => ({
     root: {
@@ -53,46 +54,71 @@ const toolbarStyles = theme => ({
 
 
 class GraduatesListToolbar extends Component {
+    state = {
+        open: false,
+    };
+    
+    handleClickOpenDialog = () => {
+        this.setState({ open: true });
+    };
+
+    handleCloseDialog = () => {
+        this.setState({ open: false });
+    };
+
+    handleRemoveGraduate = () => {
+        this.props.removeGraduate();
+        this.handleCloseDialog()
+    }
+    
 
     render() {
-        const { selectedGraduatesIds, classes, removeGraduate } = this.props;
+        const { selectedGraduatesIds, classes } = this.props;
         return (
-            <Toolbar
-                className={classNames(classes.root, {
-                    [classes.highlight]: selectedGraduatesIds.length > 0,
-                })}
-            >
-                <div className={classes.title}>
-                    {selectedGraduatesIds.length > 0 ? (
-                        <Typography color="inherit" variant="subtitle1">
-                            {selectedGraduatesIds.length} selected
-                        </Typography>
-                    ) : (
-                        <Typography variant="h6" id="tableTitle">
-                            Graduates
-                        </Typography>
-                    )}
-                </div>
-                <div className={classes.spacer} />
+            <>
+                <AlertDialog
+                    open={this.state.open}
+                    close={this.handleCloseDialog}
+                    onYesBtnClick={this.handleRemoveGraduate}
+                    subject={selectedGraduatesIds.length > 1 ? 'graduates' : 'graduate'}
+                />
+                <Toolbar
+                    className={classNames(classes.root, {
+                        [classes.highlight]: selectedGraduatesIds.length > 0,
+                    })}
+                >
+                    <div className={classes.title}>
+                        {selectedGraduatesIds.length > 0 ? (
+                            <Typography color="inherit" variant="subtitle1">
+                                {selectedGraduatesIds.length} selected
+                            </Typography>
+                        ) : (
+                            <Typography variant="h6" id="tableTitle">
+                                Graduates
+                            </Typography>
+                        )}
+                    </div>
+                    <div className={classes.spacer} />
 
-                <div className={classes.actions}>
-                    {selectedGraduatesIds.length > 0 ? (
-                        <div>
-                            <Tooltip title="Delete">
-                                <IconButton aria-label="Delete" onClick={removeGraduate}>
-                                    <DeleteIcon />
-                                </IconButton>
+                    <div className={classes.actions}>
+                        {selectedGraduatesIds.length > 0 ? (
+                            <div>
+                                <Tooltip title="Delete">
+                                    <IconButton aria-label="Delete" onClick={this.handleClickOpenDialog}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                        ) : (
+                            <Tooltip title="Add graduate">
+                                <Link to="/graduates/addgraduate"><IconButton aria-label="Add graduate">
+                                    <AddIcon />
+                                </IconButton></Link>
                             </Tooltip>
-                        </div>
-                    ) : (
-                        <Tooltip title="Add graduate">
-                            <Link to="/graduates/addgraduate"><IconButton aria-label="Add graduate">
-                                <AddIcon />
-                            </IconButton></Link>
-                        </Tooltip>
-                    )}
-                </div>
-            </Toolbar>
+                        )}
+                    </div>
+                </Toolbar>
+            </>
         );
     }
 };

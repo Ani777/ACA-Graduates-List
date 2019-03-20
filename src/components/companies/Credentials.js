@@ -8,7 +8,7 @@ const CredentialsWithSnackbar = withSnackbar(CredentialsRoot);
 function Credentials(props) {
     return (
         <SnackbarProvider maxSnack={3}>
-            <CredentialsWithSnackbar email={props.email} password={props.password}/>
+            <CredentialsWithSnackbar email={props.email} password={props.password} showCreateUserDialog={props.showCreateUserDialog}/>
         </SnackbarProvider>
     );
 }

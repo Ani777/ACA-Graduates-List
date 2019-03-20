@@ -25,25 +25,37 @@ function CredentialsRoot(props){
 
 
     const { classes } = props;
+    debugger
     return (
-        <ul style={{listStyle: "none", padding: "24px"}}>
-            <li>E-mail:
+            props.showCreateUserDialog ?
+            (<ul style={{listStyle: "none", padding: "24px"}}>
+                <li>E-mail:
+                    <div style={{display: "flex"}}>
+                        <h2>{props.email}</h2>
+                        <Button variant="outlined" color="primary" className={classes.button} onClick={copyToClipboard}>
+                            Copy
+                        </Button>
+                    </div>
+                </li>
+                <li>Password:
+                    <div style={{display: "flex"}}>
+                        <h2>{props.password}</h2>
+                        <Button variant="outlined" color="primary" className={classes.button} onClick={copyToClipboard}>
+                            Copy
+                        </Button>
+                    </div>
+                </li>
+            </ul>)
+            : (
                 <div style={{display: "flex"}}>
                     <h2>{props.email}</h2>
                     <Button variant="outlined" color="primary" className={classes.button} onClick={copyToClipboard}>
                         Copy
                     </Button>
                 </div>
-            </li>
-            <li>Password:
-                <div style={{display: "flex"}}>
-                    <h2>{props.password}</h2>
-                    <Button variant="outlined" color="primary" className={classes.button} onClick={copyToClipboard}>
-                        Copy
-                    </Button>
-                </div>
-            </li>
-        </ul>
+            
+            )
+        
     )
 }
 

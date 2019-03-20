@@ -226,4 +226,14 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
         })
     }
 
+    static removeCompany(companyId) {
+        if (companyId) {
+            return firestore()
+                .collection("companies")
+                .doc(companyId)
+                .delete();
+        }
+    }
+
+
 }
