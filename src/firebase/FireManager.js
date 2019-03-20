@@ -6,7 +6,49 @@ export default class FireManager {
     static getCourses() {
         const coursesRef = firestore()
             .collection("courses");
-             return coursesRef.get();
+             return coursesRef.get()
+    }
+
+    static deleteCourse(course){
+        const courseRef=firestore()
+            .collection('courses')
+            .doc(course);
+        return courseRef.get()
+            .then( doc => doc.data().graduates)
+            .then(graduates => {
+                 return Promise.all(graduates.map(graduateId => {
+                     return firebase
+                         .firestore()
+                         .collection('graduates')
+                         .doc(graduateId)
+                         .get()
+                 }))
+            })
+            .then(docs => {
+            return docs.map(doc => {
+                return [doc.data().visibleFor, doc.id]
+            })
+        })
+            .then(arrs => {
+                return Promise.all(arrs.map(arr => {
+                     FireManager.RemoveGraduateForCompanies(...arr);
+                     return arr[1]
+                }))
+            })
+            .then((graduateIds)=> {
+                return Promise.all(graduateIds.map(id => {
+                    return FireManager.removeGraduate(id)
+                }))})
+            .then(()=>{
+                courseRef.delete()
+            })
+    }
+
+    static editCourse(course, newName){
+        const courseRef=firestore()
+            .collection('courses')
+            .doc(course);
+        return courseRef.get()
     }
 
     static addGraduateToCourse(courseId, graduateId){

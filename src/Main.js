@@ -25,6 +25,20 @@ class Main extends Component {
             this.setState({ courses });
         };
 
+    deleteCourse=(course)=>{
+        return FireManager.deleteCourse(course)
+            .then(()=>{
+                return FireManager.getCourses()
+            })
+            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
+            .then(courses => {
+                this.setState({courses})
+            })
+            .catch(err => {
+                console.error(err.message)
+            })
+    }
+
 
     componentDidMount() {
         FireManager.getCourses()
@@ -67,7 +81,8 @@ class Main extends Component {
                         <NavBar courses={courses} />)}/>
                     <Route path="/courses" exact strict render={() => (
                        <CoursesContainer courses={courses}
-                                         handleChange={this.handleCoursesChange}/>
+                                         handleChange={this.handleCoursesChange}
+                                         deleteCourse={this.deleteCourse}/>
                     )}/>
                     <Route path="/graduates/addgraduate" exact strict render={() => (
                         <AddGraduate courses={courses}/>

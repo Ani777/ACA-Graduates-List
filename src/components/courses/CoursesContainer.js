@@ -70,6 +70,7 @@ class CoursesContainer extends Component {
         this.setState({ open: false, name: '' });
     };
 
+
     onCourseFormSubmit =(e)=> {
         e.preventDefault();
         const { name } = this.state;
@@ -129,18 +130,18 @@ class CoursesContainer extends Component {
                             <Paper className={classes.paper} key={course}>
                                 {course}
 
-                                    {/*<Tooltip title="Edit">*/}
-                                        {/*<IconButton aria-label="Edit" >*/}
-                                            {/*<EditIcon />*/}
-                                        {/*</IconButton>*/}
-                                    {/*</Tooltip>*/}
+                                    <Tooltip title="Edit">
+                                        <IconButton aria-label="Edit"  >
+                                            <EditIcon />
+                                        </IconButton>
+                                    </Tooltip>
 
 
-                                {/*<Tooltip title="Delete">*/}
-                                    {/*<IconButton aria-label="Delete" >*/}
-                                        {/*<DeleteIcon />*/}
-                                    {/*</IconButton>*/}
-                                {/*</Tooltip>*/}
+                                <Tooltip title="Delete">
+                                    <IconButton aria-label="Delete" onClick={()=>this.props.deleteCourse(course)} >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip>
 
 
                             </Paper>
