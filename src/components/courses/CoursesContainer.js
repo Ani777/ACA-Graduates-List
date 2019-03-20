@@ -30,6 +30,7 @@ const styles = theme => ({
     },
     paper: {
         display: 'flex',
+        position: 'relative',
         width: theme.spacing.unit *16,
         padding: theme.spacing.unit * 2,
         height: 'auto',
@@ -46,6 +47,41 @@ const styles = theme => ({
     },
     text: {
         verticalAlign: 'center',
+    },
+    // icons: {
+    //     position: 'absolute',
+    //     top: 0,
+    //     right: 0,
+    //
+    // },
+
+
+    icon: {
+        fontSize: 18
+    },
+    // iconButton: {
+    //     position: 'absolute',
+    //     width: 24,
+    //     height:24,
+    //     padding: 0
+    // },
+
+    edit: {
+        position: 'absolute',
+        width: 24,
+        height:24,
+        padding: 0,
+        bottom: 0,
+        right: 0
+    },
+
+    delete: {
+        position: 'absolute',
+        width: 24,
+        height:24,
+        padding: 0,
+        top: 0,
+        right: 0
     }
 });
 
@@ -183,15 +219,15 @@ class CoursesContainer extends Component {
                                 {course}
 
                                     <Tooltip title="Edit">
-                                        <IconButton aria-label="Edit" onClick={()=>this.handleEditOpen(course)} >
-                                            <EditIcon />
+                                        <IconButton aria-label="Edit" onClick={()=>this.handleEditOpen(course)} className={classes.edit}>
+                                            <EditIcon className={classes.icon} />
                                         </IconButton>
                                     </Tooltip>
 
 
                                 <Tooltip title="Delete">
-                                    <IconButton aria-label="Delete" onClick={()=>this.props.deleteCourse(course)} >
-                                        <DeleteIcon />
+                                    <IconButton aria-label="Delete" onClick={()=>this.props.deleteCourse(course)}className={classes.delete } >
+                                        <DeleteIcon className={classes.icon} />
                                     </IconButton>
                                 </Tooltip>
 
