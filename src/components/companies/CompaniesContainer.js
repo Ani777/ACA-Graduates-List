@@ -19,6 +19,9 @@ import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import Credentials from "./Credentials";
 import ClearIcon from '@material-ui/icons/Clear';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AlertDialog from '../alertDialogs/AlertDialog';
+
 
 
 
@@ -38,17 +41,23 @@ const styles = theme => ({
     button: {
         marginBottom: theme.spacing.unit * 1,
         marginRight: theme.spacing.unit * 2,
+    },
+    adminRow: {
+        fontWeight: 'bold'
     }
 });
 
 class CompaniesContainer extends Component {
     state = {
         companies: [],
-        availableGraduates: {},    // id = email
+        availableGraduates: {},    // {id1: length1, id2: lenght2,...} // (id = email)
         openAddCompanyDialog: false,
         openAlertDialog: false,
+        showCreateUserDialog: true,
+        alertMessage: [],          // ['str1', 'str2']
         companyEmail: '',
-        companyPassword: ''
+        companyPassword: '',
+        openDeleteDialog: false
     };
 
     componentDidMount() {
@@ -58,29 +67,44 @@ class CompaniesContainer extends Component {
                 return querySnapshot.docs.map(doc => doc.data()) ;
             })
             .then(datas => {
-                datas.forEach(data => FireManager.getAvailableGraduates(data.email).then(querySnapshot1 => {
+                datas.forEach(data => FireManager.getAvailableGraduates(data.email).then(querySnapshot => {
                     const { availableGraduates } = this.state;
-                    availableGraduates[data.email] = querySnapshot1.docs.length;
+                    availableGraduates[data.email] = querySnapshot.docs.length;
                     this.setState({ availableGraduates });
                 }));
             })
     }
 
+
     showAddCompanyPage = () => {
         this.setState({openAddCompanyDialog: true})
     }
 
-    showAlertDialog =()=>{
+    hideAddCompanyPage = () => {
+        this.setState({openAddCompanyDialog: false})
+    }
+
+    showAlertDialog = () =>{
         this.setState({openAlertDialog: true})
     }
 
     hideAlertDialog =()=> {
-        this.setState({openAlertDialog: false})
+        this.setState({
+            openAlertDialog: false,
+
+        })
     }
-    handleClose = (e) => {
-        this.setState({ openAddCompanyDialog: false });
+
+    handleClickOpenDeleteDialog = currentCompanyId => {
+        this.setState({
+            openDeleteDialog: true,
+            companyEmail: currentCompanyId,
+        });
     };
 
+    handleCloseDeleteDialog = () => {
+        this.setState({ openDeleteDialog: false });
+    };
 
     handleClear = companyId => {
         FireManager.removeAllAvailableGraduates(companyId);
@@ -89,47 +113,86 @@ class CompaniesContainer extends Component {
         this.setState({ availableGraduates });
     }
 
+    handleDelete = () => {
+        //const availableGraduatesIds;
+        const { companyEmail } = this.state;
+        FireManager.getAvailableGraduates(companyEmail).then(querySnapshot => querySnapshot.docs.map(doc => doc.id))
+            .then(availableGraduatesIds => availableGraduatesIds.forEach(id => {
+                FireManager.getGraduate(id)
+                    .then(data => data.visibleFor.filter(compId => compId !== companyEmail))
+                    .then(newVisibleFor => FireManager.updateGraduate(id, { visibleFor: newVisibleFor }))
+            }));
+
+        this.handleClear(companyEmail);
+        FireManager.removeCompany(companyEmail);
+        this.setState({
+            companies: this.state.companies.filter(company => company.email !== companyEmail),
+            openAlertDialog: true,
+            showCreateUserDialog: false,
+            alertMessage: ['Please delete user in ', ' with following email address:'],
+            openDeleteDialog: false
+            // companyEmail: currentCompanyId,
+            // companyPassword: company.password
+        });
+    }
+
 
     addCompanyToList = company => {
         const { companies } = this.state;
         companies.push(company);
-        this.handleClose();
+        this.hideAddCompanyPage();
         this.setState({ companies,
-                              openAlertDialog: true,
-                              companyEmail: company.email,
-                              companyPassword: company.password});
+            showCreateUserDialog: true,
+            openAlertDialog: true,
+            alertMessage: ['Please create a user in ', ' with following credentials:'],
+            companyEmail: company.email,
+            companyPassword: company.password
+        });
     }
+
     render () {
         const { classes } = this.props;
-        const { openAddCompanyDialog, companyEmail, companyPassword } = this.state;
-
+        const { openAddCompanyDialog, showCreateUserDialog, alertMessage, companyEmail, companyPassword } = this.state;
+        const admins = this.state.companies.filter(item => item.role === 'admin');
+        const companies = this.state.companies.filter(item => item.role === 'customer');
         return (
             <>
-                <Dialog 
-                        fullWidth
-                        open={openAddCompanyDialog} 
-                        onClose = {this.handleClose}
-                        aria-labelledby="simple-dialog-title"
-                        onBackdropClick={this.handleClose}
-                        onEscapeKeyDown={this.handleClose}
-                    >
+                <Dialog
+                    fullWidth
+                    open={openAddCompanyDialog}
+                    onClose = {this.hideAddCompanyPage}
+                    aria-labelledby="simple-dialog-title"
+                    onBackdropClick={this.hideAddCompanyPage}
+                    onEscapeKeyDown={this.hideAddCompanyPage}
+                >
                     <DialogTitle className={classes.title}>Add Company</DialogTitle>
-                    <AddCompanyPage 
+                    <AddCompanyPage
                         addCompanyToList={this.addCompanyToList}
-                        handleClose={this.handleClose}
-                        showAlertDialog={this.showAlertDialog}
+                        handleClose={this.hideAddCompanyPage}
+                        // showAlertDialog={this.showAlertDialog}
                     />
                 </Dialog>
-
+                <AlertDialog
+                    open={this.state.openDeleteDialog}
+                    close={this.handleCloseDeleteDialog}
+                    onYesBtnClick={this.handleDelete}
+                    subject={'company'}
+                />
                 <Dialog
                     open={this.state.openAlertDialog}
                     onClose={this.hideAlertDialog}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="alert-dialog-title">{"Please create a user in "}<a href='https://console.firebase.google.com/u/1/project/aca-graduate-s-list/authentication/users' target="_blank" rel="noopener noreferrer"  >database</a> {"with following credentials:"}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">
+                        {alertMessage[0]}
+                        <a href='https://console.firebase.google.com/u/1/project/aca-graduate-s-list/authentication/users' target="_blank" rel="noopener noreferrer" style={{color:"#3f51b5"}}>
+                            database
+                        </a>
+                        {alertMessage[1]}
+                    </DialogTitle>
                     <DialogContent>
-                        <Credentials email={companyEmail} password={companyPassword}/>
+                        <Credentials email={companyEmail} password={companyPassword} showCreateUserDialog={showCreateUserDialog}/>
                     </DialogContent>
                     <DialogActions>
                         <Button className={classes.button} onClick={this.hideAlertDialog} variant="contained" color="primary" autoFocus>
@@ -148,7 +211,7 @@ class CompaniesContainer extends Component {
                                         Companies
                                     </Typography>
                                 </TableCell>
-                                <TableCell colSpan={4} align='right'>
+                                <TableCell colSpan={5} align='right'>
                                     <Tooltip title="Add company">
                                         <IconButton aria-label="Add company" onClick={this.showAddCompanyPage}>
                                             <AddIcon />
@@ -162,10 +225,20 @@ class CompaniesContainer extends Component {
                                 <TableCell align="right">Email</TableCell>
                                 <TableCell align="right">Password</TableCell>
                                 <TableCell align="right">Available Graduates</TableCell>
+                                <TableCell align="right"></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.companies.map(company => (
+                            {admins.map(admin => (
+                                <TableRow >
+                                    <TableCell component="th" scope="row" className={classes.adminRow}>{admin.name}</TableCell>
+                                    <TableCell align="center" className={classes.adminRow}>{admin.phone}</TableCell>
+                                    <TableCell align="right" className={classes.adminRow}>{admin.email}</TableCell>
+                                    <TableCell align="right" className={classes.adminRow}>{admin.password}</TableCell>
+                                    <TableCell align="center"></TableCell>
+                                    <TableCell align="right"></TableCell>
+                                </TableRow>))}
+                            {companies.map(company => (
                                 <TableRow hover key={company.email + 'row'}>
                                     <TableCell component="th" scope="row" key={company.name}>
                                         {company.name}
@@ -174,15 +247,20 @@ class CompaniesContainer extends Component {
                                     <TableCell align="right" key={company.email}>{company.email}</TableCell>
                                     <TableCell align="right" key={company.password}>{company.password}</TableCell>
                                     <TableCell align="right" key={'id-' + company.email}>
+                                        {this.state.availableGraduates[company.email] ? this.state.availableGraduates[company.email] : 0}
                                         <Tooltip title="Clear List">
                                             <IconButton aria-label="Clear List" onClick={() => this.handleClear(company.email)}>
                                                 <ClearIcon/>
                                             </IconButton>
                                         </Tooltip>
-
-                                        {
-                                            this.state.availableGraduates[company.email] ? this.state.availableGraduates[company.email] : 0
-                                        }</TableCell>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Tooltip title="Delete Company">
+                                            <IconButton aria-label="Delete Company" onClick={() => this.handleClickOpenDeleteDialog(company.email)}>
+                                                <DeleteIcon/>
+                                            </IconButton>
+                                        </Tooltip>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

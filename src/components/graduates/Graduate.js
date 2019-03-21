@@ -8,13 +8,16 @@ import IconButton from '@material-ui/core/IconButton';
 import FireManager from '../../firebase/FireManager';
 import { Link } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/icons/List';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 
 
@@ -44,8 +47,10 @@ const toolbarStyles = theme => ({
     },
 
     formControl: {
-        minWidth: 60,
-        maxWidth: 60,
+        //margin: theme.spacing.unit,
+        minWidth: 170,
+        // maxWidth: 100,
+        height: 35
     },
     chips: {
         display: 'flex',
@@ -57,6 +62,9 @@ const toolbarStyles = theme => ({
     noLabel: {
         marginTop: theme.spacing.unit * 3,
     },
+    visibleForSelect: {
+        fontSize: '12px'
+    }
 });
 
 
@@ -66,22 +74,22 @@ class Graduate extends Component {
         companies: [],      // [{ data, id } ...]
         visibleForSelectOpen: false,
         availableGraduates: [],
+        // isSelectHidden: true,
     };
 
     componentDidMount() {
-
         FireManager.getCompanies().then(querySnapshot => {
             this.setState({
                 companies: querySnapshot.docs.map(doc => ({data: doc.data(), id: doc.id})),
                 visibleFor: this.props.data.graduate.visibleFor
             });
         });
-
     }
 
     handleChange = event => {
         this.setState({visibleFor: event.target.value});
     };
+
 
     confirmVisibility = () => {
         const {companies, visibleFor} = this.state;
@@ -119,7 +127,8 @@ class Graduate extends Component {
     };
 
     render() {
-        const {classes, data} = this.props;
+        const { classes, data } = this.props;
+        const { visibleFor } = this.state;
 
         return (
 
@@ -138,40 +147,44 @@ class Graduate extends Component {
                 <TableCell component="th" scope="row" padding="none">{data.graduate.lastName}</TableCell>
                 <TableCell align="right">{data.graduate.testResults}</TableCell>
                 <TableCell align="right">
-                    {!this.state.visibleForSelectOpen ? (
-                        <Tooltip title="Edit visibility" align="left">
-                            <IconButton aria-label="Edit visibility" onClick={this.handleOpen}>
-                                <List/>
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                        <FormControl className={classes.formControl}>
-                            <Select
-                                multiple
-                                value={this.state.visibleFor}
-                                onChange={this.handleChange}
-                                input={<Input id="select-multiple-checkbox"/>}
-                                renderValue={selectedIds => {   // [id1, id2...]
-                                    const selectedCompanies = this.state.companies.filter(company => selectedIds.includes(company.id));
-                                    return selectedCompanies.map(selComp => selComp.data.name).join(', ')
-                                }
-                                }
-                                open={this.state.visibleForSelectOpen}
-                                onClose={this.handleClose}
-                                onOpen={this.handleOpen}
-                                //MenuProps={MenuProps}
-                            >
-                                {this.state.companies.map(company => (
-                                    <MenuItem key={company.id} value={company.id}>
-                                        <Checkbox checked={this.state.visibleFor.indexOf(company.id) > -1}/>
-                                        <ListItemText primary={company.data.name}/>
-                                    </MenuItem>)
-                                )
-                                }
-                            </Select>
-                        </FormControl>)
-                    }
-                    {this.state.visibleFor.length}
+                    <FormControl variant="outlined" className={classes.formControl}>
+                        <Select
+                            displayEmpty
+                            multiple
+                            className={classes.visibleForSelect}
+                            value={this.state.visibleFor}
+                            onChange={this.handleChange}
+                            input={
+                                <OutlinedInput
+                                    name="companies"
+                                    labelWidth={0}
+                                    id="outlined-age-native-simple"
+                                />
+                            }
+                            renderValue={() => {
+                                return (visibleFor.length ?
+                                    visibleFor.length === 1 ? `1 company selected` :
+                                        `${visibleFor.length} companies selected` : `no companies selected`)
+                            }}
+
+                            open={this.state.visibleForSelectOpen}
+                            onClose={this.handleClose}
+                            onOpen={this.handleOpen}
+                            //MenuProps={MenuProps}
+                        >
+                            {this.state.companies.map(company => (
+                                <MenuItem key={company.id} value={company.id}>
+                                    <Checkbox checked={this.state.visibleFor.indexOf(company.id) > -1}/>
+                                    <ListItemText primary={company.data.name}/>
+                                </MenuItem>)
+                            )
+                            }
+                        </Select>
+                    </FormControl>
+
+
+
+                    {/* {this.state.visibleFor.length} */}
                 </TableCell>
                 <TableCell align="right">
                     <Link to={`/graduates/${this.props.data.graduate.id}`}><Tooltip title="More">

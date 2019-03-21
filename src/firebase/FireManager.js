@@ -257,24 +257,24 @@ export default class FireManager {
     }
 
 
-    static removeCourse(course) {
-       firestore()
-           .collection('courses')
-           .doc('ZtsTO8Ldz0B6tCHNEHlY')
-           .get()
-            .then(doc => {
-                const courses = doc.data().courses;
-                if (courses.includes(course)) {
-                    const newCourses = [...courses];
-                    newCourses.splice(courses.indexOf(course), 1);
-                    return newCourses;
-                }
-            })
-            .then(newCourses => firestore()
-                .collection('courses')
-                .doc('ZtsTO8Ldz0B6tCHNEHlY')
-                .update({courses: newCourses}))
-    }
+    // static removeCourse(course) {
+    //    firestore()
+    //        .collection('courses')
+    //        .doc('ZtsTO8Ldz0B6tCHNEHlY')
+    //        .get()
+    //         .then(doc => {
+    //             const courses = doc.data().courses;
+    //             if (courses.includes(course)) {
+    //                 const newCourses = [...courses];
+    //                 newCourses.splice(courses.indexOf(course), 1);
+    //                 return newCourses;
+    //             }
+    //         })
+    //         .then(newCourses => firestore()
+    //             .collection('courses')
+    //             .doc('ZtsTO8Ldz0B6tCHNEHlY')
+    //             .update({courses: newCourses}))
+    // }
 
     static getGraduates() {
         const graduatesRef = firestore().collection("graduates");
@@ -360,5 +360,15 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
             }))
         })
     }
+
+    static removeCompany(companyId) {
+        if (companyId) {
+            return firestore()
+                .collection("companies")
+                .doc(companyId)
+                .delete();
+        }
+    }
+
 
 }
