@@ -14,8 +14,12 @@ const styles = {
     },
     grow: {
         flexGrow: 1,
+        textAlign: 'center',
         cursor: 'pointer',
-        textDecoration: 'none'
+        textDecoration: 'none',
+        '&:hover': {
+            backgroundColor: '#3949ab'
+        }
     },
     button: {
         width: 250,
@@ -24,6 +28,7 @@ const styles = {
     tools: {
         minWidth: 750
     }
+    
 };
 
 function ButtonAppBar(props) {
@@ -45,6 +50,7 @@ function ButtonAppBar(props) {
                     </Typography>
 
                     <Typography
+                    
                         variant="h5"
                         align='center'
                         color="inherit"
