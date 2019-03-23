@@ -26,7 +26,8 @@ class Main extends Component {
         };
 
     deleteCourse=(course)=>{
-        FireManager.findCourseId(course)
+
+        return FireManager.findCourseId(course)
             .then(courseId =>{
         return FireManager.deleteCourse(courseId)})
             .then(()=>{

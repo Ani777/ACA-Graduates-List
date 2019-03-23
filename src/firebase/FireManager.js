@@ -45,7 +45,7 @@ export default class FireManager {
     }
 
     static editCourse(courseId, newName){
-
+       debugger
        const courseRef = firestore()
            .collection('courses')
            .doc(courseId);
@@ -54,13 +54,13 @@ export default class FireManager {
               return courseRef.get()
            })
            .then(doc => doc.data().graduates)
-           .then(graduates => {
+           .then(graduates => {if (graduates.length > 0 ){
                return Promise.all(graduates.map(id => {
                return firestore()
                    .collection('graduates')
                    .doc(id)
                    .get()
-           }))})
+           }))}})
            .then(doc => {
 
                return doc.map(graduate=>{

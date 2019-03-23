@@ -49,12 +49,12 @@ class NavBar extends React.Component {
         }))
             .then(docs => {
                 return docs.map(doc => {
-                    return [doc.data().visibleFor, doc.id]
+                    return [doc.data().visibleFor, doc.id, doc.data().course]
             })
         })
             .then(arrs => {
                 return Promise.all(arrs.map(arr => {
-                    return FireManager.RemoveGraduateForCompanies(...arr)
+                    return Promise.all[FireManager.RemoveGraduateForCompanies(arr[0], arr[1]), FireManager.removeGraduateFromCourse(arr[2], arr[1] ) ]
             }))
         })
             .then(()=> {

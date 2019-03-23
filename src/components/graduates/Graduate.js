@@ -164,7 +164,7 @@ class Graduate extends Component {
                             renderValue={() => {
                                 return (visibleFor.length ?
                                     visibleFor.length === 1 ? `1 company selected` :
-                                        `${visibleFor.length} companies selected` : `no companies selected`)
+                                        `${visibleFor.length} companies selected` : `no company selected`)
                             }}
 
                             open={this.state.visibleForSelectOpen}

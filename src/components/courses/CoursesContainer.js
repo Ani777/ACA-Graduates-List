@@ -13,6 +13,8 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import AlertDialogSlide from "../alertDialogs/AlertDialog";
+import AlertDialog from "../graduates/GraduatesListToolbar";
 
 
 
@@ -93,7 +95,9 @@ class CoursesContainer extends Component {
         name: '',
         open: false,
         editOpen: false,
+        confirmOpen: false,
         activeCourseId: '',
+        activeCourse: '',
     };
 
     handleChange =(e)=>{
@@ -122,13 +126,30 @@ class CoursesContainer extends Component {
 
     }
 
-    editCourse =()=>{
-        const {name, activeCourseId } = this.state
+
+    handleConFirmClose =()=>{
+        this.setState({confirmOpen: false})
+    }
+
+    openConfirmDialog=(course)=> {
+        this.setState({confirmOpen: true,
+                             activeCourse: course})
+    }
+
+    editCourse =()=> {
+        const {name, activeCourseId} = this.state
         this.props.editCourse(activeCourseId, name)
-            .then(()=>{
-                    this.handleEditClose()
-                })
-            }
+            .then(() => {
+                this.handleEditClose()
+            })
+    }
+
+    deleteCourse=()=>{
+        this.props.deleteCourse(this.state.activeCourse).then(()=>{
+            this.handleConFirmClose()
+        })
+
+    }
 
 
     onCourseFormSubmit =(e)=> {
@@ -210,6 +231,14 @@ class CoursesContainer extends Component {
                     </DialogActions>
                 </Dialog>
 
+                <AlertDialogSlide
+                    open={this.state.confirmOpen}
+                    close={this.handleConFirmClose}
+                    onYesBtnClick={this.deleteCourse}
+                    subject="course with it's all graduates"
+                />
+
+
 
                 <div className={classes.root}>
 
@@ -226,7 +255,7 @@ class CoursesContainer extends Component {
 
 
                                 <Tooltip title="Delete">
-                                    <IconButton aria-label="Delete" onClick={()=>this.props.deleteCourse(course)}className={classes.delete } >
+                                    <IconButton aria-label="Delete" onClick={()=>this.openConfirmDialog(course)}className={classes.delete } >
                                         <DeleteIcon className={classes.icon} />
                                     </IconButton>
                                 </Tooltip>
