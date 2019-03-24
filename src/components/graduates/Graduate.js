@@ -79,8 +79,10 @@ class Graduate extends Component {
 
     componentDidMount() {
         FireManager.getCompanies().then(querySnapshot => {
+            const datas = querySnapshot.docs.map(doc => ({data: doc.data(), id: doc.id}));
+            const companies = datas.filter(item => item.data.role === 'customer');
             this.setState({
-                companies: querySnapshot.docs.map(doc => ({data: doc.data(), id: doc.id})),
+                companies,
                 visibleFor: this.props.data.graduate.visibleFor
             });
         });
@@ -164,7 +166,7 @@ class Graduate extends Component {
                             renderValue={() => {
                                 return (visibleFor.length ?
                                     visibleFor.length === 1 ? `1 company selected` :
-                                        `${visibleFor.length} companies selected` : `no company selected`)
+                                        `${visibleFor.length} companies selected` : `no companies selected`)
                             }}
 
                             open={this.state.visibleForSelectOpen}

@@ -67,8 +67,8 @@ class GraduatesList extends Component {
 
         page: 0,
         rowsPerPage: 10,
-    };
 
+    };
 
 
     handleRequestSort = (event, property) => {
@@ -84,7 +84,18 @@ class GraduatesList extends Component {
 
 
 
-
+    // handleFilterGraduates = searchString => {
+    //     const { graduates } = this.props;
+    //     searchString = searchString.replace(/\s/g,'').toLowerCase();
+    //     debugger
+    //     const filteredGraduates = graduates.filter(graduate => {
+    //         let firstLast = (graduate.firstName + graduate.lastName).replace(/\s/g,'').toLowerCase();
+    //         let lastFirst = (graduate.lastName + graduate.firstName).replace(/\s/g,'').toLowerCase();
+    //         debugger
+    //         return (firstLast.includes(searchString) || lastFirst.includes(searchString));
+    //     })
+    //     this.setState({ filteredGraduates });
+    // }
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -98,13 +109,18 @@ class GraduatesList extends Component {
 
     render() {
         const { classes, selected, graduates } = this.props;
+        //const graduates = this.state.filteredGraduates ? this.state.filteredGraduates : this.props.graduates;
         const { order, orderBy, rowsPerPage, page } = this.state;
 
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, graduates.length - page * rowsPerPage);
 
         return (
             <Paper className={classes.root}>
-                <GraduatesListToolbar selectedGraduatesIds={selected} removeGraduate={this.props.handleDeleteButtonClick}/>
+                <GraduatesListToolbar
+                    selectedGraduatesIds={selected}
+                    removeGraduate={this.props.handleDeleteButtonClick}
+                    filterGraduates={this.props.filterGraduates}
+                />
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <GraduatesListHead

@@ -217,7 +217,7 @@ class CoursesContainer extends Component {
                     open={this.state.confirmOpen}
                     close={this.handleConFirmClose}
                     onYesBtnClick={this.deleteCourse}
-                    subject="course. It will also delete all graduates of the course"
+                    subject="this course. It will also delete all graduates of the course"
                 />
 
 

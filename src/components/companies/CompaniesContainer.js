@@ -42,9 +42,6 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit * 1,
         marginRight: theme.spacing.unit * 2,
     },
-    adminRow: {
-        fontWeight: 'bold'
-    }
 });
 
 class CompaniesContainer extends Component {
@@ -63,8 +60,11 @@ class CompaniesContainer extends Component {
     componentDidMount() {
         FireManager.getCompanies()
             .then(querySnapshot => {
-                this.setState({ companies: querySnapshot.docs.map(doc => doc.data()) });
-                return querySnapshot.docs.map(doc => doc.data()) ;
+                const datas = querySnapshot.docs.map(doc => doc.data());
+                //const admins = datas.filter(item => item.role === 'admin');
+                const companies = datas.filter(item => item.role === 'customer');
+                this.setState({ companies });
+                return companies;
             })
             .then(datas => {
                 datas.forEach(data => FireManager.getAvailableGraduates(data.email).then(querySnapshot => {
@@ -100,6 +100,10 @@ class CompaniesContainer extends Component {
             openDeleteDialog: true,
             companyEmail: currentCompanyId,
         });
+    };
+
+    handleCloseDeleteDialog = () => {
+        this.setState({ openDeleteDialog: false });
     };
 
     handleCloseDeleteDialog = () => {
@@ -152,9 +156,15 @@ class CompaniesContainer extends Component {
 
     render () {
         const { classes } = this.props;
-        const { openAddCompanyDialog, showCreateUserDialog, alertMessage, companyEmail, companyPassword } = this.state;
-        const admins = this.state.companies.filter(item => item.role === 'admin');
-        const companies = this.state.companies.filter(item => item.role === 'customer');
+        const {
+            openAddCompanyDialog,
+            showCreateUserDialog,
+            alertMessage,
+            companyEmail,
+            companyPassword,
+            companies
+        } = this.state;
+
         return (
             <>
                 <Dialog
@@ -176,7 +186,7 @@ class CompaniesContainer extends Component {
                     open={this.state.openDeleteDialog}
                     close={this.handleCloseDeleteDialog}
                     onYesBtnClick={this.handleDelete}
-                    subject={'company'}
+                    subject={'this company'}
                 />
                 <Dialog
                     open={this.state.openAlertDialog}
@@ -229,15 +239,6 @@ class CompaniesContainer extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {admins.map(admin => (
-                                <TableRow >
-                                    <TableCell component="th" scope="row" className={classes.adminRow}>{admin.name}</TableCell>
-                                    <TableCell align="center" className={classes.adminRow}>{admin.phone}</TableCell>
-                                    <TableCell align="right" className={classes.adminRow}>{admin.email}</TableCell>
-                                    <TableCell align="right" className={classes.adminRow}>{admin.password}</TableCell>
-                                    <TableCell align="center"></TableCell>
-                                    <TableCell align="right"></TableCell>
-                                </TableRow>))}
                             {companies.map(company => (
                                 <TableRow hover key={company.email + 'row'}>
                                     <TableCell component="th" scope="row" key={company.name}>
