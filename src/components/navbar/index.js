@@ -35,6 +35,7 @@ class NavBar extends React.Component {
         value: 0,
         graduates: [],
         selected: [],
+        filteredGraduates: false
     }
 
 
