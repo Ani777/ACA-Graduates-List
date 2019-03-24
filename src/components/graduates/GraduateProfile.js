@@ -13,12 +13,10 @@ import EditGraduateProfile from "./EditGraduateProfile";
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 
-
 const styles = theme => ({
 
     paper: {
         maxWidth: 500,
-
         marginTop: theme.spacing.unit * 5,
         marginBottom: theme.spacing.unit * 5,
         marginLeft: 'auto',
@@ -76,23 +74,9 @@ const styles = theme => ({
         paddingRight: theme.spacing.unit * 5,
     },
 
-    // back: {
-    //     display: 'inline-block',
-    //     marginTop: theme.spacing.unit,
-    //     marginLeft:  theme.spacing.unit * 5,
-    //
-    //
-    // },
-    // submit: {
-    //     display: 'inline-block',
-    //     marginTop: theme.spacing.unit,
-    //     marginLeft: theme.spacing.unit * 35,
-
-    // },
     first: {
         fontSize: theme.spacing.unit * 2,
         fontWeight: 'bold',
-
     },
 
     second: {
@@ -104,7 +88,6 @@ const styles = theme => ({
 function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
-
 
 class Profile extends Component {
 
@@ -122,7 +105,6 @@ class Profile extends Component {
     };
 
     componentDidMount() {
-
         const { graduatesid } = this.props;
         if (graduatesid) {
             FireManager.getGraduate(graduatesid)
@@ -139,9 +121,7 @@ class Profile extends Component {
                 this.setState({graduate})
             });
         }
-
     }
-
 
     render(){
         const { classes, graduatesid, courses } = this.props;
@@ -149,11 +129,11 @@ class Profile extends Component {
             firstName,
             lastName,
             course,
-            dateOfBirth,
-            phoneNumber,
             email,
+            phoneNumber,
+            yearOfBirth,
             feedback,
-            testResults,
+            testsResult,
             isWorking,
             works
         } } = this.state;
@@ -170,7 +150,7 @@ class Profile extends Component {
                 </Dialog>
                 <Paper className={classes.paper}>
                     <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
-                    <Grid container className={classes.contact}>
+                    <Grid container >
                         <Grid item xs={5}>
                             <EmailIcon className={classes.icon}/>
                         </Grid>
@@ -192,16 +172,16 @@ class Profile extends Component {
                             <Typography className={classes.second}>{course}</Typography>
                         </Grid>
                         <Grid item xs={4} className={classes.info}>
-                            <Typography className={classes.first}>Date Of Birth</Typography>
+                            <Typography className={classes.first}>Year Of Birth</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{dateOfBirth}</Typography>
+                            <Typography className={classes.second}>{yearOfBirth}</Typography>
                         </Grid>
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}> Results</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{testResults}</Typography>
+                            <Typography className={classes.second}>{testsResult}</Typography>
                         </Grid>
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}>Feedback</Typography>

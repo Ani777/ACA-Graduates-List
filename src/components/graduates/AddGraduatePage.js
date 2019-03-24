@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
-import {isValidEmail, isValidName, isValidPhoneNumber, isValidDateOfBirth, isValidTestResults, isValidRequired} from "./Validator";
+import {
+    isValidEmail,
+    isValidName,
+    isValidPhoneNumber,
+    isValidYearOfBirth,
+    isValidTestsResult,
+    isValidUrl,
+    isValidRequired
+} from "./Validator";
 import PropTypes from 'prop-types';
 import Hidden from '@material-ui/core/Hidden';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -52,25 +60,24 @@ const styles = theme => ({
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit,
     },
+
     submit: {
         marginTop: theme.spacing.unit,
-
     },
+
     input: {
         height: 27,
     },
+
     inputLabel: {
         height: 5,
     },
+
     buttons: {
         display: "flex",
         justifyContent: "space-between",
         marginTop: theme.spacing.unit * 6,
-
     },
-
-
-
 });
 
 function AddGraduate(props) {
@@ -78,27 +85,27 @@ function AddGraduate(props) {
     const { classes, courses } = props;
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
 
-    const course = useFormInput('');
-    const dateOfBirth = useFormInput('');
-    const email = useFormInput('');
-    const feedback = useFormInput('');
     const firstName = useFormInput('');
     const lastName = useFormInput('');
+    const course = useFormInput('');
+    const email = useFormInput('');
     const phoneNumber = useFormInput('');
-    const testResults = useFormInput('');
-    const works = useFormInput('');
+    const yearOfBirth = useFormInput('');
+    const feedback = useFormInput('');
+    const testsResult = useFormInput('');
     const isWorking = useFormInput('');
+    const works = useFormInput('');
     const [id, setId] = useState('');
-
 
     const [firstNameValidationErrors, setFirstNameValidationErrors] = useState([]);
     const [lastNameValidationErrors, setLastNameValidationErrors] = useState([]);
-    const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
-    const [emailValidationErrors, setEmailValidationErrors] = useState([]);
-    const [dateOfBirthValidationErrors, setDateOfBirthValidationErrors] = useState([]);
-    const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
-    const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
     const [courseValidationErrors, setCourseValidationErrors] = useState([]);
+    const [emailValidationErrors, setEmailValidationErrors] = useState([]);
+    const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
+    const [yearOfBirthValidationErrors, setYearOfBirthValidationErrors] = useState([]);
+    const [testsResultValidationErrors, setTestsResultValidationErrors] = useState([]);
+    const [worksValidationErrors, setWorksValidationErrors] = useState([]);
+
 
     function isValidSignUpForm() {
 
@@ -108,64 +115,55 @@ function AddGraduate(props) {
         const lastNameErrors = isValidName(lastName.value);
         setLastNameValidationErrors(lastNameErrors);
 
+        const courseErrors = isValidRequired(course.value);
+        setCourseValidationErrors(courseErrors);
+
         const emailErrors = isValidEmail(email.value);
         setEmailValidationErrors(emailErrors);
-
-        const dateOfBirthErrors = isValidDateOfBirth(dateOfBirth.value);
-        setDateOfBirthValidationErrors(dateOfBirthErrors);
-
-        const testResultsErrors = isValidTestResults(testResults.value);
-        setTestResultsValidationErrors(testResultsErrors);
 
         const phoneNumberErrors = isValidPhoneNumber(phoneNumber.value);
         setPhoneNumberValidationErrors(phoneNumberErrors);
 
-        const feedbackErrors = isValidRequired(feedback.value);
-        setFeedbackValidationErrors(feedbackErrors);
+        const yearOfBirthErrors = isValidYearOfBirth(yearOfBirth.value);
+        setYearOfBirthValidationErrors(yearOfBirthErrors);
 
-        const courseErrors = isValidRequired(course.value);
-        setCourseValidationErrors(courseErrors);
+        const testsResultErrors = isValidTestsResult(testsResult.value);
+        setTestsResultValidationErrors(testsResultErrors);
+
+        const worksErrors = isValidUrl(works.value);
+        setWorksValidationErrors(worksErrors);
 
         if(!firstNameErrors.length &&
             !lastNameErrors.length &&
             !phoneNumberErrors.length &&
             !emailErrors.length &&
-            !feedbackErrors.length &&
-            !dateOfBirthErrors.length &&
+            !yearOfBirthErrors.length &&
             !courseErrors.length &&
-            !testResultsErrors.length ){
+            !testsResultErrors.length ){
             return true
         }
     };
 
 
-
-
     function onGraduateFormSubmit (e) {
-
         e.preventDefault();
-
         const data = {
-            course: course.value,
-            dateOfBirth: Number(dateOfBirth.value),
-            email: email.value,
-            feedback: feedback.value,
             firstName: firstName.value,
             lastName: lastName.value,
+            course: course.value,
+            email: email.value,
             phoneNumber: phoneNumber.value,
-            testResults: Number(testResults.value),
-            works: works.value,
+            yearOfBirth: Number(yearOfBirth.value),
+            feedback: feedback.value,
+            testsResult: Number(testsResult.value),
             isWorking: isWorking.value==="true",
+            works: works.value,
             visibleFor: []
         }
-
-
-
 
         if(!isValidSignUpForm()){
             return;
         }
-
 
         FireManager.createGraduateInFirebase(data)
             .then(doc=>{
@@ -179,10 +177,6 @@ function AddGraduate(props) {
             .catch(err=>{
                 console.error(err.message)
             })
-
-
-
-
     }
 
     return !addedNewStudent?(
@@ -203,16 +197,11 @@ function AddGraduate(props) {
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
-
                     </FormControl>
-
-
-
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="lastName" className={classes.inputLabel}>Last Name</InputLabel>
                         <Input  name="lastName" type="text" className={classes.input}  {...lastName} />
-
                         <Hidden xlDown>
                             <Input error={!!lastNameValidationErrors.length} {...lastName} />
                         </Hidden>
@@ -223,13 +212,8 @@ function AddGraduate(props) {
                         )}
                     </FormControl>
 
-
-
-
-
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="course">Courses</InputLabel>
-
                         <Select {...course}>
                             {tabs}
                         </Select>
@@ -241,13 +225,7 @@ function AddGraduate(props) {
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
-
-
-
                     </FormControl>
-
-
-
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
@@ -260,14 +238,11 @@ function AddGraduate(props) {
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
-
                     </FormControl>
-
-
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="phone" >Phone Number</InputLabel>
-                        <Input name="phone" type="text" id="phoneNumber"  className={classes.input} {...phoneNumber}/>
+                        <Input name="phone" type="text"   className={classes.input} {...phoneNumber}/>
                         <Hidden xlDown>
                             <Input  error={!!phoneNumberValidationErrors.length} {...phoneNumber}  autoFocus />
                         </Hidden>
@@ -278,45 +253,32 @@ function AddGraduate(props) {
                         )}
                     </FormControl>
 
-
-
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="dateOfBirth">Date Of Birth</InputLabel>
-                        <Input name="lastName" type="text" className={classes.input}  {...dateOfBirth}/>
+                        <InputLabel htmlFor="yearOfBirth">Date Of Birth</InputLabel>
+                        <Input name="lastName" type="text" className={classes.input}  {...yearOfBirth}/>
                         <Hidden xlDown>
-                            <Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus />
+                            <Input  error={!!yearOfBirthValidationErrors.length} {...yearOfBirth}  autoFocus />
                         </Hidden>
-                        {!!dateOfBirthValidationErrors.length && (
-                            dateOfBirthValidationErrors.map(error => (
+                        {!!yearOfBirthValidationErrors.length && (
+                            yearOfBirthValidationErrors.map(error => (
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
                     </FormControl>
-
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="lastName">Feedback</InputLabel>
                         <Input name="feedback" type="text"  className={classes.input}  {...feedback}/>
-                        <Hidden xlDown>
-                            <Input  error={!!feedbackValidationErrors.length} {...feedback} />
-                        </Hidden>
-                        {!!feedbackValidationErrors.length && (
-                            feedbackValidationErrors.map(error => (
-                                <Typography color="error" key={error}>{error}</Typography>
-                            ))
-                        )}
-
                     </FormControl>
 
-
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Test's Results</InputLabel>
-                        <Input name="testResults" type="text"  className={classes.input}  {...testResults} />
+                        <InputLabel htmlFor="lastName">Test's Result</InputLabel>
+                        <Input name="testsResult" type="text"  className={classes.input}  {...testsResult} />
                         <Hidden xlDown>
-                            <Input  error={!!testResultsValidationErrors.length}  autoFocus />
+                            <Input  error={!!testsResultValidationErrors.length}  autoFocus />
                         </Hidden>
-                        {!!testResultsValidationErrors.length && (
-                            testResultsValidationErrors.map(error => (
+                        {!!testsResultValidationErrors.length && (
+                            testsResultValidationErrors.map(error => (
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
@@ -331,6 +293,11 @@ function AddGraduate(props) {
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="lastName">Works</InputLabel>
                         <Input name="lastName" type="text" id="lastName" className={classes.input}  {...works}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
                     </FormControl>
                     <div className={classes.buttons} >
                         <Button  variant="contained" color="secondary" className={classes.submit} component={Link} to='/graduates'>
@@ -347,7 +314,6 @@ function AddGraduate(props) {
                                 Add
                             </Button>
                     </div>
-
                 </form>
             </Paper>
         </main>
