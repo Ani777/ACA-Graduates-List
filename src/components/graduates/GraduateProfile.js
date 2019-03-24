@@ -12,7 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import EditGraduateProfile from "./EditGraduateProfile";
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
 
@@ -76,19 +76,13 @@ const styles = theme => ({
         paddingRight: theme.spacing.unit * 5,
     },
 
-    // back: {
-    //     display: 'inline-block',
-    //     marginTop: theme.spacing.unit,
-    //     marginLeft:  theme.spacing.unit * 5,
-    //
-    //
-    // },
-    // submit: {
-    //     display: 'inline-block',
-    //     marginTop: theme.spacing.unit,
-    //     marginLeft: theme.spacing.unit * 35,
+   progress: {
+       display: 'flex',
+       justifyContent: 'center',
+       alignItems: 'center',
+       height: '100vh'
+   },
 
-    // },
     first: {
         fontSize: theme.spacing.unit * 2,
         fontWeight: 'bold',
@@ -110,7 +104,8 @@ class Profile extends Component {
 
     state = {
         graduate: {},
-        open: false
+        open: false,
+        loading: false,
     };
 
     handleClickOpen = () => {
@@ -122,12 +117,14 @@ class Profile extends Component {
     };
 
     componentDidMount() {
+        this.setState({loading: true})
 
         const { graduatesid } = this.props;
         if (graduatesid) {
             FireManager.getGraduate(graduatesid)
                 .then(graduate => {
-                this.setState({graduate})
+                this.setState({graduate,
+                loading: false})
             });
         }
     }
@@ -136,7 +133,8 @@ class Profile extends Component {
         const { graduatesid } = this.props;
         if (graduatesid) {
             FireManager.getGraduate(graduatesid).then(graduate => {
-                this.setState({graduate})
+                this.setState({graduate,
+                                    loading: false})
             });
         }
 
@@ -157,10 +155,12 @@ class Profile extends Component {
             isWorking,
             works
         } } = this.state;
+        const { loading } = this.state;
 
         return (
             <>
-                <Dialog
+                {loading? <div className="progress"><CircularProgress/></div>:<>
+                    <Dialog
                     fullScreen
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -235,6 +235,7 @@ class Profile extends Component {
                             </Button>
                     </div>
                 </Paper>
+                    </>}
                 </>
         )
     }

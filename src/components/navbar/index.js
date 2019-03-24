@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import FireManager from "../../firebase/FireManager";
 import GraduatesList from "../graduates/GraduatesList";
 import firebase from 'firebase';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function TabContainer(props) {
     return (
