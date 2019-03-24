@@ -3,12 +3,12 @@ import 'firebase/firestore'
 
 
 const config = {
-    apiKey: "AIzaSyABwTokkW4fQhjSCurJJpp3S6HBCsB45IA",
-    authDomain: "aca-graduate-s-list.firebaseapp.com",
-    databaseURL: "https://aca-graduate-s-list.firebaseio.com",
-    projectId: "aca-graduate-s-list",
-    storageBucket: "aca-graduate-s-list.appspot.com",
-    messagingSenderId: "361257217865"
+    apiKey: "AIzaSyA8V_ihIPLTgp3h9gtvjABNrXvZGH1t728",
+    authDomain: "graduates-list.firebaseapp.com",
+    databaseURL: "https://graduates-list.firebaseio.com",
+    projectId: "graduates-list",
+    storageBucket: "graduates-list.appspot.com",
+    messagingSenderId: "339352692674"
 };
 
 

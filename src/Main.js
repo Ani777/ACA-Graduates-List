@@ -11,6 +11,7 @@ import Profile from "./components/graduates/GraduateProfile";
 import HeaderForCustomers from "./components/Header/headerForCustomers";
 import ViewForCompanies from "./components/graduates/ViewForCompanies";
 import FireManager from "./firebase/FireManager";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 class Main extends Component {
@@ -23,6 +24,36 @@ class Main extends Component {
             courses.push(course);
             this.setState({ courses });
         };
+
+    deleteCourse=(course)=>{
+        FireManager.findCourseId(course)
+            .then(courseId =>{
+        return FireManager.deleteCourse(courseId)})
+            .then(()=>{
+                return FireManager.getCourses()
+            })
+            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
+            .then(courses => {
+                this.setState({courses})
+            })
+            .catch(err => {
+                console.error(err.message)
+            })
+    }
+
+    editCourse =(courseId, newName)=> {
+        return FireManager.editCourse(courseId, newName)
+            .then(()=>{
+                    return FireManager.getCourses()
+                })
+            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
+            .then(courses => {
+                this.setState({courses})
+            })
+            .catch(err => {
+                console.error(err.message)
+            })
+    }
 
 
     componentDidMount() {
@@ -52,7 +83,7 @@ class Main extends Component {
                            <ViewForCompanies company={company}/>
                         </>
                     </Router>
-                ):(
+                ): role === 'admin' ? (
             <Router>
             <div className="App">
 
@@ -66,7 +97,9 @@ class Main extends Component {
                         <NavBar courses={courses} />)}/>
                     <Route path="/courses" exact strict render={() => (
                        <CoursesContainer courses={courses}
-                                         handleChange={this.handleCoursesChange}/>
+                                         handleChange={this.handleCoursesChange}
+                                         deleteCourse={this.deleteCourse}
+                                         editCourse={this.editCourse}/>
                     )}/>
                     <Route path="/graduates/addgraduate" exact strict render={() => (
                         <AddGraduate courses={courses}/>
@@ -76,7 +109,7 @@ class Main extends Component {
                 </Switch>
 
             </div>
-            </Router>)  }
+            </Router>) : <div className="progress"> <CircularProgress disableShrink className="progress"/></div> }
                 </>)
     }
 }

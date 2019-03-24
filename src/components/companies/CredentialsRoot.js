@@ -25,9 +25,8 @@ function CredentialsRoot(props){
 
 
     const { classes } = props;
-    debugger
     return (
-            props.showCreateUserDialog ?
+        props.showCreateUserDialog ?
             (<ul style={{listStyle: "none", padding: "24px"}}>
                 <li>E-mail:
                     <div style={{display: "flex"}}>
@@ -53,9 +52,9 @@ function CredentialsRoot(props){
                         Copy
                     </Button>
                 </div>
-            
+
             )
-        
+
     )
 }
 

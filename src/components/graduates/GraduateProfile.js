@@ -18,13 +18,14 @@ const styles = theme => ({
 
     paper: {
         maxWidth: 500,
+
         marginTop: theme.spacing.unit * 5,
         marginBottom: theme.spacing.unit * 5,
         marginLeft: 'auto',
         marginRight: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+        padding: `16px 24px 24px`,
         color: theme.palette.text.primary,
     },
 

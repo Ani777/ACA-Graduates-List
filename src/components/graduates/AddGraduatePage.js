@@ -160,6 +160,8 @@ function AddGraduate(props) {
         }
 
 
+
+
         if(!isValidSignUpForm()){
             return;
         }
@@ -167,10 +169,13 @@ function AddGraduate(props) {
 
         FireManager.createGraduateInFirebase(data)
             .then(doc=>{
-                setId(doc.id)
-                setAddedNewStudent(true)
+                setId(doc.id);
+                setAddedNewStudent(true);
+                return doc.id
 
-            })
+            }).then((graduateId)=>{
+               FireManager.addGraduateToCourse(data.course, graduateId)
+        })
             .catch(err=>{
                 console.error(err.message)
             })

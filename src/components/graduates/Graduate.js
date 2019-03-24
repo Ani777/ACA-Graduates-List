@@ -79,8 +79,10 @@ class Graduate extends Component {
 
     componentDidMount() {
         FireManager.getCompanies().then(querySnapshot => {
+            const datas = querySnapshot.docs.map(doc => ({data: doc.data(), id: doc.id}));
+            const companies = datas.filter(item => item.data.role === 'customer');
             this.setState({
-                companies: querySnapshot.docs.map(doc => ({data: doc.data(), id: doc.id})),
+                companies,
                 visibleFor: this.props.data.graduate.visibleFor
             });
         });
@@ -147,43 +149,43 @@ class Graduate extends Component {
                 <TableCell component="th" scope="row" padding="none">{data.graduate.lastName}</TableCell>
                 <TableCell align="right">{data.graduate.testResults}</TableCell>
                 <TableCell align="right">
-                        <FormControl variant="outlined" className={classes.formControl}>
-                            <Select
-                                displayEmpty
-                                multiple
-                                className={classes.visibleForSelect}
-                                value={this.state.visibleFor}
-                                onChange={this.handleChange}
-                                input={
-                                    <OutlinedInput
-                                      name="companies"
-                                      labelWidth={0}
-                                      id="outlined-age-native-simple"
-                                    />
-                                  }
-                                renderValue={() => {
-                                    return (visibleFor.length ?
+                    <FormControl variant="outlined" className={classes.formControl}>
+                        <Select
+                            displayEmpty
+                            multiple
+                            className={classes.visibleForSelect}
+                            value={this.state.visibleFor}
+                            onChange={this.handleChange}
+                            input={
+                                <OutlinedInput
+                                    name="companies"
+                                    labelWidth={0}
+                                    id="outlined-age-native-simple"
+                                />
+                            }
+                            renderValue={() => {
+                                return (visibleFor.length ?
                                     visibleFor.length === 1 ? `1 company selected` :
-                                    `${visibleFor.length} companies selected` : `no companies selected`)
-                                }}
-                                
-                                open={this.state.visibleForSelectOpen}
-                                onClose={this.handleClose}
-                                onOpen={this.handleOpen}
-                                //MenuProps={MenuProps}
-                            >
-                                {this.state.companies.map(company => (
-                                    <MenuItem key={company.id} value={company.id}>
-                                        <Checkbox checked={this.state.visibleFor.indexOf(company.id) > -1}/>
-                                        <ListItemText primary={company.data.name}/>
-                                    </MenuItem>)
-                                )
-                                }
-                            </Select>
-                        </FormControl>
+                                        `${visibleFor.length} companies selected` : `no companies selected`)
+                            }}
 
-                        
-                    
+                            open={this.state.visibleForSelectOpen}
+                            onClose={this.handleClose}
+                            onOpen={this.handleOpen}
+                            //MenuProps={MenuProps}
+                        >
+                            {this.state.companies.map(company => (
+                                <MenuItem key={company.id} value={company.id}>
+                                    <Checkbox checked={this.state.visibleFor.indexOf(company.id) > -1}/>
+                                    <ListItemText primary={company.data.name}/>
+                                </MenuItem>)
+                            )
+                            }
+                        </Select>
+                    </FormControl>
+
+
+
                     {/* {this.state.visibleFor.length} */}
                 </TableCell>
                 <TableCell align="right">

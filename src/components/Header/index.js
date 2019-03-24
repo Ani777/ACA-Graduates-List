@@ -17,9 +17,13 @@ const styles = {
         cursor: 'pointer',
         textDecoration: 'none'
     },
-    button:{
-     width: 250
-}
+    button: {
+        width: 250,
+        textTransform: 'none'
+    },
+    tools: {
+        minWidth: 750
+    }
 };
 
 function ButtonAppBar(props) {
@@ -28,7 +32,7 @@ function ButtonAppBar(props) {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar className={classes.tools}>
 
                     <Typography
                         variant="h5"

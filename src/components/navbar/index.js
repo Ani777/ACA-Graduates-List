@@ -64,14 +64,16 @@ class NavBar extends React.Component {
             .then(()=> {
                 return FireManager.getGraduates()})
             .then(querySnapshot => {
-                this.setState({graduates: querySnapshot.docs.map(doc => {
+                this.setState({
+                    graduates: querySnapshot.docs.map(doc => {
                         const docData = doc.data();
                         return {
                             ...docData,
                             id: doc.id
                         };
                     }),
-                    selected:[]
+                    selected: [],
+                    filteredGraduates: false
                 })})
         .catch(err => {
             console.error((err.message))
@@ -80,10 +82,14 @@ class NavBar extends React.Component {
 
     handleSelectAllClick = event => {
         if (event.target.checked) {
-            this.setState({ selected: this.state.graduates.map(n => n.id) });
+            const selected = this.state.filteredGraduates ? this.state.filteredGraduates.map(n => n.id) : this.state.graduates.map(n => n.id);
+            this.setState({ selected });
             return;
         }
-        this.setState({ selected: [] });
+        this.setState({
+            selected: [],
+            filteredGraduates: this.state.graduates
+        });
     };
 
     handleClick = (event, id) => {
@@ -104,60 +110,73 @@ class NavBar extends React.Component {
             );
         }
 
-        this.setState({ selected: newSelected });
+        this.setState({ 
+            selected: newSelected,
+            filteredGraduates: newSelected.length ? this.state.filteredGraduates : this.state.graduates
+        });
     };
 
 
 
 
     componentDidMount(){
-            FireManager.getGraduates()
-                .then(querySnapshot => {
-                    this.setState({graduates: querySnapshot.docs.map(doc => {
-                        const docData = doc.data();
-                        return {
-                            ...docData,
-                            id: doc.id
-                        };
-                    })
-                    });
-                })
-                .catch(error => {
-                    console.error("Error getting graduates:", error);
-                })
-    }
-
-    componentDidUpdate() {                 // for visibleFor sorting
-        FireManager.getGraduates().then(querySnapshot => {
-            this.setState({graduates: querySnapshot.docs.map(doc => {
+        FireManager.getGraduates()
+            .then(querySnapshot => {
+                this.setState({graduates: querySnapshot.docs.map(doc => {
                     const docData = doc.data();
                     return {
                         ...docData,
                         id: doc.id
                     };
-                })
-            });
-        }).catch(error => {
-            console.error("Error getting graduates:", error);
-        })
+                }),
+                });
+            })
+            .catch(error => {
+                console.error("Error getting graduates:", error);
+            })
     }
 
+    // componentDidUpdate() {                 // for visibleFor sorting
+    //     FireManager.getGraduates().then(querySnapshot => {
+    //         this.setState({graduates: querySnapshot.docs.map(doc => {
+    //                 const docData = doc.data();
+    //                 return {
+    //                     ...docData,
+    //                     id: doc.id
+    //                 };
+    //             })
+    //         });
+    //     }).catch(error => {
+    //         console.error("Error getting graduates:", error);
+    //     })
+    // }
 
 
+    
+    handleFilterGraduates = searchString => {
+        const { graduates } = this.state;
+        searchString = searchString.replace(/\s/g,'').toLowerCase();
+        debugger
+        const filteredGraduates = graduates.filter(graduate => {
+            let firstLast = (graduate.firstName + graduate.lastName).replace(/\s/g,'').toLowerCase();
+            let lastFirst = (graduate.lastName + graduate.firstName).replace(/\s/g,'').toLowerCase();
+            debugger
+            return (firstLast.includes(searchString) || lastFirst.includes(searchString));
+        })
+        this.setState({ filteredGraduates });
+    }
 
     handleChange = (event, value) => {
         this.setState({ value });
     };
 
     render() {
-        const { classes } = this.props;
-        const { value, graduates } = this.state;
-        const { courses } = this.props;
+        const { classes, courses } = this.props;
+        const { value } = this.state;
+        const graduates = this.state.filteredGraduates ? this.state.filteredGraduates : this.state.graduates;
         const tabs = courses.map((course, index) => <Tab key={course+index} label={course} />);
-        const graduatesList = value ===0 ? graduates: graduates.filter(graduate => graduate.course === courses[value-1])
-
-
-
+        const graduatesList = value ===0 ? graduates: graduates.filter(graduate => graduate.course === courses[value-1]);
+        
         return (
             <div className={classes.root}>
                 <AppBar position="static" color="default">
@@ -173,12 +192,16 @@ class NavBar extends React.Component {
                         {tabs}
                     </Tabs>
                 </AppBar>
-
-               <TabContainer><GraduatesList graduates={graduatesList}
-                                            selected={this.state.selected}
-                                            handleSelectAllClick={this.handleSelectAllClick}
-                                            handleDeleteButtonClick={this.handleDeleteButtonClick}
-                                            handleClick={this.handleClick}/></TabContainer>
+               <TabContainer>
+                   <GraduatesList
+                        graduates={graduatesList}
+                        selected={this.state.selected}
+                        filterGraduates={this.handleFilterGraduates}
+                        handleSelectAllClick={this.handleSelectAllClick}
+                        handleDeleteButtonClick={this.handleDeleteButtonClick}
+                        handleClick={this.handleClick}
+                    />
+                </TabContainer>
             </div>
         );
     }

@@ -10,6 +10,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { Link } from 'react-router-dom';
 import AlertDialog from '../alertDialogs/AlertDialog';
+import Search from './Search';
+
 
 const toolbarStyles = theme => ({
     root: {
@@ -33,23 +35,28 @@ const toolbarStyles = theme => ({
     },
     title: {
         flex: '0 0 auto',
+
     },
 
-      formControl: {
+    titleSearch: {
+        display: 'flex'
+    },
+
+    formControl: {
         margin: theme.spacing.unit,
         minWidth: 120,
         maxWidth: 300,
-      },
-      chips: {
+    },
+    chips: {
         display: 'flex',
         flexWrap: 'wrap',
-      },
-      chip: {
+    },
+    chip: {
         margin: theme.spacing.unit / 4,
-      },
-      noLabel: {
+    },
+    noLabel: {
         marginTop: theme.spacing.unit * 3,
-      },
+    },
 });
 
 
@@ -57,7 +64,6 @@ class GraduatesListToolbar extends Component {
     state = {
         open: false,
     };
-    
     handleClickOpenDialog = () => {
         this.setState({ open: true });
     };
@@ -70,7 +76,6 @@ class GraduatesListToolbar extends Component {
         this.props.removeGraduate();
         this.handleCloseDialog()
     }
-    
 
     render() {
         const { selectedGraduatesIds, classes } = this.props;
@@ -80,7 +85,7 @@ class GraduatesListToolbar extends Component {
                     open={this.state.open}
                     close={this.handleCloseDialog}
                     onYesBtnClick={this.handleRemoveGraduate}
-                    subject={selectedGraduatesIds.length > 1 ? 'graduates' : 'graduate'}
+                    subject={selectedGraduatesIds.length > 1 ? 'these graduates' : 'this graduate'}
                 />
                 <Toolbar
                     className={classNames(classes.root, {
@@ -93,9 +98,12 @@ class GraduatesListToolbar extends Component {
                                 {selectedGraduatesIds.length} selected
                             </Typography>
                         ) : (
-                            <Typography variant="h6" id="tableTitle">
-                                Graduates
-                            </Typography>
+                            <div className={classes.titleSearch}>
+                                <Typography variant="h6" id="tableTitle">
+                                    Graduates
+                                </Typography>
+                                <Search filterGraduates={this.props.filterGraduates}/>
+                            </div>
                         )}
                     </div>
                     <div className={classes.spacer} />

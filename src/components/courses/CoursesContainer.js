@@ -11,6 +11,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+
 
 
 
@@ -27,6 +30,7 @@ const styles = theme => ({
     },
     paper: {
         display: 'flex',
+        position: 'relative',
         width: theme.spacing.unit *16,
         padding: theme.spacing.unit * 2,
         height: 'auto',
@@ -43,6 +47,41 @@ const styles = theme => ({
     },
     text: {
         verticalAlign: 'center',
+    },
+    // icons: {
+    //     position: 'absolute',
+    //     top: 0,
+    //     right: 0,
+    //
+    // },
+
+
+    icon: {
+        fontSize: 18
+    },
+    // iconButton: {
+    //     position: 'absolute',
+    //     width: 24,
+    //     height:24,
+    //     padding: 0
+    // },
+
+    edit: {
+        position: 'absolute',
+        width: 24,
+        height:24,
+        padding: 0,
+        bottom: 0,
+        right: 0
+    },
+
+    delete: {
+        position: 'absolute',
+        width: 24,
+        height:24,
+        padding: 0,
+        top: 0,
+        right: 0
     }
 });
 
@@ -53,6 +92,8 @@ class CoursesContainer extends Component {
     state = {
         name: '',
         open: false,
+        editOpen: false,
+        activeCourseId: '',
     };
 
     handleChange =(e)=>{
@@ -66,6 +107,29 @@ class CoursesContainer extends Component {
     handleClose = () => {
         this.setState({ open: false, name: '' });
     };
+
+    handleEditClose = () => {
+        this.setState({ editOpen: false, name: '' });
+    };
+    handleEditOpen =(value)=>{
+        FireManager.findCourseId(value).then(id => {
+        this.setState({
+            name: value,
+            editOpen: true,
+            activeCourseId: id
+        })
+        })
+
+    }
+
+    editCourse =()=>{
+        const {name, activeCourseId } = this.state
+        this.props.editCourse(activeCourseId, name)
+            .then(()=>{
+                    this.handleEditClose()
+                })
+            }
+
 
     onCourseFormSubmit =(e)=> {
         e.preventDefault();
@@ -119,12 +183,55 @@ class CoursesContainer extends Component {
                 </DialogActions>
             </Dialog>
 
-            <div className={classes.root}>
+                <Dialog
+                    open={this.state.editOpen}
+                    onClose={this.handleEditClose}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Edit Course</DialogTitle>
+                    <DialogContent>
+
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Course Name"
+                            type="email"
+                            fullWidth
+                            value={this.state.name}
+                            onChange={this.handleChange}
+
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button className={classes.button} type='submit' variant="contained" color="primary" onClick={this.editCourse} >
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+
+                <div className={classes.root}>
 
                     {this.props.courses.map(course => (
 
                             <Paper className={classes.paper} key={course}>
-                               {course}
+                                {course}
+
+                                    <Tooltip title="Edit">
+                                        <IconButton aria-label="Edit" onClick={()=>this.handleEditOpen(course)} className={classes.edit}>
+                                            <EditIcon className={classes.icon} />
+                                        </IconButton>
+                                    </Tooltip>
+
+
+                                <Tooltip title="Delete">
+                                    <IconButton aria-label="Delete" onClick={()=>this.props.deleteCourse(course)}className={classes.delete } >
+                                        <DeleteIcon className={classes.icon} />
+                                    </IconButton>
+                                </Tooltip>
+
+
                             </Paper>
 
                     ))}
