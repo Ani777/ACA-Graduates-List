@@ -26,31 +26,23 @@ class Main extends Component {
         };
 
     deleteCourse=(course)=>{
+        const { courses } = this.state;
+        courses.splice(courses.indexOf(course), 1);
+        this.setState({courses});
 
         return FireManager.findCourseId(course)
             .then(courseId =>{
         return FireManager.deleteCourse(courseId)})
-            .then(()=>{
-                return FireManager.getCourses()
-            })
-            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
-            .then(courses => {
-                this.setState({courses})
-            })
             .catch(err => {
                 console.error(err.message)
             })
     }
 
-    editCourse =(courseId, newName)=> {
+    editCourse =(courseId, newName, oldName)=> {
+        const { courses } = this.state;
+        courses[courses.indexOf(oldName)] = newName;
+        this.setState({courses});
         return FireManager.editCourse(courseId, newName)
-            .then(()=>{
-                    return FireManager.getCourses()
-                })
-            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
-            .then(courses => {
-                this.setState({courses})
-            })
             .catch(err => {
                 console.error(err.message)
             })

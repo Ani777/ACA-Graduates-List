@@ -55,13 +55,13 @@ export default class FireManager {
               return courseRef.get()
            })
            .then(doc => doc.data().graduates)
-           .then(graduates => {if (graduates.length > 0 ){
+           .then(graduates => {
                return Promise.all(graduates.map(id => {
                return firestore()
                    .collection('graduates')
                    .doc(id)
                    .get()
-           }))}})
+           }))})
            .then(doc => {
 
                return doc.map(graduate=>{

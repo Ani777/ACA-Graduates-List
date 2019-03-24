@@ -14,11 +14,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AlertDialogSlide from "../alertDialogs/AlertDialog";
-import AlertDialog from "../graduates/GraduatesListToolbar";
-
-
-
-
 
 
 const styles = theme => ({
@@ -50,23 +45,11 @@ const styles = theme => ({
     text: {
         verticalAlign: 'center',
     },
-    // icons: {
-    //     position: 'absolute',
-    //     top: 0,
-    //     right: 0,
-    //
-    // },
 
 
     icon: {
         fontSize: 18
     },
-    // iconButton: {
-    //     position: 'absolute',
-    //     width: 24,
-    //     height:24,
-    //     padding: 0
-    // },
 
     edit: {
         position: 'absolute',
@@ -120,7 +103,8 @@ class CoursesContainer extends Component {
         this.setState({
             name: value,
             editOpen: true,
-            activeCourseId: id
+            activeCourseId: id,
+            activeCourse: value
         })
         })
 
@@ -137,18 +121,16 @@ class CoursesContainer extends Component {
     }
 
     editCourse =()=> {
-        const {name, activeCourseId} = this.state
-        this.props.editCourse(activeCourseId, name)
-            .then(() => {
-                this.handleEditClose()
-            })
+        this.handleEditClose()
+        const {name, activeCourseId, activeCourse} = this.state;
+
+        this.props.editCourse(activeCourseId, name, activeCourse)
+
     }
 
     deleteCourse=()=>{
-        this.props.deleteCourse(this.state.activeCourse).then(()=>{
-            this.handleConFirmClose()
-        })
-
+        this.handleConFirmClose()
+        this.props.deleteCourse(this.state.activeCourse)
     }
 
 
@@ -281,6 +263,5 @@ class CoursesContainer extends Component {
     }
 }
 
-//export default CoursesContainer;
 
 export default withStyles(styles)(CoursesContainer);
