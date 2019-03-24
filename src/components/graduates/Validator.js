@@ -138,3 +138,7 @@ export const isValidField = field =>{
     const validateResult = schema.validate(field, {list: true});
     return validateResult.map(errorKey => isValidValidationMap[errorKey]);
 };
+
+export const isValidPassword = password =>{
+    return password.length < 6 ? ['Minimum length 6']: [];
+};

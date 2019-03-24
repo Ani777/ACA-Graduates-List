@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {APP_DEFAULT_COMPANY_ROLE} from "../../constants/appConstants";
-import { isValidEmail} from "../graduates/Validator";
+import {isValidEmail, isValidPassword} from "../graduates/Validator";
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
@@ -46,13 +46,11 @@ const styles = theme => ({
         justifyContent:
             "space-between",
         marginTop: theme.spacing.unit * 6,
-
     },
     formWrapper: {
         padding: 30
     }
 });
-
 
 function AddCompanyPage(props) {
     let name = useFormInput('');
@@ -60,6 +58,7 @@ function AddCompanyPage(props) {
     let email = useFormInput('');
     let [password, setPassword] = useState('');
     const [emailValidationError, setEmailValidationError] = useState('');
+    const [passwordValidationError, setPasswordValidationError] = useState('');
 
 
     function handlePasswordChange (e){
@@ -75,7 +74,13 @@ function AddCompanyPage(props) {
 
         const emailErrors = isValidEmail(email.value);
         setEmailValidationError(emailErrors);
-        if(!emailErrors.length){
+
+        const passwordErrors = isValidPassword(password);
+        setPasswordValidationError(passwordErrors);
+
+        if(!emailErrors.length &&
+            !passwordErrors.length
+        ){
             return true
         }
     }
@@ -169,6 +174,11 @@ function AddCompanyPage(props) {
                         auto
                     </Button>
                 </div>
+                {!!passwordValidationError.length && (
+                    passwordValidationError.map(error => (
+                        <Typography color="error" key={error}>{error}</Typography>
+                    ))
+                )}
                 <div className={classes.buttons} >
                     <Button variant="contained" color="secondary" className={classes.button} onClick={props.handleClose}>
                         Cancel
