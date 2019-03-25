@@ -100,8 +100,6 @@ class ProfileForCompanies extends Component {
                         <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
 
 
-
-
                         <Grid container className={classes.mainInfo}>
 
 

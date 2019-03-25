@@ -12,6 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import EditGraduateProfile from "./EditGraduateProfile";
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import FormControl from "./AddGraduatePage";
 
 const styles = theme => ({
 
@@ -105,10 +106,12 @@ class Profile extends Component {
     };
 
     componentDidMount() {
+        debugger
         const { graduatesid } = this.props;
         if (graduatesid) {
             FireManager.getGraduate(graduatesid)
                 .then(graduate => {
+                    debugger
                 this.setState({graduate})
             });
         }
@@ -135,8 +138,9 @@ class Profile extends Component {
             feedback,
             testsResult,
             isWorking,
-            works
+            // works
         } } = this.state;
+        const works=this.state.graduate.works;
 
         return (
             <>
@@ -195,12 +199,19 @@ class Profile extends Component {
                         <Grid item xs={8} className={classes.info}>
                             <Typography className={classes.second}>{isWorking ? 'Yes' : 'No'}</Typography>
                         </Grid>
+                        <Grid container>
                         <Grid item xs={4} className={classes.info}>
                             <Typography className={classes.first}>Works</Typography>
                         </Grid>
-                        <Grid item xs={8} className={classes.info}>
-                            <a href={works} target="_blank" rel="noopener noreferrer"><Typography className={classes.second} >{works}</Typography></a>
-                        </Grid>
+                            <Grid item xs={8} className={classes.info}>
+
+                        {works && works.map(work => {
+
+                                    return (
+                                    <a href={work} target="_blank" rel="noopener noreferrer"><Typography className={classes.second}  key = {work}>{`${work.slice(0,30)}...`}</Typography></a>
+                                )})}
+                            </Grid>
+                      </Grid>
                     </Grid>
                     <div className={classes.buttons} >
                         <Button  variant="contained" color="secondary" component={Link} to='/graduates'>

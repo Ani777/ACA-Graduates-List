@@ -94,8 +94,14 @@ function AddGraduate(props) {
     const feedback = useFormInput('');
     const testsResult = useFormInput('');
     const isWorking = useFormInput('');
-    const works = useFormInput('');
+    const works1 = useFormInput('');
+    const works2 = useFormInput('');
+    const works3 = useFormInput('');
     const [id, setId] = useState('');
+    const works = [];
+    works.push(works1.value);
+    works.push(works2.value);
+    works.push(works3.value);
 
     const [firstNameValidationErrors, setFirstNameValidationErrors] = useState([]);
     const [lastNameValidationErrors, setLastNameValidationErrors] = useState([]);
@@ -104,7 +110,7 @@ function AddGraduate(props) {
     const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
     const [yearOfBirthValidationErrors, setYearOfBirthValidationErrors] = useState([]);
     const [testsResultValidationErrors, setTestsResultValidationErrors] = useState([]);
-    const [worksValidationErrors, setWorksValidationErrors] = useState([]);
+     const [worksValidationErrors, setWorksValidationErrors] = useState([]);
 
 
     function isValidSignUpForm() {
@@ -130,7 +136,7 @@ function AddGraduate(props) {
         const testsResultErrors = isValidTestsResult(testsResult.value);
         setTestsResultValidationErrors(testsResultErrors);
 
-        const worksErrors = isValidUrl(works.value);
+        const worksErrors = isValidUrl(works1.value);
         setWorksValidationErrors(worksErrors);
 
         if(!firstNameErrors.length &&
@@ -157,7 +163,7 @@ function AddGraduate(props) {
             feedback: feedback.value,
             testsResult: Number(testsResult.value),
             isWorking: isWorking.value==="true",
-            works: works.value,
+            works: works,
             visibleFor: []
         }
 
@@ -290,15 +296,35 @@ function AddGraduate(props) {
                             <MenuItem value={true}>Yes</MenuItem>
                         </Select>
                     </FormControl>
+
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="lastName">Works</InputLabel>
-                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...works}/>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...works1}/>
                         {!!worksValidationErrors.length && (
                             worksValidationErrors.map(error => (
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
                     </FormControl>
+                     <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...works2}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+                    </FormControl>
+                     <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...works3}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+                    </FormControl>
+
                     <div className={classes.buttons} >
                         <Button  variant="contained" color="secondary" className={classes.submit} component={Link} to='/graduates'>
                             Cancel

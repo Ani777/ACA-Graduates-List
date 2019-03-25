@@ -50,7 +50,7 @@ const toolbarStyles = theme => ({
         //margin: theme.spacing.unit,
         minWidth: 170,
         // maxWidth: 100,
-        height: 35
+        height: theme.spacing.unit * 4.5
     },
     chips: {
         display: 'flex',
@@ -63,7 +63,7 @@ const toolbarStyles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
     visibleForSelect: {
-        fontSize: '12px'
+        fontSize: theme.spacing.unit * 1.5
     }
 });
 
