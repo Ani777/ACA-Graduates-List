@@ -62,6 +62,7 @@ export default class FireManager {
                    .doc(id)
                    .get()
            }))})
+           .then(docs => docs.filter(doc => doc.exists) )
            .then(doc => {
 
                return doc.map(graduate=>{
