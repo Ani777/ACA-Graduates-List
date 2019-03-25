@@ -85,9 +85,10 @@ function EditGraduateProfile(props) {
     const oldCourse = graduate.course;
 
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
-
+    let date=new Date();
+    let year = date.getFullYear();
     let years=[];
-    for (let i=1960; i<2020; i++){
+    for (let i=year-50; i<year-9; i++){
         years.push(i)
     };
     const yearsSelect = years.map(year => <MenuItem key={year} value={year}> {year} </MenuItem>);
