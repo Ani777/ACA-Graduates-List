@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const styles = theme => ({
@@ -140,11 +141,18 @@ class ProfileForCompanies extends Component {
 
 
 
-                            <Grid item xs={4} className={classes.info}>
-                                <Typography className={classes.first}>Works</Typography>
-                            </Grid>
-                            <Grid item xs={8} className={classes.info}>
-                                <a href={works} target="_blank" rel="noopener noreferrer"><Typography className={classes.second} >{works}</Typography></a>
+                            <Grid container>
+                                <Grid item xs={4} className={classes.info}>
+                                    <Typography className={classes.first}>Works</Typography>
+                                </Grid>
+                                <Grid item xs={8} className={classes.info}>
+
+                                    {works && works.map(work => {
+
+                                        return (
+                                            <Tooltip title={work} placement='right'><a href={work} target="_blank" rel="noopener noreferrer"> <Typography className={classes.second}  key = {work}>{`${work.slice(0,30)}...`}</Typography></a></Tooltip>
+                                        )})}
+                                </Grid>
                             </Grid>
 
                         </Grid>

@@ -219,7 +219,11 @@ class Profile extends Component {
                             <Typography className={classes.first}>Works</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
-                            <a href={works} target="_blank" rel="noopener noreferrer"><Typography className={classes.second} >{works}</Typography></a>
+                            {works && works.map(work => {
+
+                                return (
+                                    <a href={work} target="_blank" rel="noopener noreferrer"><Typography className={classes.second}  key = {work}>{`${work.slice(0,30)}...`}</Typography></a>
+                                )})}
                         </Grid>
                     </Grid>
                     <div className={classes.buttons} >
