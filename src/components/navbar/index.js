@@ -56,7 +56,8 @@ class NavBar extends React.Component {
         })
             .then(arrs => {
                 return Promise.all(arrs.map(arr => {
-                    return Promise.all[FireManager.RemoveGraduateForCompanies(arr[0], arr[1]), FireManager.removeGraduateFromCourse(arr[2], arr[1] ) ]
+                    return Promise.all[FireManager.RemoveGraduateForCompanies(arr[0], arr[1]),
+                                       FireManager.removeGraduateFromCourse(arr[2], arr[1] ) ]
             }))
         })
             .then(()=> {

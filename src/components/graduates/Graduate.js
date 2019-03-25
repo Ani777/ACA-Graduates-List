@@ -7,16 +7,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import FireManager from '../../firebase/FireManager';
 import { Link } from 'react-router-dom';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/icons/List';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 
@@ -50,7 +46,7 @@ const toolbarStyles = theme => ({
         //margin: theme.spacing.unit,
         minWidth: 170,
         // maxWidth: 100,
-        height: 35
+        height: theme.spacing.unit*4.5
     },
     chips: {
         display: 'flex',
@@ -63,7 +59,7 @@ const toolbarStyles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
     visibleForSelect: {
-        fontSize: '12px'
+        fontSize: theme.spacing.unit * 1.5,
     }
 });
 

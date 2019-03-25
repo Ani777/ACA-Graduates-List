@@ -43,20 +43,20 @@ const dateOfBirthValidationMap = {
     symbols: 'Should not have symbols',
 };
 
-const testResultValidationMap = {
-    min: 'This field is required',
-    letters: 'Should not have letters',
-    symbols: 'Should not have symbols',
-};
+// const testResultValidationMap = {
+//     min: 'This field is required',
+//     letters: 'Should not have letters',
+//     symbols: 'Should not have symbols',
+// };
 const requiredValidationMap = {
     min: 'This field is required'
 };
 
-const phoneNumberValidationMap = {
-    min: 'This field is required',
-    letters: 'Should not have letters',
-    symbols: 'Should not have symbols',
-};
+// const phoneNumberValidationMap = {
+//     min: 'This field is required',
+//     letters: 'Should not have letters',
+//     symbols: 'Should not have symbols',
+// };
 
 
 

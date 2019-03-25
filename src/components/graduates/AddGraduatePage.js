@@ -40,6 +40,11 @@ const styles = theme => ({
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
 
+    // select: {
+    //     width: theme.spacing.unit * 5,
+    //     height: theme.spacing.unit * 5
+    // },
+
     title: {
         display: 'flex',
         flexDirection: 'column',
@@ -77,9 +82,14 @@ function AddGraduate(props) {
     let [addedNewStudent, setAddedNewStudent] = useState(false);
     const { classes, courses } = props;
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
+    let years=[];
+    for (let i=1960; i<2020; i++){
+        years.push(i)
+    };
+    const yearsSelect = years.map(year => <MenuItem key={year} value={year}> {year} </MenuItem>);
 
     const course = useFormInput('');
-    const dateOfBirth = useFormInput('mm/dd/yyyy');
+    const dateOfBirth = useFormInput('');
     const email = useFormInput('');
     const feedback = useFormInput('');
     const firstName = useFormInput('');
@@ -152,7 +162,7 @@ function AddGraduate(props) {
 
         const data = {
             course: course.value,
-            dateOfBirth: dateOfBirth.value,
+            dateOfBirth: Number(dateOfBirth.value),
             email: email.value,
             feedback: feedback.value,
             firstName: firstName.value,
@@ -287,15 +297,18 @@ function AddGraduate(props) {
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="dateOfBirth" >Date Of Birth</InputLabel>
-                        <Input name="lastName" type="date" className={classes.input}  {...dateOfBirth} />
-                        <Hidden xlDown>
-                            <Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus  />
-                        </Hidden>
-                        {!!dateOfBirthValidationErrors.length && (
-                            dateOfBirthValidationErrors.map(error => (
-                                <Typography color="error" key={error}>{error}</Typography>
-                            ))
-                        )}
+                        <Select {...dateOfBirth} >
+                            {yearsSelect}
+                        </Select>
+                        {/*<Input name="lastName" type="date" className={classes.input}  {...dateOfBirth} />*/}
+                        {/*<Hidden xlDown>*/}
+                            {/*<Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus  />*/}
+                        {/*</Hidden>*/}
+                        {/*{!!dateOfBirthValidationErrors.length && (*/}
+                            {/*dateOfBirthValidationErrors.map(error => (*/}
+                                {/*<Typography color="error" key={error}>{error}</Typography>*/}
+                            {/*))*/}
+                        {/*)}*/}
                     </FormControl>
 
 

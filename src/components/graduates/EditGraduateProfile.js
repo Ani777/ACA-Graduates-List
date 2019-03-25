@@ -85,6 +85,13 @@ function EditGraduateProfile(props) {
     const oldCourse = graduate.course;
 
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
+
+    let years=[];
+    for (let i=1960; i<2020; i++){
+        years.push(i)
+    };
+    const yearsSelect = years.map(year => <MenuItem key={year} value={year}> {year} </MenuItem>);
+
     const course = useFormInput(graduate.course);
     const dateOfBirth = useFormInput(graduate.dateOfBirth);
     const email = useFormInput(graduate.email);
@@ -167,7 +174,7 @@ function EditGraduateProfile(props) {
         e.preventDefault();
         const data = {
             course: course.value,
-            dateOfBirth: dateOfBirth.value,
+            dateOfBirth: Number(dateOfBirth.value),
             email: email.value,
             feedback: feedback.value,
             firstName: firstName.value,
@@ -302,7 +309,11 @@ function EditGraduateProfile(props) {
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="dateOfBirth">Date Of Birth</InputLabel>
-                        <Input name="lastName" type="date" id="lastName" className={classes.input}  {...dateOfBirth}/>
+
+                            <Select {...dateOfBirth} className={classes.select}>
+                                {yearsSelect}
+                            </Select>
+                        {/*<Input name="lastName" type="date" id="lastName" className={classes.input}  {...dateOfBirth}/>*/}
                         {/*<Hidden xlDown>*/}
                             {/*<Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus />*/}
                         {/*</Hidden>*/}
