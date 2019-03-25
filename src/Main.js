@@ -82,22 +82,22 @@ class Main extends Component {
 
                 <ButtonAppBar user={user} logout={logout}/>
                 <Switch>
-                    <Route path="/companies" exact strict render={() =>
+                    <Route path="/companies" exact render={() =>
                         <CompaniesContainer/>}/>
-                    <Route path="/graduates" exact strict render={() => (
+                    <Route path="/graduates" exact render={() => (
                         <NavBar courses={courses} />)}/>
-                    <Route path="/" exact strict render={() => (
+                    <Route path="/" exact render={() => (
                         <NavBar courses={courses} />)}/>
-                    <Route path="/courses" exact strict render={() => (
+                    <Route path="/courses" exact render={() => (
                        <CoursesContainer courses={courses}
                                          handleChange={this.handleCoursesChange}
                                          deleteCourse={this.deleteCourse}
                                          editCourse={this.editCourse}/>
                     )}/>
-                    <Route path="/graduates/addgraduate" exact strict render={() => (
+                    <Route path="/graduates/addgraduate" exact render={() => (
                         <AddGraduate courses={courses}/>
                     )}/>
-                    <Route path="/graduates/:graduatesid" exact strict render={({match})=>(<Profile graduatesid={match.params.graduatesid}
+                    <Route path="/graduates/:graduatesid" exact render={({match})=>(<Profile graduatesid={match.params.graduatesid}
                                                                                                     courses={courses}/>)} />
                 </Switch>
 
