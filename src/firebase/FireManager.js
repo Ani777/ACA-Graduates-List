@@ -10,7 +10,7 @@ export default class FireManager {
     }
 
     static deleteCourse(course){
-        const courseRef=firestore()
+        const courseRef = firestore()
             .collection('courses')
             .doc(course);
         return courseRef.get()
@@ -29,8 +29,6 @@ export default class FireManager {
             return docs.map(doc => {
                 return [doc.data().visibleFor, doc.id]
             })})
-
-
             .then(arrs => {
                 return Promise.all(arrs.map(arr => {
                      FireManager.RemoveGraduateForCompanies(...arr);
@@ -74,8 +72,6 @@ export default class FireManager {
                    FireManager.updateGraduateForCompanies(item[1], item[0], {course: newName})]
                )}))
            })
-
-
     }
 
 
@@ -85,7 +81,7 @@ export default class FireManager {
                 return querySnapshot.docs.map(doc => {
                     return [doc.data().name, doc.id]})
             }).then(arr =>{
-            return arr.find(item => item[0]===courseName)})
+            return arr.find(item => item[0] === courseName)})
             .then(arr => arr[1])
     }
 
@@ -97,7 +93,7 @@ export default class FireManager {
             }).then(arr =>{
             return arr.find(item => item[0]===course)})
             .then(arr => arr[1])
-            .then(courseId=> {
+            .then(courseId => {
                 return firestore()
                     .collection('courses')
                     .doc(courseId)
@@ -114,7 +110,6 @@ export default class FireManager {
                     .doc(arr[1])
                     .update({graduates: arr[0]})
             })
-
     }
 
     static removeGraduateFromCourse(course, graduateId){
@@ -123,9 +118,9 @@ export default class FireManager {
                 return querySnapshot.docs.map(doc => {
                     return [doc.data().name, doc.id]})
             }).then(arr =>{
-            return arr.find(item => item[0]===course)})
+                  return arr.find(item => item[0] === course)})
             .then(arr => arr[1])
-            .then(courseId=>{
+            .then(courseId => {
                    return firestore()
                       .collection('courses')
                       .doc(courseId)
@@ -141,7 +136,6 @@ export default class FireManager {
                     .doc(arr[1])
                     .update({graduates: arr[0]})
             })
-
     }
 
 
@@ -149,8 +143,6 @@ export default class FireManager {
         return firestore()
             .collection("courses")
             .add({...course})
-            // .doc(course.name)
-            // .set({...course})
     }
 
 
@@ -192,7 +184,6 @@ export default class FireManager {
     }
 
 
-
     static async getCurrentCompany(id) {
         let company = null;
         const ref = firestore()
@@ -205,21 +196,6 @@ export default class FireManager {
             });
         return company;
     }
-
-
-    // static addCourse(id, name, icon){
-    //     return firestore()
-    //         .collection("courses")
-    //         .doc(id)
-    //         .set(name).then(()=>{
-    //             const storageRef = firebase.storage().ref('courseIcons');
-    //             storageRef.put(icon).then(icon => {
-    //             });
-    //     });
-    // }
-
-
-
 
     static createGraduateInFirebase(graduateData) {
             return firestore()
@@ -243,40 +219,11 @@ export default class FireManager {
             .update({...data})
     }
 
-    // static editGraduate(id, newData) {
-    //     return firestore()
-    //         .collection('graduates')
-    //         .doc(id)
-    //         .update(newData)
-    // }
-
-
-
     static createUserWithEmailAndPassword (email, password){
         return firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
     }
-
-
-    // static removeCourse(course) {
-    //    firestore()
-    //        .collection('courses')
-    //        .doc('ZtsTO8Ldz0B6tCHNEHlY')
-    //        .get()
-    //         .then(doc => {
-    //             const courses = doc.data().courses;
-    //             if (courses.includes(course)) {
-    //                 const newCourses = [...courses];
-    //                 newCourses.splice(courses.indexOf(course), 1);
-    //                 return newCourses;
-    //             }
-    //         })
-    //         .then(newCourses => firestore()
-    //             .collection('courses')
-    //             .doc('ZtsTO8Ldz0B6tCHNEHlY')
-    //             .update({courses: newCourses}))
-    // }
 
     static getGraduates() {
         const graduatesRef = firestore().collection("graduates");
@@ -285,63 +232,63 @@ export default class FireManager {
 
 
     static getGraduate(graduateId) {
-    if (graduateId) {
-        return firestore()
-            .collection("graduates")
-            .doc(graduateId)
-            .get()
-            .then(doc => {
-                if (doc.exists) {
-                return doc.data();
-            } else {
-                console.error("No such graduate!");
-            }
-        })
-            .catch(function (error) {
-                console.error("Error getting graduate:", error);
-            });
+        if (graduateId) {
+            return firestore()
+                .collection("graduates")
+                .doc(graduateId)
+                .get()
+                .then(doc => {
+                    if (doc.exists) {
+                        return doc.data();
+                    } else {
+                        console.error("No such graduate!");
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error getting graduate:", error);
+                });
+        }
     }
-}
 
 
 
 static RemoveGraduateForCompanies(companyIds, graduatesId) {
-        if(companyIds.length){
-            return Promise.all(companyIds.map(companyId => {
-        return firestore()
-            .collection('companies')
-            .doc(companyId)
-            .collection('availableGraduates')
-            .doc(graduatesId)
-            .delete()
-    }))}
+    if (companyIds.length) {
+        return Promise.all(companyIds.map(companyId => {
+            return firestore()
+                .collection('companies')
+                .doc(companyId)
+                .collection('availableGraduates')
+                .doc(graduatesId)
+                .delete()
+        }))
+    }
 }
 
-    static updateGraduateForCompanies(visibleFor, graduateId, data){
-        return Promise.all(visibleFor.map(companyId =>{
+    static updateGraduateForCompanies(visibleFor, graduateId, data) {
+        return Promise.all(visibleFor.map(companyId => {
             return firestore()
                 .collection('companies')
                 .doc(companyId)
                 .collection('availableGraduates')
                 .doc(graduateId)
                 .update(data)
-        } ))
+        }))
     }
 
-    static removeVisibleFor(graduateId, companyId){
+    static removeVisibleFor(graduateId, companyId) {
         const ref = firestore()
             .collection('graduates')
             .doc(graduateId)
         return ref.get()
-                .then(doc => doc.data().visibleFor)
-                .then(visibleFor => {
-                    visibleFor.splice(visibleFor.indexOf(companyId), 1);
-                    return visibleFor
-                })
-                .then(visibleFor => {
-                    return ref.update({visibleFor})
+            .then(doc => doc.data().visibleFor)
+            .then(visibleFor => {
+                visibleFor.splice(visibleFor.indexOf(companyId), 1);
+                return visibleFor
             })
-
+            .then(visibleFor => {
+                return ref.update({visibleFor})
+            })
     }
 
     static removeAvailableGraduate(companyId, graduateId){
@@ -371,6 +318,4 @@ static RemoveGraduateForCompanies(companyIds, graduatesId) {
                 .delete();
         }
     }
-
-
 }
