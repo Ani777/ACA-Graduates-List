@@ -16,10 +16,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
 
     paper: {
-        maxWidth: 500,
-        width: 500,
         marginTop: theme.spacing.unit * 5,
         marginBottom: theme.spacing.unit * 5,
+        minWidth: 500,
         marginLeft: 'auto',
         marginRight: 'auto',
         display: 'flex',
@@ -141,7 +140,8 @@ class Profile extends Component {
 
         return (
             <>
-                {loading? <div className="progress"><CircularProgress/></div>:<>
+                {loading? <div className="progress"><CircularProgress/></div>:
+                <>
                 <Dialog
                     fullScreen
                     open={open}
@@ -150,81 +150,89 @@ class Profile extends Component {
                 >
                     <EditGraduateProfile graduate={graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
                 </Dialog>
-                <Paper className={classes.paper}>
-                    <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
-                    <Grid container className={classes.contact}>
-                        <Grid item xs={5}>
-                            <EmailIcon className={classes.icon}/>
-                        </Grid>
-                        <Grid item xs={7} className={classes.info}>
-                            {email}
-                        </Grid>
-                        <Grid item xs={5}>
-                            <PhoneIcon className={classes.icon}/>
-                        </Grid>
-                        <Grid item xs={7} className={classes.info}>
-                            {phoneNumber}
-                        </Grid>
-                    </Grid>
-                    <Grid container className={classes.mainInfo}>
-                        <Grid item xs={4} className={classes.info}>
-                            <Typography className={classes.first}>Course</Typography>
-                        </Grid>
-                        <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{course}</Typography>
-                        </Grid>
-                        <Grid item xs={4} className={classes.info}>
-                            <Typography className={classes.first}>Date Of Birth</Typography>
-                        </Grid>
-                        <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{dateOfBirth}</Typography>
-                        </Grid>
-                        <Grid item xs={4} className={classes.info}>
-                            <Typography className={classes.first}> Results</Typography>
-                        </Grid>
-                        <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{testResults}</Typography>
-                        </Grid>
-                        <Grid item xs={4} className={classes.info}>
-                            <Typography className={classes.first}>Feedback</Typography>
-                        </Grid>
-                        <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{feedback}</Typography>
-                        </Grid>
-                        <Grid item xs={4} className={classes.info}>
-                            <Typography className={classes.first}>Is Graduate Working</Typography>
-                        </Grid>
-                        <Grid item xs={8} className={classes.info}>
-                            <Typography className={classes.second}>{isWorking ? 'Yes' : 'No'}</Typography>
-                        </Grid>
-                        <Grid item xs={4} className={classes.info}>
-                            <Typography className={classes.first}>Works</Typography>
-                        </Grid>
-                        <Grid item xs={8} className={classes.info}>
-                            {works && works.map(work => {
-                                if (work) {
-                                    return (
-                                        <a href={work} target="_blank" rel="noopener noreferrer"><Typography className={classes.second}  key = {work}>{`${work.slice(0,30)}...`}</Typography></a>
-                                    )
-                                }
-                            })}
-                                
-                        </Grid>
-                    </Grid>
-                    <div className={classes.buttons} >
-                        <Button  variant="contained" color="secondary" component={Link} to='/graduates'>
-                           Back
-                        </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.handleClickOpen}
-                            >
-                                Edit
-                            </Button>
+                <div style={{display: 'flex'}}>
+                    <div style={{flex: '3'}}></div>
+                    <div style={{flex: '10'}}>
+                            <div className={classes.paper}>
+                            <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
+                            <Grid container className={classes.contact}>
+                                <Grid item xs={5}>
+                                    <EmailIcon className={classes.icon}/>
+                                </Grid>
+                                <Grid item xs={7} className={classes.info}>
+                                    {email}
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <PhoneIcon className={classes.icon}/>
+                                </Grid>
+                                <Grid item xs={7} className={classes.info}>
+                                    {phoneNumber}
+                                </Grid>
+                            </Grid>
+                            <Grid container className={classes.mainInfo}>
+                                <Grid item xs={4} className={classes.info}>
+                                    <Typography className={classes.first}>Course</Typography>
+                                </Grid>
+                                <Grid item xs={8} className={classes.info}>
+                                    <Typography className={classes.second}>{course}</Typography>
+                                </Grid>
+                                <Grid item xs={4} className={classes.info}>
+                                    <Typography className={classes.first}>Date Of Birth</Typography>
+                                </Grid>
+                                <Grid item xs={8} className={classes.info}>
+                                    <Typography className={classes.second}>{dateOfBirth}</Typography>
+                                </Grid>
+                                <Grid item xs={4} className={classes.info}>
+                                    <Typography className={classes.first}> Results</Typography>
+                                </Grid>
+                                <Grid item xs={8} className={classes.info}>
+                                    <Typography className={classes.second}>{testResults}</Typography>
+                                </Grid>
+                                <Grid item xs={4} className={classes.info}>
+                                    <Typography className={classes.first}>Feedback</Typography>
+                                </Grid>
+                                <Grid item xs={8} className={classes.info}>
+                                    <Typography className={classes.second}>{feedback}</Typography>
+                                </Grid>
+                                <Grid item xs={4} className={classes.info}>
+                                    <Typography className={classes.first}>Is Graduate Working</Typography>
+                                </Grid>
+                                <Grid item xs={8} className={classes.info}>
+                                    <Typography className={classes.second}>{isWorking ? 'Yes' : 'No'}</Typography>
+                                </Grid>
+                                <Grid item xs={4} className={classes.info}>
+                                    <Typography className={classes.first}>Works</Typography>
+                                </Grid>
+                                <Grid item xs={8} className={classes.info}>
+                                    {works && works.map(work => {
+                                        if (work) {
+                                            return (
+                                                <a href={work} target="_blank" rel="noopener noreferrer"><Typography className={classes.second}  key = {work}>{`${work.slice(0,30)}...`}</Typography></a>
+                                            )
+                                        }
+                                    })}
+                                        
+                                </Grid>
+                            </Grid>
+                            <div className={classes.buttons} >
+                                <Button  variant="contained" color="secondary" component={Link} to='/graduates'>
+                                Back
+                                </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.handleClickOpen}
+                                    >
+                                        Edit
+                                    </Button>
+                            </div>
+                        </div>
                     </div>
-                </Paper>
-                </>}
+                    <div style={{flex: '3'}}></div>
+                </div>
+                
+                </>
+                }
             </>
         )
     }
