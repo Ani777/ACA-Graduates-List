@@ -96,9 +96,7 @@ function EditGraduateProfile(props) {
     const [lastNameValidationErrors, setLastNameValidationErrors] = useState([]);
     const [emailValidationErrors, setEmailValidationErrors] = useState([]);
     const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
-    const [dateOfBirthValidationErrors, setDateOfBirthValidationErrors] = useState([]);
     const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
-    const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
     const [courseValidationErrors, setCourseValidationErrors] = useState([]);
     const [worksValidationErrors, setWorksValidationErrors] = useState([]);
 
@@ -117,35 +115,11 @@ function EditGraduateProfile(props) {
         const phoneNumberErrors = isValidPhoneNumber(phoneNumber.value);
         setPhoneNumberValidationErrors(phoneNumberErrors);
 
-        // const dateOfBirthErrors = isValidDateOfBirth(String(dateOfBirth.value));
-        // setDateOfBirthValidationErrors(dateOfBirthErrors);
-
         const testResultsErrors = isValidTestResults(String(testResults.value));
         setTestResultsValidationErrors(testResultsErrors);
 
-        // const feedbackErrors = isValidRequired(feedback.value);
-        // setFeedbackValidationErrors(feedbackErrors);
-
         const courseErrors = isValidRequired(course.value);
         setCourseValidationErrors(courseErrors);
-
-        // const worksErrors = isValidUrl(works.value);
-        // setWorksValidationErrors(worksErrors);
-
-
-
-
-        // if(!firstNameErrors.length &&
-        //     !lastNameErrors.length &&
-        //     !emailErrors.length &&
-        //     !phoneNumberErrors.length &&
-        //     // !dateOfBirthErrors.length &&
-        //     // !feedbackErrors.length &&
-        //     !courseErrors.length &&
-        //     !testResultsErrors.length &&
-        //     !worksErrors.length){
-        //     return true
-        // }
 
         const work1Errors = isValidUrl(work1.value);
         const work2Errors = isValidUrl(work2.value);
@@ -158,8 +132,6 @@ function EditGraduateProfile(props) {
             !lastNameErrors.length &&
             !phoneNumberErrors.length &&
             !emailErrors.length &&
-            // !feedbackErrors.length &&
-            // !dateOfBirthErrors.length &&
             !courseErrors.length &&
             !testResultsErrors.length &&
             !work1Errors.length &&
@@ -168,10 +140,6 @@ function EditGraduateProfile(props) {
             return true
         }
     };
-
-    // function phoneNumberFormat() {
-    //     document.getElementById("phoneNumber").value = "0-- -- -- --";
-    // }
 
 
 
@@ -319,30 +287,12 @@ function EditGraduateProfile(props) {
                             <Select {...dateOfBirth} className={classes.select}>
                                 {yearsSelect}
                             </Select>
-                        {/*<Input name="lastName" type="date" id="lastName" className={classes.input}  {...dateOfBirth}/>*/}
-                        {/*<Hidden xlDown>*/}
-                            {/*<Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus />*/}
-                        {/*</Hidden>*/}
-                        {/*{!!dateOfBirthValidationErrors.length && (*/}
-                            {/*dateOfBirthValidationErrors.map(error => (*/}
-                                {/*<Typography color="error" key={error}>{error}</Typography>*/}
-                            {/*))*/}
-                        {/*)}*/}
                     </FormControl>
 
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="feedback">Feedback</InputLabel>
                         <Input name="feedback" type="text" id="feedback" className={classes.input}  {...feedback}/>
-                        {/*<Hidden xlDown>*/}
-                            {/*<Input  error={!!feedbackValidationErrors.length} {...feedback} />*/}
-                        {/*</Hidden>*/}
-                        {/*{!!feedbackValidationErrors.length && (*/}
-                            {/*feedbackValidationErrors.map(error => (*/}
-                                {/*<Typography color="error" key={error}>{error}</Typography>*/}
-                            {/*))*/}
-                        {/*)}*/}
-
                     </FormControl>
 
 
