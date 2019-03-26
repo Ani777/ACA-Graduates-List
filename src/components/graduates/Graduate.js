@@ -17,7 +17,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 const toolbarStyles = theme => ({
     formControl: {
         minWidth: 170,
-        height: theme.spacing.unit*4.5
+        height: theme.spacing.unit * 4.5, //   //margin='dense'//
     },
     visibleForSelect: {
         fontSize: theme.spacing.unit * 1.5,

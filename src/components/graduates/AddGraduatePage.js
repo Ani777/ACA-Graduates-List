@@ -322,7 +322,7 @@ function AddGraduate(props) {
                     </FormControl>
                     <div className={classes.work}>
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <InputLabel htmlFor="lastName">Link 1</InputLabel>
                         <Input name="lastName" type="text" id="lastName" className={classes.input}  {...work1}/>
                         {!!worksValidationErrors.length && (
                             worksValidationErrors.map(error => (
@@ -340,7 +340,7 @@ function AddGraduate(props) {
                     {showSecondWork &&
                     <div className={classes.work}>
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <InputLabel htmlFor="lastName">Link 2</InputLabel>
                         <Input name="lastName" type="text" id="lastName" className={classes.input}  {...work2}/>
                         {!!worksValidationErrors.length && (
                             worksValidationErrors.map(error => (
@@ -358,7 +358,7 @@ function AddGraduate(props) {
                     
                     }{showThirdWork &&
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <InputLabel htmlFor="lastName">Link 3</InputLabel>
                         <Input name="lastName" type="text" id="lastName" className={classes.input}  {...work3}/>
                         {!!worksValidationErrors.length && (
                             worksValidationErrors.map(error => (

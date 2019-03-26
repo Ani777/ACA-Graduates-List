@@ -16,7 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
 
     paper: {
-        marginTop: theme.spacing.unit * 5,
+        marginTop: theme.spacing.unit * 2,
         marginBottom: theme.spacing.unit * 5,
         minWidth: 500,
         marginLeft: 'auto',
@@ -33,12 +33,20 @@ const styles = theme => ({
         padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
     },
     header: {
-        marginTop: theme.spacing.unit * 5,
+        paddingLeft: 'inherit'
+    },
+    name: {
+        marginLeft: theme.spacing.unit * 8,
         fontSize: 36,
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
     },
+    contact: {
+        padding: 3,
+        marginLeft: 3,
+        marginTop: 15
+    },
     mainInfo: {
-        marginTop: theme.spacing.unit * 4,
+        marginTop: theme.spacing.unit * 5,
         marginRight: theme.spacing.unit * 4,
         textAlign: 'left',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px`,
@@ -46,15 +54,13 @@ const styles = theme => ({
     icon: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit * 1.5,
-        marginLeft: theme.spacing.unit * 10,
     },
     buttons: {
-        display: "flex",
-        justifyContent: "space-between",
+       // display: "flex",
+        //justifyContent: "space-between",
         marginTop: theme.spacing.unit * 6,
         marginBottom: theme.spacing.unit * 4,
-        paddingLeft: theme.spacing.unit * 5,
-        paddingRight: theme.spacing.unit * 5,
+        paddingLeft: theme.spacing.unit * 6,
     },
     progress: {
        display: 'flex',
@@ -151,24 +157,26 @@ class Profile extends Component {
                     <EditGraduateProfile graduate={graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
                 </Dialog>
                 <div style={{display: 'flex'}}>
-                    <div style={{flex: '3'}}></div>
+                    <div style={{flex: '1'}}></div>
                     <div style={{flex: '10'}}>
-                            <div className={classes.paper}>
-                            <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
-                            <Grid container className={classes.contact}>
-                                <Grid item xs={5}>
-                                    <EmailIcon className={classes.icon}/>
+                        <div className={classes.paper}>
+                            <div className={classes.header}>
+                                <Typography variant='h4' color='inherit' className={classes.name}>{firstName } {lastName }</Typography>
+                                <Grid container className={classes.contact}>
+                                    <Grid item xs={2}>
+                                        <EmailIcon className={classes.icon}/>
+                                    </Grid>
+                                    <Grid item xs={10} className={classes.info}>
+                                        {email}
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <PhoneIcon className={classes.icon}/>
+                                    </Grid>
+                                    <Grid item xs={10} className={classes.info}>
+                                        {phoneNumber}
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={7} className={classes.info}>
-                                    {email}
-                                </Grid>
-                                <Grid item xs={5}>
-                                    <PhoneIcon className={classes.icon}/>
-                                </Grid>
-                                <Grid item xs={7} className={classes.info}>
-                                    {phoneNumber}
-                                </Grid>
-                            </Grid>
+                            </div>
                             <Grid container className={classes.mainInfo}>
                                 <Grid item xs={4} className={classes.info}>
                                     <Typography className={classes.first}>Course</Typography>
@@ -201,7 +209,7 @@ class Profile extends Component {
                                     <Typography className={classes.second}>{isWorking ? 'Yes' : 'No'}</Typography>
                                 </Grid>
                                 <Grid item xs={4} className={classes.info}>
-                                    <Typography className={classes.first}>Works</Typography>
+                                    <Typography className={classes.first}>Links</Typography>
                                 </Grid>
                                 <Grid item xs={8} className={classes.info}>
                                     {works && works.map(work => {
@@ -215,9 +223,9 @@ class Profile extends Component {
                                 </Grid>
                             </Grid>
                             <div className={classes.buttons} >
-                                <Button  variant="contained" color="secondary" component={Link} to='/graduates'>
+                                {/* <Button  variant="contained" color="secondary" component={Link} to='/graduates'>
                                 Back
-                                </Button>
+                                </Button> */}
                                     <Button
                                         variant="contained"
                                         color="primary"
