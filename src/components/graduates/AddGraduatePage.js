@@ -15,7 +15,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Select from '@material-ui/core/Select';
 import { Redirect} from "react-router-dom";
 import { Link } from 'react-router-dom'
-import shadows from '@material-ui/core/styles/shadows';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -107,7 +106,6 @@ function AddGraduate(props) {
     const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
     const [emailValidationErrors, setEmailValidationErrors] = useState([]);
     const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
-    const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
     const [courseValidationErrors, setCourseValidationErrors] = useState([]);
     const [worksValidationErrors, setWorksValidationErrors] = useState([]);
 
@@ -131,8 +129,6 @@ function AddGraduate(props) {
         const phoneNumberErrors = isValidPhoneNumber(phoneNumber.value);
         setPhoneNumberValidationErrors(phoneNumberErrors);
 
-        // const feedbackErrors = isValidRequired(feedback.value);
-        // setFeedbackValidationErrors(feedbackErrors);
 
         const courseErrors = isValidRequired(course.value);
         setCourseValidationErrors(courseErrors);
@@ -148,8 +144,6 @@ function AddGraduate(props) {
             !lastNameErrors.length &&
             !phoneNumberErrors.length &&
             !emailErrors.length &&
-            // !feedbackErrors.length &&
-            // !dateOfBirthErrors.length &&
             !courseErrors.length &&
             !testResultsErrors.length &&
             !work1Errors.length &&
@@ -279,27 +273,10 @@ function AddGraduate(props) {
                         <Select {...dateOfBirth} >
                             {yearsSelect}
                         </Select>
-                        {/*<Input name="lastName" type="date" className={classes.input}  {...dateOfBirth} />*/}
-                        {/*<Hidden xlDown>*/}
-                            {/*<Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus  />*/}
-                        {/*</Hidden>*/}
-                        {/*{!!dateOfBirthValidationErrors.length && (*/}
-                            {/*dateOfBirthValidationErrors.map(error => (*/}
-                                {/*<Typography color="error" key={error}>{error}</Typography>*/}
-                            {/*))*/}
-                        {/*)}*/}
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="feedback">Feedback</InputLabel>
                         <Input name="feedback" type="text"  className={classes.input}  {...feedback}/>
-                        <Hidden xlDown>
-                            <Input  error={!!feedbackValidationErrors.length} {...feedback} />
-                        </Hidden>
-                        {!!feedbackValidationErrors.length && (
-                            feedbackValidationErrors.map(error => (
-                                <Typography color="error" key={error}>{error}</Typography>
-                            ))
-                        )}
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lastName">Test's Results</InputLabel>
