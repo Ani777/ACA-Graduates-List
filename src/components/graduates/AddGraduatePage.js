@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import FireManager from '../../firebase/FireManager';
 import { useFormInput } from '../../hooks';
-import {isValidEmail, isValidName, isValidPhoneNumber, isValidDateOfBirth, isValidTestResults, isValidRequired} from "./Validator";
-import PropTypes from 'prop-types';
+import {isValidEmail, isValidName, isValidPhoneNumber, isValidTestResults, isValidRequired, isValidUrl} from "./Validator";
 import Hidden from '@material-ui/core/Hidden';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
@@ -16,6 +15,10 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Select from '@material-ui/core/Select';
 import { Redirect} from "react-router-dom";
 import { Link } from 'react-router-dom'
+import shadows from '@material-ui/core/styles/shadows';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const styles = theme => ({
@@ -39,15 +42,6 @@ const styles = theme => ({
         alignItems: 'center',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
-
-    title: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        fontSize: 23,
-        fontWeight: 'bold',
-    },
-
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit,
@@ -68,15 +62,30 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 6,
 
     },
-
-
-
+    work: {
+        display: 'flex',
+    },
+    addIcon: {
+        padding: 0,
+        width: theme.spacing.unit * 6,
+        height: theme.spacing.unit * 6,
+        marginTop: theme.spacing.unit * 1.2
+    }
 });
 
 function AddGraduate(props) {
     let [addedNewStudent, setAddedNewStudent] = useState(false);
+    let [showSecondWork, setShowSecondWork] = useState(false);
+    let [showThirdWork, setShowThirdWork] = useState(false);
     const { classes, courses } = props;
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
+    let date=new Date();
+    let year = date.getFullYear();
+    let years=[];
+    for (let i=year-50; i<year-9; i++){
+        years.push(i)
+    };
+    const yearsSelect = years.map(year => <MenuItem key={year} value={year}> {year} </MenuItem>);
 
     const course = useFormInput('');
     const dateOfBirth = useFormInput('');
@@ -84,9 +93,11 @@ function AddGraduate(props) {
     const feedback = useFormInput('');
     const firstName = useFormInput('');
     const lastName = useFormInput('');
-    const phoneNumber = useFormInput('');
+    const phoneNumber = useFormInput('374');
     const testResults = useFormInput('');
-    const works = useFormInput('');
+    const work1 = useFormInput('');
+    const work2 = useFormInput('');
+    const work3 = useFormInput('');
     const isWorking = useFormInput('');
     const [id, setId] = useState('');
 
@@ -95,10 +106,10 @@ function AddGraduate(props) {
     const [lastNameValidationErrors, setLastNameValidationErrors] = useState([]);
     const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
     const [emailValidationErrors, setEmailValidationErrors] = useState([]);
-    const [dateOfBirthValidationErrors, setDateOfBirthValidationErrors] = useState([]);
     const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
     const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
     const [courseValidationErrors, setCourseValidationErrors] = useState([]);
+    const [worksValidationErrors, setWorksValidationErrors] = useState([]);
 
     function isValidSignUpForm() {
 
@@ -111,8 +122,8 @@ function AddGraduate(props) {
         const emailErrors = isValidEmail(email.value);
         setEmailValidationErrors(emailErrors);
 
-        const dateOfBirthErrors = isValidDateOfBirth(dateOfBirth.value);
-        setDateOfBirthValidationErrors(dateOfBirthErrors);
+        // const dateOfBirthErrors = isValidDateOfBirth(dateOfBirth.value);
+        // setDateOfBirthValidationErrors(dateOfBirthErrors);
 
         const testResultsErrors = isValidTestResults(testResults.value);
         setTestResultsValidationErrors(testResultsErrors);
@@ -120,20 +131,30 @@ function AddGraduate(props) {
         const phoneNumberErrors = isValidPhoneNumber(phoneNumber.value);
         setPhoneNumberValidationErrors(phoneNumberErrors);
 
-        const feedbackErrors = isValidRequired(feedback.value);
-        setFeedbackValidationErrors(feedbackErrors);
+        // const feedbackErrors = isValidRequired(feedback.value);
+        // setFeedbackValidationErrors(feedbackErrors);
 
         const courseErrors = isValidRequired(course.value);
         setCourseValidationErrors(courseErrors);
+
+        const work1Errors = isValidUrl(work1.value);
+        const work2Errors = isValidUrl(work2.value);
+        const work3Errors = isValidUrl(work3.value);
+        setWorksValidationErrors(work1Errors);
+        setWorksValidationErrors(work2Errors);
+        setWorksValidationErrors(work3Errors);
 
         if(!firstNameErrors.length &&
             !lastNameErrors.length &&
             !phoneNumberErrors.length &&
             !emailErrors.length &&
-            !feedbackErrors.length &&
-            !dateOfBirthErrors.length &&
+            // !feedbackErrors.length &&
+            // !dateOfBirthErrors.length &&
             !courseErrors.length &&
-            !testResultsErrors.length ){
+            !testResultsErrors.length &&
+            !work1Errors.length &&
+            !work2Errors.length &&
+            !work3Errors.length){
             return true
         }
     };
@@ -142,7 +163,6 @@ function AddGraduate(props) {
 
 
     function onGraduateFormSubmit (e) {
-
         e.preventDefault();
 
         const data = {
@@ -154,18 +174,14 @@ function AddGraduate(props) {
             lastName: lastName.value,
             phoneNumber: phoneNumber.value,
             testResults: Number(testResults.value),
-            works: works.value,
+            works: [work1.value, work2.value, work3.value],
             isWorking: isWorking.value==="true",
             visibleFor: []
         }
 
-
-
-
         if(!isValidSignUpForm()){
             return;
         }
-
 
         FireManager.createGraduateInFirebase(data)
             .then(doc=>{
@@ -179,10 +195,14 @@ function AddGraduate(props) {
             .catch(err=>{
                 console.error(err.message)
             })
+    }
 
-
-
-
+    function openSecondWork () {
+        setShowSecondWork(true);
+    }
+    
+    function openThirdWork () {
+        setShowThirdWork(true);
     }
 
     return !addedNewStudent?(
@@ -191,28 +211,21 @@ function AddGraduate(props) {
             <Paper className={classes.paper}>
                 <form className={classes.form}>
                     <Typography variant='h4' align='center' color='inherit'>New Graduate</Typography>
-
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth >
                         <InputLabel htmlFor="firstName" className={classes.inputLabel}>First Name</InputLabel>
-                        <Input name="firstName"  className={classes.input} type="text"   {...firstName}/>
+                        <Input name="firstName"  className={classes.input} type="text" {...firstName} />
                         <Hidden xlDown>
-                            <Input  error={!!firstNameValidationErrors.length} {...firstName}  autoFocus />
+                            <Input  error={!!firstNameValidationErrors.length} {...firstName} autoFocus />
                         </Hidden>
                         {!!firstNameValidationErrors.length && (
                             firstNameValidationErrors.map(error => (
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
-
                     </FormControl>
-
-
-
-
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lastName" className={classes.inputLabel}>Last Name</InputLabel>
                         <Input  name="lastName" type="text" className={classes.input}  {...lastName} />
-
                         <Hidden xlDown>
                             <Input error={!!lastNameValidationErrors.length} {...lastName} />
                         </Hidden>
@@ -222,14 +235,8 @@ function AddGraduate(props) {
                             ))
                         )}
                     </FormControl>
-
-
-
-
-
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="course">Courses</InputLabel>
-
                         <Select {...course}>
                             {tabs}
                         </Select>
@@ -241,17 +248,10 @@ function AddGraduate(props) {
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
-
-
-
                     </FormControl>
-
-
-
-
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input name="email" type="text"  className={classes.input}  {...email}/>
+                        <Input name="email" type="email"  className={classes.input}  {...email}/>
                         <Hidden xlDown>
                             <Input  error={!!emailValidationErrors.length} {...email} />
                         </Hidden>
@@ -262,12 +262,9 @@ function AddGraduate(props) {
                         )}
 
                     </FormControl>
-
-
-
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="phone" >Phone Number</InputLabel>
-                        <Input name="phone" type="text" id="phoneNumber"  className={classes.input} {...phoneNumber}/>
+                        <Input name="phone" type="number" id="phoneNumber"  className={classes.input} {...phoneNumber}/>
                         <Hidden xlDown>
                             <Input  error={!!phoneNumberValidationErrors.length} {...phoneNumber}  autoFocus />
                         </Hidden>
@@ -277,25 +274,23 @@ function AddGraduate(props) {
                             ))
                         )}
                     </FormControl>
-
-
-
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="dateOfBirth">Date Of Birth</InputLabel>
-                        <Input name="lastName" type="text" className={classes.input}  {...dateOfBirth}/>
-                        <Hidden xlDown>
-                            <Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus />
-                        </Hidden>
-                        {!!dateOfBirthValidationErrors.length && (
-                            dateOfBirthValidationErrors.map(error => (
-                                <Typography color="error" key={error}>{error}</Typography>
-                            ))
-                        )}
+                        <InputLabel htmlFor="dateOfBirth" >Date Of Birth</InputLabel>
+                        <Select {...dateOfBirth} >
+                            {yearsSelect}
+                        </Select>
+                        {/*<Input name="lastName" type="date" className={classes.input}  {...dateOfBirth} />*/}
+                        {/*<Hidden xlDown>*/}
+                            {/*<Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus  />*/}
+                        {/*</Hidden>*/}
+                        {/*{!!dateOfBirthValidationErrors.length && (*/}
+                            {/*dateOfBirthValidationErrors.map(error => (*/}
+                                {/*<Typography color="error" key={error}>{error}</Typography>*/}
+                            {/*))*/}
+                        {/*)}*/}
                     </FormControl>
-
-
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Feedback</InputLabel>
+                        <InputLabel htmlFor="feedback">Feedback</InputLabel>
                         <Input name="feedback" type="text"  className={classes.input}  {...feedback}/>
                         <Hidden xlDown>
                             <Input  error={!!feedbackValidationErrors.length} {...feedback} />
@@ -305,13 +300,10 @@ function AddGraduate(props) {
                                 <Typography color="error" key={error}>{error}</Typography>
                             ))
                         )}
-
                     </FormControl>
-
-
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lastName">Test's Results</InputLabel>
-                        <Input name="testResults" type="text"  className={classes.input}  {...testResults} />
+                        <Input name="testResults" type="number"  className={classes.input}  {...testResults} />
                         <Hidden xlDown>
                             <Input  error={!!testResultsValidationErrors.length}  autoFocus />
                         </Hidden>
@@ -328,32 +320,71 @@ function AddGraduate(props) {
                             <MenuItem value={true}>Yes</MenuItem>
                         </Select>
                     </FormControl>
+                    <div className={classes.work}>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="lastName">Works</InputLabel>
-                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...works}/>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...work1}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
                     </FormControl>
+                    {!showSecondWork &&
+                    <Tooltip title="Add Link">
+                            <IconButton aria-label="Add Link" className={classes.addIcon} onClick={openSecondWork}>
+                                <AddIcon />
+                            </IconButton>
+                    </Tooltip>}
+                    </div>
+                    {showSecondWork &&
+                    <div className={classes.work}>
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...work2}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+                    </FormControl>
+                    {!showThirdWork &&
+                    <Tooltip title="Add Link">
+                            <IconButton aria-label="Add Link" className={classes.addIcon} onClick={openThirdWork}>
+                                <AddIcon />
+                            </IconButton>
+                    </Tooltip>}
+                    </div>
+                    
+                    }{showThirdWork &&
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input}  {...work3}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+                    </FormControl>
+                    }
                     <div className={classes.buttons} >
                         <Button  variant="contained" color="secondary" className={classes.submit} component={Link} to='/graduates'>
                             Cancel
                         </Button>
-
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                onClick = {onGraduateFormSubmit}
-                            >
-                                Add
-                            </Button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick = {onGraduateFormSubmit}
+                        >
+                            Add
+                        </Button>
                     </div>
-
                 </form>
             </Paper>
         </main>
     ):<Redirect to= {`/graduates/${id}`}/>
 }
-AddGraduate.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
+
 export default withStyles(styles)(AddGraduate);

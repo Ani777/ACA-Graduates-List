@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -70,9 +69,6 @@ function SignIn(props) {
                 <div className={props.isValid ? classes.validData : classes.invalidData}>
                     <Typography color="error">Incorrect email or password</Typography>
                 </div>
-
-
-
                 <form className={classes.form} >
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email"  >Email Address</InputLabel>
@@ -97,9 +93,5 @@ function SignIn(props) {
         </main>
     );
 }
-
-SignIn.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(SignIn);

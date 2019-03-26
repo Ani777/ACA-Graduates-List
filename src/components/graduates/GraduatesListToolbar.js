@@ -37,25 +37,8 @@ const toolbarStyles = theme => ({
         flex: '0 0 auto',
 
     },
-
     titleSearch: {
         display: 'flex'
-    },
-
-    formControl: {
-        margin: theme.spacing.unit,
-        minWidth: 120,
-        maxWidth: 300,
-    },
-    chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    chip: {
-        margin: theme.spacing.unit / 4,
-    },
-    noLabel: {
-        marginTop: theme.spacing.unit * 3,
     },
 });
 

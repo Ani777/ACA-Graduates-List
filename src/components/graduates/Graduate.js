@@ -7,63 +7,20 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import FireManager from '../../firebase/FireManager';
 import { Link } from 'react-router-dom';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import { lighten } from '@material-ui/core/styles/colorManipulator';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/icons/List';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
-
-
-
 const toolbarStyles = theme => ({
-    root: {
-        paddingRight: theme.spacing.unit,
-    },
-    highlight:
-        theme.palette.type === 'light'
-            ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-            }
-            : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
-            },
-    spacer: {
-        flex: '1 1 100%',
-    },
-    actions: {
-        color: theme.palette.text.secondary,
-    },
-    title: {
-        flex: '0 0 auto',
-    },
-
     formControl: {
-        //margin: theme.spacing.unit,
         minWidth: 170,
-        // maxWidth: 100,
-        height: 35
-    },
-    chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    chip: {
-        margin: theme.spacing.unit / 4,
-    },
-    noLabel: {
-        marginTop: theme.spacing.unit * 3,
+        height: theme.spacing.unit*4.5
     },
     visibleForSelect: {
-        fontSize: '12px'
+        fontSize: theme.spacing.unit * 1.5,
     }
 });
 
@@ -74,7 +31,6 @@ class Graduate extends Component {
         companies: [],      // [{ data, id } ...]
         visibleForSelectOpen: false,
         availableGraduates: [],
-        // isSelectHidden: true,
     };
 
     componentDidMount() {
@@ -172,7 +128,6 @@ class Graduate extends Component {
                             open={this.state.visibleForSelectOpen}
                             onClose={this.handleClose}
                             onOpen={this.handleOpen}
-                            //MenuProps={MenuProps}
                         >
                             {this.state.companies.map(company => (
                                 <MenuItem key={company.id} value={company.id}>
@@ -183,10 +138,6 @@ class Graduate extends Component {
                             }
                         </Select>
                     </FormControl>
-
-
-
-                    {/* {this.state.visibleFor.length} */}
                 </TableCell>
                 <TableCell align="right">
                     <Link to={`/graduates/${this.props.data.graduate.id}`}><Tooltip title="More">

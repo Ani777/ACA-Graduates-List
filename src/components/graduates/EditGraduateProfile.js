@@ -6,9 +6,9 @@ import {
     isValidEmail,
     isValidName,
     isValidPhoneNumber,
-    isValidDateOfBirth,
     isValidTestResults,
-    isValidRequired
+    isValidRequired,
+    isValidUrl
 } from "./Validator";
 import PropTypes from 'prop-types';
 import Hidden from '@material-ui/core/Hidden';
@@ -43,16 +43,6 @@ const styles = theme => ({
         alignItems: 'center',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
-
-    title: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        fontSize: 23,
-        fontWeight: 'bold',
-    },
-
-
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit,
@@ -63,27 +53,29 @@ const styles = theme => ({
     input: {
         height: 33,
     },
-
     buttons: {
         display: "flex",
         justifyContent:
             "space-between",
         marginTop: theme.spacing.unit * 6,
-
     },
-
 });
 
 
-
 function EditGraduateProfile(props) {
-
     const { graduate, graduatesid, classes, courses } = props;
     const { visibleFor } = graduate;
-
     const oldCourse = graduate.course;
 
     const tabs = courses.map((course, index) => <MenuItem key={course+index} value={course}> {course} </MenuItem>);
+    let date=new Date();
+    let year = date.getFullYear();
+    let years=[];
+    for (let i=year-50; i<year-9; i++){
+        years.push(i)
+    };
+    const yearsSelect = years.map(year => <MenuItem key={year} value={year}> {year} </MenuItem>);
+
     const course = useFormInput(graduate.course);
     const dateOfBirth = useFormInput(graduate.dateOfBirth);
     const email = useFormInput(graduate.email);
@@ -92,9 +84,12 @@ function EditGraduateProfile(props) {
     const lastName = useFormInput(graduate.lastName);
     const phoneNumber = useFormInput(graduate.phoneNumber);
     const testResults = useFormInput(graduate.testResults);
-    const works = useFormInput(graduate.works);
-    const isWorking = useFormInput(graduate.isWorking);
 
+    graduate.works.sort().reverse();
+    const work1 = useFormInput(graduate.works[0]);
+    const work2 = useFormInput(graduate.works[1]);
+    const work3 = useFormInput(graduate.works[2]);
+    const isWorking = useFormInput(graduate.isWorking);
 
 
     const [firstNameValidationErrors, setFirstNameValidationErrors] = useState([]);
@@ -105,8 +100,7 @@ function EditGraduateProfile(props) {
     const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
     const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
     const [courseValidationErrors, setCourseValidationErrors] = useState([]);
-
-
+    const [worksValidationErrors, setWorksValidationErrors] = useState([]);
 
 
     function isValidSignUpForm() {
@@ -123,36 +117,61 @@ function EditGraduateProfile(props) {
         const phoneNumberErrors = isValidPhoneNumber(phoneNumber.value);
         setPhoneNumberValidationErrors(phoneNumberErrors);
 
-        const dateOfBirthErrors = isValidDateOfBirth(String(dateOfBirth.value));
-        setDateOfBirthValidationErrors(dateOfBirthErrors);
+        // const dateOfBirthErrors = isValidDateOfBirth(String(dateOfBirth.value));
+        // setDateOfBirthValidationErrors(dateOfBirthErrors);
 
         const testResultsErrors = isValidTestResults(String(testResults.value));
         setTestResultsValidationErrors(testResultsErrors);
 
-        const feedbackErrors = isValidRequired(feedback.value);
-        setFeedbackValidationErrors(feedbackErrors);
+        // const feedbackErrors = isValidRequired(feedback.value);
+        // setFeedbackValidationErrors(feedbackErrors);
 
         const courseErrors = isValidRequired(course.value);
         setCourseValidationErrors(courseErrors);
 
+        // const worksErrors = isValidUrl(works.value);
+        // setWorksValidationErrors(worksErrors);
 
 
+
+
+        // if(!firstNameErrors.length &&
+        //     !lastNameErrors.length &&
+        //     !emailErrors.length &&
+        //     !phoneNumberErrors.length &&
+        //     // !dateOfBirthErrors.length &&
+        //     // !feedbackErrors.length &&
+        //     !courseErrors.length &&
+        //     !testResultsErrors.length &&
+        //     !worksErrors.length){
+        //     return true
+        // }
+
+        const work1Errors = isValidUrl(work1.value);
+        const work2Errors = isValidUrl(work2.value);
+        const work3Errors = isValidUrl(work3.value);
+        setWorksValidationErrors(work1Errors);
+        setWorksValidationErrors(work2Errors);
+        setWorksValidationErrors(work3Errors);
 
         if(!firstNameErrors.length &&
             !lastNameErrors.length &&
-            !emailErrors.length &&
             !phoneNumberErrors.length &&
-            !dateOfBirthErrors.length &&
-            !feedbackErrors.length &&
+            !emailErrors.length &&
+            // !feedbackErrors.length &&
+            // !dateOfBirthErrors.length &&
             !courseErrors.length &&
-            !testResultsErrors.length ){
+            !testResultsErrors.length &&
+            !work1Errors.length &&
+            !work2Errors.length &&
+            !work3Errors.length){
             return true
         }
     };
 
-    function phoneNumberFormat() {
-        document.getElementById("phoneNumber").value = "0-- -- -- --";
-    }
+    // function phoneNumberFormat() {
+    //     document.getElementById("phoneNumber").value = "0-- -- -- --";
+    // }
 
 
 
@@ -168,19 +187,19 @@ function EditGraduateProfile(props) {
             lastName: lastName.value,
             phoneNumber: phoneNumber.value,
             testResults: Number(testResults.value),
-            works: works.value,
+            works: [work1.value, work2.value, work3.value],
             isWorking: document.getElementById("isWorking").value
 
         }
 
         const dataForCompanies ={
             course: course.value,
-            dateOfBirth: Number(dateOfBirth.value),
+            dateOfBirth: dateOfBirth.value,
             feedback: feedback.value,
             firstName: firstName.value,
             lastName: lastName.value,
             testResults: Number(testResults.value),
-            works: works.value,
+            works: [work1.value, work2.value, work3.value],
         }
 
         if(!isValidSignUpForm()){
@@ -211,9 +230,9 @@ function EditGraduateProfile(props) {
             <Paper className={classes.paper}>
                 <Typography variant='h4' align='center' color='inherit'>Edit Graduate</Typography>
                 <form className={classes.form}>
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="firstName">First Name</InputLabel>
-                        <Input name="firstName"  className={classes.input}type="text" id="firstName" autoComplete="current-password" {...firstName}/>
+                        <Input name="firstName"  className={classes.input}type="text" id="firstName"  {...firstName}/>
                         <Hidden xlDown>
                             <Input  error={!!firstNameValidationErrors.length} {...firstName}  autoFocus />
                         </Hidden>
@@ -228,9 +247,9 @@ function EditGraduateProfile(props) {
 
 
 
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lastName">Last Name</InputLabel>
-                        <Input  name="lastName" type="text" className={classes.input} id="lastName" autoComplete="current-password" {...lastName} />
+                        <Input  name="lastName" type="text" className={classes.input} id="lastName"  {...lastName} />
 
                         <Hidden xlDown>
                             <Input error={!!lastNameValidationErrors.length} {...lastName} />
@@ -245,7 +264,7 @@ function EditGraduateProfile(props) {
 
 
 
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="course">Courses</InputLabel>
                         <Select  {...course}>
                             {tabs}
@@ -263,9 +282,9 @@ function EditGraduateProfile(props) {
                     </FormControl>
 
 
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input name="email" type="text" id="email" className={classes.input} autoComplete="current-password"  {...email}/>
+                        <Input name="email" type="email" id="email" className={classes.input} {...email}/>
                         <Hidden xlDown>
                             <Input  error={!!emailValidationErrors.length} {...email} />
                         </Hidden>
@@ -279,9 +298,9 @@ function EditGraduateProfile(props) {
 
 
 
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="phone">Phone Number</InputLabel>
-                        <Input name="phone" type="text" id="phoneNumber" className={classes.input} autoComplete="current-password" onFocus = {phoneNumberFormat} {...phoneNumber}/>
+                        <Input name="phone" type="number" id="phoneNumber" className={classes.input}  {...phoneNumber}/>
                         <Hidden xlDown>
                             <Input  error={!!phoneNumberValidationErrors.length} {...phoneNumber}  autoFocus />
                         </Hidden>
@@ -296,36 +315,40 @@ function EditGraduateProfile(props) {
 
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="dateOfBirth">Date Of Birth</InputLabel>
-                        <Input name="lastName" type="text" id="lastName" className={classes.input} autoComplete="current-password"  {...dateOfBirth}/>
-                        <Hidden xlDown>
-                            <Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus />
-                        </Hidden>
-                        {!!dateOfBirthValidationErrors.length && (
-                            dateOfBirthValidationErrors.map(error => (
-                                <Typography color="error" key={error}>{error}</Typography>
-                            ))
-                        )}
+
+                            <Select {...dateOfBirth} className={classes.select}>
+                                {yearsSelect}
+                            </Select>
+                        {/*<Input name="lastName" type="date" id="lastName" className={classes.input}  {...dateOfBirth}/>*/}
+                        {/*<Hidden xlDown>*/}
+                            {/*<Input  error={!!dateOfBirthValidationErrors.length} {...dateOfBirth}  autoFocus />*/}
+                        {/*</Hidden>*/}
+                        {/*{!!dateOfBirthValidationErrors.length && (*/}
+                            {/*dateOfBirthValidationErrors.map(error => (*/}
+                                {/*<Typography color="error" key={error}>{error}</Typography>*/}
+                            {/*))*/}
+                        {/*)}*/}
                     </FormControl>
 
 
                     <FormControl margin="normal" fullWidth>
-                        <InputLabel htmlFor="lastName">Feedback</InputLabel>
-                        <Input name="feedback" type="text" id="feedback" className={classes.input} autoComplete="current-password"  {...feedback}/>
-                        <Hidden xlDown>
-                            <Input  error={!!feedbackValidationErrors.length} {...feedback} />
-                        </Hidden>
-                        {!!feedbackValidationErrors.length && (
-                            feedbackValidationErrors.map(error => (
-                                <Typography color="error" key={error}>{error}</Typography>
-                            ))
-                        )}
+                        <InputLabel htmlFor="feedback">Feedback</InputLabel>
+                        <Input name="feedback" type="text" id="feedback" className={classes.input}  {...feedback}/>
+                        {/*<Hidden xlDown>*/}
+                            {/*<Input  error={!!feedbackValidationErrors.length} {...feedback} />*/}
+                        {/*</Hidden>*/}
+                        {/*{!!feedbackValidationErrors.length && (*/}
+                            {/*feedbackValidationErrors.map(error => (*/}
+                                {/*<Typography color="error" key={error}>{error}</Typography>*/}
+                            {/*))*/}
+                        {/*)}*/}
 
                     </FormControl>
 
 
-                    <FormControl margin="normal" fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lastName">Test's Results</InputLabel>
-                        <Input name="testResults" type="text" id="testResults" className={classes.input} autoComplete="current-password" {...testResults} />
+                        <Input name="testResults" type="text" id="testResults" className={classes.input} {...testResults} />
                         <Hidden xlDown>
                             <Input  error={!!testResultsValidationErrors.length}  autoFocus />
                         </Hidden>
@@ -344,7 +367,30 @@ function EditGraduateProfile(props) {
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="lastName">Works</InputLabel>
-                        <Input name="lastName" type="text" id="lastName" className={classes.input} autoComplete="current-password"  {...works}/>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input} {...work1}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input} {...work2}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="lastName">Works</InputLabel>
+                        <Input name="lastName" type="text" id="lastName" className={classes.input} {...work3}/>
+                        {!!worksValidationErrors.length && (
+                            worksValidationErrors.map(error => (
+                                <Typography color="error" key={error}>{error}</Typography>
+                            ))
+                        )}
                     </FormControl>
                     <div className={classes.buttons} >
                         <Button variant="contained" color="secondary" className={classes.submit} onClick={props.handleClose}>

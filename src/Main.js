@@ -26,30 +26,23 @@ class Main extends Component {
         };
 
     deleteCourse=(course)=>{
-        FireManager.findCourseId(course)
+        const { courses } = this.state;
+        courses.splice(courses.indexOf(course), 1);
+        this.setState({courses});
+
+        return FireManager.findCourseId(course)
             .then(courseId =>{
         return FireManager.deleteCourse(courseId)})
-            .then(()=>{
-                return FireManager.getCourses()
-            })
-            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
-            .then(courses => {
-                this.setState({courses})
-            })
             .catch(err => {
                 console.error(err.message)
             })
     }
 
-    editCourse =(courseId, newName)=> {
+    editCourse =(courseId, newName, oldName)=> {
+        const { courses } = this.state;
+        courses[courses.indexOf(oldName)] = newName;
+        this.setState({courses});
         return FireManager.editCourse(courseId, newName)
-            .then(()=>{
-                    return FireManager.getCourses()
-                })
-            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
-            .then(courses => {
-                this.setState({courses})
-            })
             .catch(err => {
                 console.error(err.message)
             })
@@ -89,22 +82,22 @@ class Main extends Component {
 
                 <ButtonAppBar user={user} logout={logout}/>
                 <Switch>
-                    <Route path="/companies" exact strict render={() =>
+                    <Route path="/companies" exact render={() =>
                         <CompaniesContainer/>}/>
-                    <Route path="/graduates" exact strict render={() => (
+                    <Route path="/graduates" exact render={() => (
                         <NavBar courses={courses} />)}/>
-                    <Route path="/" exact strict render={() => (
+                    <Route path="/" exact render={() => (
                         <NavBar courses={courses} />)}/>
-                    <Route path="/courses" exact strict render={() => (
+                    <Route path="/courses" exact render={() => (
                        <CoursesContainer courses={courses}
                                          handleChange={this.handleCoursesChange}
                                          deleteCourse={this.deleteCourse}
                                          editCourse={this.editCourse}/>
                     )}/>
-                    <Route path="/graduates/addgraduate" exact strict render={() => (
+                    <Route path="/graduates/addgraduate" exact render={() => (
                         <AddGraduate courses={courses}/>
                     )}/>
-                    <Route path="/graduates/:graduatesid" exact strict render={({match})=>(<Profile graduatesid={match.params.graduatesid}
+                    <Route path="/graduates/:graduatesid" exact render={({match})=>(<Profile graduatesid={match.params.graduatesid}
                                                                                                     courses={courses}/>)} />
                 </Switch>
 

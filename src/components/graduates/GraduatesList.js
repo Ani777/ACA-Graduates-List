@@ -49,8 +49,8 @@ const styles = theme => ({
     root: {
         width: '98%',
         marginTop: theme.spacing.unit * 3,
-        // marginLeft: '1%'    // ????????????????????????????
         margin: '0 auto',
+        minWidth: 1000
     },
     table: {
         minWidth: 1020,
@@ -70,7 +70,6 @@ class GraduatesList extends Component {
 
     };
 
-
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -81,21 +80,6 @@ class GraduatesList extends Component {
 
         this.setState({ order, orderBy });
     };
-
-
-
-    // handleFilterGraduates = searchString => {
-    //     const { graduates } = this.props;
-    //     searchString = searchString.replace(/\s/g,'').toLowerCase();
-    //     debugger
-    //     const filteredGraduates = graduates.filter(graduate => {
-    //         let firstLast = (graduate.firstName + graduate.lastName).replace(/\s/g,'').toLowerCase();
-    //         let lastFirst = (graduate.lastName + graduate.firstName).replace(/\s/g,'').toLowerCase();
-    //         debugger
-    //         return (firstLast.includes(searchString) || lastFirst.includes(searchString));
-    //     })
-    //     this.setState({ filteredGraduates });
-    // }
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -109,7 +93,6 @@ class GraduatesList extends Component {
 
     render() {
         const { classes, selected, graduates } = this.props;
-        //const graduates = this.state.filteredGraduates ? this.state.filteredGraduates : this.props.graduates;
         const { order, orderBy, rowsPerPage, page } = this.state;
 
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, graduates.length - page * rowsPerPage);

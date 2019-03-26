@@ -22,9 +22,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AlertDialog from '../alertDialogs/AlertDialog';
 
-
-
-
 const styles = theme => ({
     root: {
         width: '89%',
@@ -61,7 +58,6 @@ class CompaniesContainer extends Component {
         FireManager.getCompanies()
             .then(querySnapshot => {
                 const datas = querySnapshot.docs.map(doc => doc.data());
-                //const admins = datas.filter(item => item.role === 'admin');
                 const companies = datas.filter(item => item.role === 'customer');
                 this.setState({ companies });
                 return companies;
@@ -91,8 +87,7 @@ class CompaniesContainer extends Component {
     hideAlertDialog =()=> {
         this.setState({
             openAlertDialog: false,
-
-        })
+        });
     }
 
     handleClickOpenDeleteDialog = currentCompanyId => {
@@ -109,7 +104,7 @@ class CompaniesContainer extends Component {
     handleCloseDeleteDialog = () => {
         this.setState({ openDeleteDialog: false });
     };
-    
+
     handleClear = companyId => {
         FireManager.removeAllAvailableGraduates(companyId);
         const { availableGraduates } = this.state;
@@ -118,7 +113,6 @@ class CompaniesContainer extends Component {
     }
 
     handleDelete = () => {
-        //const availableGraduatesIds;
         const { companyEmail } = this.state;
         FireManager.getAvailableGraduates(companyEmail).then(querySnapshot => querySnapshot.docs.map(doc => doc.id))
             .then(availableGraduatesIds => availableGraduatesIds.forEach(id => {
@@ -135,11 +129,8 @@ class CompaniesContainer extends Component {
             showCreateUserDialog: false,
             alertMessage: ['Please delete user in ', ' with following email address:'],
             openDeleteDialog: false
-            // companyEmail: currentCompanyId,
-            // companyPassword: company.password
         });
     }
-
 
     addCompanyToList = company => {
         const { companies } = this.state;
@@ -164,7 +155,6 @@ class CompaniesContainer extends Component {
             companyPassword,
             companies
         } = this.state;
-    
         return (
             <>
                 <Dialog
@@ -179,7 +169,6 @@ class CompaniesContainer extends Component {
                     <AddCompanyPage
                         addCompanyToList={this.addCompanyToList}
                         handleClose={this.hideAddCompanyPage}
-                        // showAlertDialog={this.showAlertDialog}
                     />
                 </Dialog>
                 <AlertDialog
@@ -210,8 +199,6 @@ class CompaniesContainer extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-
-
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead>

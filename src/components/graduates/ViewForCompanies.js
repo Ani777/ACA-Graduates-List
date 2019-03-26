@@ -10,12 +10,13 @@ export default class ViewForCompanies extends Component {
         availableGraduates: [],
         activeGraduate: {},
         open: false,
-
     }
 
     handleClickOpen = (graduate) => {
-        this.setState({activeGraduate: graduate,
-                             open: true });
+        this.setState({
+            activeGraduate: graduate,
+            open: true
+        });
     };
 
     handleClose = () => {
@@ -58,8 +59,7 @@ export default class ViewForCompanies extends Component {
                    <ProfileForCompanies graduate={activeGraduate}/>
                 </Dialog>
                 <AvailableGraduatesList graduates={availableGraduates} handleClick={this.handleClickOpen}/>
-
-                </>
+            </>
         )
     }
 }

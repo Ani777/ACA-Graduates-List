@@ -19,14 +19,14 @@ class App extends Component {
         }
     }
 
-    handleChange=(e)=> {
+    handleChange = e => {
         this.setState({ [e.target.name]: e.target.value });
     };
 
     componentDidMount() {
         this.setState({isAuthenticating: true});
         firebase.auth().onAuthStateChanged(user=> {
-            if(user){
+            if(user) {
                 let userEmail = user.email;
                 FireManager.getCurrentCompany(userEmail)
                     .then(company => {
@@ -35,13 +35,13 @@ class App extends Component {
                     .catch(err=>{
                     console.error("Error getting company:", err)
                 })
-            }else {
+            } else {
                 this.setState({user: '', company: {}, isAuthenticating: false})
             }
         })};
 
 
-    login=(e)=> {
+    login = e => {
         e.preventDefault();
         if (!this.state.user) {
             firebase
@@ -62,7 +62,7 @@ class App extends Component {
     };
 
 
-    logout=()=>{
+    logout = () => {
         firebase
             .auth()
             .signOut()
@@ -80,7 +80,7 @@ class App extends Component {
     render() {
         const { isAuthenticating, user } = this.state;
         return (<>
-                {isAuthenticating ? <div className="progress"> <CircularProgress disableShrink className="progress"/></div> :
+                {isAuthenticating ? <div className="progress"><CircularProgress disableShrink className="progress"/></div> :
                     user ? <Main user={user} logout={this.logout} company={this.state.company}/> :
                         <SignIn login={this.login}
                                 handleChange={this.handleChange}
@@ -88,7 +88,6 @@ class App extends Component {
                                 password={this.state.password}
                                 isValid={this.state.isValid}
                     />
-
                 }
             </>
         );

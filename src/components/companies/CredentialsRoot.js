@@ -8,8 +8,6 @@ const styles = theme => ({
     },
 });
 
-
-
 function CredentialsRoot(props){
     function copyToClipboard (event) {
         let h2El = event.currentTarget.previousSibling;
@@ -22,7 +20,6 @@ function CredentialsRoot(props){
         sel.removeAllRanges();
         props.enqueueSnackbar('Copied to Clipboard.');
     }
-
 
     const { classes } = props;
     return (
@@ -54,7 +51,6 @@ function CredentialsRoot(props){
                 </div>
 
             )
-
     )
 }
 

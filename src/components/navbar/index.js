@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -17,10 +16,6 @@ function TabContainer(props) {
     );
 }
 
-TabContainer.propTypes = {
-    children: PropTypes.node.isRequired,
-};
-
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -30,11 +25,11 @@ const styles = theme => ({
 });
 
 class NavBar extends React.Component {
-
     state = {
         value: 0,
         graduates: [],
         selected: [],
+        filteredGraduates: false
     }
 
     handleDeleteButtonClick = (e) => {
@@ -49,12 +44,13 @@ class NavBar extends React.Component {
         }))
             .then(docs => {
                 return docs.map(doc => {
-                    return [doc.data().visibleFor, doc.id]
+                    return [doc.data().visibleFor, doc.id, doc.data().course]
             })
         })
             .then(arrs => {
                 return Promise.all(arrs.map(arr => {
-                    return FireManager.RemoveGraduateForCompanies(...arr)
+                    return Promise.all[FireManager.RemoveGraduateForCompanies(arr[0], arr[1]),
+                                       FireManager.removeGraduateFromCourse(arr[2], arr[1] ) ]
             }))
         })
             .then(()=> {
@@ -72,7 +68,7 @@ class NavBar extends React.Component {
                             id: doc.id
                         };
                     }),
-                    selected: [],
+                    selected:[],
                     filteredGraduates: false
                 })})
         .catch(err => {
@@ -110,25 +106,23 @@ class NavBar extends React.Component {
             );
         }
 
-        this.setState({ 
+        this.setState({
             selected: newSelected,
             filteredGraduates: newSelected.length ? this.state.filteredGraduates : this.state.graduates
         });
     };
 
 
-
-
     componentDidMount(){
         FireManager.getGraduates()
             .then(querySnapshot => {
                 this.setState({graduates: querySnapshot.docs.map(doc => {
-                    const docData = doc.data();
-                    return {
-                        ...docData,
-                        id: doc.id
-                    };
-                }),
+                        const docData = doc.data();
+                        return {
+                            ...docData,
+                            id: doc.id
+                        };
+                    }),
                 });
             })
             .catch(error => {
@@ -152,15 +146,12 @@ class NavBar extends React.Component {
     // }
 
 
-    
     handleFilterGraduates = searchString => {
         const { graduates } = this.state;
         searchString = searchString.replace(/\s/g,'').toLowerCase();
-        debugger
         const filteredGraduates = graduates.filter(graduate => {
             let firstLast = (graduate.firstName + graduate.lastName).replace(/\s/g,'').toLowerCase();
             let lastFirst = (graduate.lastName + graduate.firstName).replace(/\s/g,'').toLowerCase();
-            debugger
             return (firstLast.includes(searchString) || lastFirst.includes(searchString));
         })
         this.setState({ filteredGraduates });
@@ -176,7 +167,6 @@ class NavBar extends React.Component {
         const graduates = this.state.filteredGraduates ? this.state.filteredGraduates : this.state.graduates;
         const tabs = courses.map((course, index) => <Tab key={course+index} label={course} />);
         const graduatesList = value ===0 ? graduates: graduates.filter(graduate => graduate.course === courses[value-1]);
-        
         return (
             <div className={classes.root}>
                 <AppBar position="static" color="default">
@@ -192,8 +182,8 @@ class NavBar extends React.Component {
                         {tabs}
                     </Tabs>
                 </AppBar>
-               <TabContainer>
-                   <GraduatesList
+                <TabContainer>
+                    <GraduatesList
                         graduates={graduatesList}
                         selected={this.state.selected}
                         filterGraduates={this.handleFilterGraduates}

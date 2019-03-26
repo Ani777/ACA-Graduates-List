@@ -6,30 +6,10 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {APP_DEFAULT_COMPANY_ROLE} from "../../constants/appConstants";
-import { isValidEmail} from "../graduates/Validator";
+import {isValidEmail, isValidPassword} from "../graduates/Validator";
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
-    main: {
-        position:'absolute',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        left: 0,
-        right: 0,
-        width: 'auto',
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            width: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
-    paper: {
-        marginTop: theme.spacing.unit,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-    },
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit,
@@ -46,13 +26,11 @@ const styles = theme => ({
         justifyContent:
             "space-between",
         marginTop: theme.spacing.unit * 6,
-
     },
     formWrapper: {
         padding: 30
     }
 });
-
 
 function AddCompanyPage(props) {
     let name = useFormInput('');
@@ -60,7 +38,7 @@ function AddCompanyPage(props) {
     let email = useFormInput('');
     let [password, setPassword] = useState('');
     const [emailValidationError, setEmailValidationError] = useState('');
-
+    const [passwordValidationError, setPasswordValidationError] = useState('');
 
     function handlePasswordChange (e){
         setPassword(e.target.value)
@@ -70,12 +48,15 @@ function AddCompanyPage(props) {
         setPassword(generatePassword(6, false))
     }
 
-
     function isValidAddCompanyForm() {
 
         const emailErrors = isValidEmail(email.value);
         setEmailValidationError(emailErrors);
-        if(!emailErrors.length){
+
+        const passwordErrors = isValidPassword(password);
+        setPasswordValidationError(passwordErrors);
+
+        if (!emailErrors.length && !passwordErrors.length) {
             return true
         }
     }
@@ -93,18 +74,13 @@ function AddCompanyPage(props) {
             return;
         }
 
-
-
         FireManager.createCompanyInFirebase({...data}, data.email).then(() => {
             props.addCompanyToList(data);
         })
             .catch(function(error) {
                 console.error("Error creating company:", error);
             })
-
-
     }
-
 
     const { classes } = props;
 
@@ -169,6 +145,11 @@ function AddCompanyPage(props) {
                         auto
                     </Button>
                 </div>
+                {!!passwordValidationError.length && (
+                    passwordValidationError.map(error => (
+                        <Typography color="error" key={error}>{error}</Typography>
+                    ))
+                )}
                 <div className={classes.buttons} >
                     <Button variant="contained" color="secondary" className={classes.button} onClick={props.handleClose}>
                         Cancel

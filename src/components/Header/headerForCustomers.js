@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,11 +10,6 @@ const styles = {
         flexGrow: 1,
 
     },
-    grow: {
-        flexGrow: 1,
-        cursor: 'pointer',
-        textDecoration: 'none'
-    },
     button:{
         width: 250,
         textTransform: 'none'
@@ -23,7 +17,6 @@ const styles = {
     buttons: {
         display: 'flex',
         justifyContent: 'flex-end'
-
     }
 };
 
@@ -34,18 +27,12 @@ function HeaderForCustomers(props) {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar className={classes.buttons}>
-
-                        <Button color="inherit" className={classes.button} >{ user.email }</Button>
-                        <Button color="inherit" onClick={logout} component={Link} to={"/"}>LogOut</Button>
-
+                    <Button color="inherit" className={classes.button} >{ user.email }</Button>
+                    <Button color="inherit" onClick={logout} component={Link} to={"/"}>LogOut</Button>
                 </Toolbar>
             </AppBar>
         </div>
     );
 }
-
-HeaderForCustomers.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(HeaderForCustomers);

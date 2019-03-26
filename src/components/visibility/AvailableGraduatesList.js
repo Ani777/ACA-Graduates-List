@@ -57,7 +57,6 @@ class AvailableGraduatesList extends Component {
         rowsPerPage: 10,
     };
 
-
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -68,8 +67,6 @@ class AvailableGraduatesList extends Component {
 
         this.setState({ order, orderBy });
     };
-
-
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -83,7 +80,6 @@ class AvailableGraduatesList extends Component {
     render() {
         const { classes, graduates } = this.props;
         const { order, orderBy, rowsPerPage, page } = this.state;
-
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, graduates.length - page * rowsPerPage);
 
         return (

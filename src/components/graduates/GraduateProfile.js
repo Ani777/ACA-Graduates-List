@@ -6,19 +6,18 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
-import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import EditGraduateProfile from "./EditGraduateProfile";
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
 
     paper: {
         maxWidth: 500,
-
+        width: 500,
         marginTop: theme.spacing.unit * 5,
         marginBottom: theme.spacing.unit * 5,
         marginLeft: 'auto',
@@ -28,23 +27,12 @@ const styles = theme => ({
         padding: `16px 24px 24px`,
         color: theme.palette.text.primary,
     },
-
     info: {
         marginTop: theme.spacing.unit * 0.5,
         display: 'flex',
         flexDirection: 'column',
         padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
-
     },
-
-    label: {
-        marginTop: theme.spacing.unit * 0.5,
-        display: 'flex',
-        flexDirection: 'column',
-        padding: `${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px ${theme.spacing.unit * 1}px`,
-        fontWeight: 'bold',
-    },
-
     header: {
         marginTop: theme.spacing.unit * 5,
         fontSize: 36,
@@ -56,17 +44,11 @@ const styles = theme => ({
         textAlign: 'left',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 5}px ${theme.spacing.unit * 3}px`,
     },
-
     icon: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit * 1.5,
         marginLeft: theme.spacing.unit * 10,
     },
-
-    input: {
-        height: 33,
-    },
-
     buttons: {
         display: "flex",
         justifyContent: "space-between",
@@ -75,30 +57,20 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit * 5,
         paddingRight: theme.spacing.unit * 5,
     },
-
-    // back: {
-    //     display: 'inline-block',
-    //     marginTop: theme.spacing.unit,
-    //     marginLeft:  theme.spacing.unit * 5,
-    //
-    //
-    // },
-    // submit: {
-    //     display: 'inline-block',
-    //     marginTop: theme.spacing.unit,
-    //     marginLeft: theme.spacing.unit * 35,
-
-    // },
+    progress: {
+       display: 'flex',
+       justifyContent: 'center',
+       alignItems: 'center',
+       height: '100vh'
+    },
     first: {
         fontSize: theme.spacing.unit * 2,
         fontWeight: 'bold',
 
     },
-
     second: {
         fontSize: theme.spacing.unit * 2,
     }
-
 });
 
 function Transition(props) {
@@ -110,7 +82,8 @@ class Profile extends Component {
 
     state = {
         graduate: {},
-        open: false
+        open: false,
+        loading: false,
     };
 
     handleClickOpen = () => {
@@ -122,12 +95,14 @@ class Profile extends Component {
     };
 
     componentDidMount() {
+        this.setState({loading: true})
 
         const { graduatesid } = this.props;
         if (graduatesid) {
             FireManager.getGraduate(graduatesid)
                 .then(graduate => {
-                this.setState({graduate})
+                this.setState({graduate,
+                loading: false})
             });
         }
     }
@@ -136,10 +111,12 @@ class Profile extends Component {
         const { graduatesid } = this.props;
         if (graduatesid) {
             FireManager.getGraduate(graduatesid).then(graduate => {
-                this.setState({graduate})
+                this.setState({
+                    graduate,
+                    loading: false
+                })
             });
         }
-
     }
 
 
@@ -156,17 +133,22 @@ class Profile extends Component {
             testResults,
             isWorking,
             works
-        } } = this.state;
+        },
+        loading,
+        open,
+        graduate
+     } = this.state;
 
         return (
             <>
+                {loading? <div className="progress"><CircularProgress/></div>:<>
                 <Dialog
                     fullScreen
-                    open={this.state.open}
+                    open={open}
                     onClose={this.handleClose}
                     TransitionComponent={Transition}
                 >
-                    <EditGraduateProfile graduate={this.state.graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
+                    <EditGraduateProfile graduate={graduate} graduatesid={graduatesid} handleClose={this.handleClose} courses={courses}/>
                 </Dialog>
                 <Paper className={classes.paper}>
                     <Typography variant='h4' align='center' color='inherit' className={classes.header}>{firstName } {lastName }</Typography>
@@ -219,7 +201,14 @@ class Profile extends Component {
                             <Typography className={classes.first}>Works</Typography>
                         </Grid>
                         <Grid item xs={8} className={classes.info}>
-                            <a href={works} target="_blank" rel="noopener noreferrer"><Typography className={classes.second} >{works}</Typography></a>
+                            {works && works.map(work => {
+                                if (work) {
+                                    return (
+                                        <a href={work} target="_blank" rel="noopener noreferrer"><Typography className={classes.second}  key = {work}>{`${work.slice(0,30)}...`}</Typography></a>
+                                    )
+                                }
+                            })}
+                                
                         </Grid>
                     </Grid>
                     <div className={classes.buttons} >
@@ -235,13 +224,10 @@ class Profile extends Component {
                             </Button>
                     </div>
                 </Paper>
-                </>
+                </>}
+            </>
         )
     }
 }
-
-Profile.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(Profile);

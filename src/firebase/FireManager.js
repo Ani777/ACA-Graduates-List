@@ -24,11 +24,13 @@ export default class FireManager {
                          .get()
                  }))
             })
+            .then(docs => docs.filter(doc => doc.exists) )
             .then(docs => {
             return docs.map(doc => {
                 return [doc.data().visibleFor, doc.id]
-            })
-        })
+            })})
+
+
             .then(arrs => {
                 return Promise.all(arrs.map(arr => {
                      FireManager.RemoveGraduateForCompanies(...arr);
@@ -45,7 +47,6 @@ export default class FireManager {
     }
 
     static editCourse(courseId, newName){
-
        const courseRef = firestore()
            .collection('courses')
            .doc(courseId);
@@ -61,6 +62,7 @@ export default class FireManager {
                    .doc(id)
                    .get()
            }))})
+           .then(docs => docs.filter(doc => doc.exists) )
            .then(doc => {
 
                return doc.map(graduate=>{
