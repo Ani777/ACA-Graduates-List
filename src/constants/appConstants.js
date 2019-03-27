@@ -1,0 +1,1 @@
+export const APP_DEFAULT_COMPANY_ROLE = 'customer';
