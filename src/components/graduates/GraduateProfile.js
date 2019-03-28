@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import FireManager from '../../firebase/FireManager';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import EditGraduateProfile from "./EditGraduateProfile";
-import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -106,8 +104,10 @@ class Profile extends Component {
         if (graduatesid) {
             FireManager.getGraduate(graduatesid)
                 .then(graduate => {
-                this.setState({graduate,
-                loading: false})
+                this.setState({
+                    graduate,
+                    loading: false
+                })
             });
         }
     }
@@ -215,17 +215,14 @@ class Profile extends Component {
                                     {works && works.map(work => {
                                         if (work) {
                                             return (
-                                                <a href={work} target="_blank" rel="noopener noreferrer"><Typography className={classes.second}  key = {work}>{`${work.slice(0,30)}...`}</Typography></a>
-                                            )
+                                                <a href={work} target="_blank" rel="noopener noreferrer" key = {work}><Typography className={classes.second}>{`${work.slice(0,30)}...`}</Typography></a>
+                                            );
                                         }
                                     })}
                                         
                                 </Grid>
                             </Grid>
                             <div className={classes.buttons} >
-                                {/* <Button  variant="contained" color="secondary" component={Link} to='/graduates'>
-                                Back
-                                </Button> */}
                                     <Button
                                         variant="contained"
                                         color="primary"
@@ -238,7 +235,6 @@ class Profile extends Component {
                     </div>
                     <div style={{flex: '3'}}></div>
                 </div>
-                
                 </>
                 }
             </>

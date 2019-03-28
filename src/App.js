@@ -6,6 +6,7 @@ import FireManager from "./firebase/FireManager";
 import Main from './Main';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+
 class App extends Component {
     constructor(props){
         super(props);
@@ -81,12 +82,14 @@ class App extends Component {
         const { isAuthenticating, user } = this.state;
         return (<>
                 {isAuthenticating ? <div className="progress"><CircularProgress disableShrink className="progress"/></div> :
-                    user ? <Main user={user} logout={this.logout} company={this.state.company}/> :
-                        <SignIn login={this.login}
-                                handleChange={this.handleChange}
-                                email={this.state.email}
-                                password={this.state.password}
-                                isValid={this.state.isValid}
+                    user ?
+                    <Main user={user} logout={this.logout} company={this.state.company}/> :
+                    <SignIn
+                        login={this.login}
+                        handleChange={this.handleChange}
+                        email={this.state.email}
+                        password={this.state.password}
+                        isValid={this.state.isValid}
                     />
                 }
             </>
