@@ -185,7 +185,7 @@ class CompaniesContainer extends Component {
                 >
                     <DialogTitle id="alert-dialog-title">
                         {alertMessage[0]}
-                        <a href='https://console.firebase.google.com/u/1/project/aca-graduate-s-list/authentication/users' target="_blank" rel="noopener noreferrer" style={{color:"#3f51b5"}}>
+                        <a href='https://console.firebase.google.com/u/1/project/graduates-list/authentication/users' target="_blank" rel="noopener noreferrer" style={{color:"#3f51b5"}}>
                             database
                         </a>
                         {alertMessage[1]}
