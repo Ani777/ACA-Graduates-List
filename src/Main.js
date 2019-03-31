@@ -12,6 +12,7 @@ import HeaderForCustomers from "./components/Header/headerForCustomers";
 import ViewForCompanies from "./components/graduates/ViewForCompanies";
 import FireManager from "./firebase/FireManager";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Authors from './components/authors/Authors';
 
 
 class Main extends Component {
@@ -25,7 +26,7 @@ class Main extends Component {
             this.setState({ courses });
         };
 
-    deleteCourse=(course)=>{
+    deleteCourse = course => {
         const { courses } = this.state;
         courses.splice(courses.indexOf(course), 1);
         this.setState({courses});
@@ -38,7 +39,7 @@ class Main extends Component {
             })
     }
 
-    editCourse =(courseId, newName, oldName)=> {
+    editCourse = (courseId, newName, oldName) => {
         const { courses } = this.state;
         courses[courses.indexOf(oldName)] = newName;
         this.setState({courses});
@@ -74,35 +75,41 @@ class Main extends Component {
                         <>
                            <HeaderForCustomers user={user} logout={logout} />
                            <ViewForCompanies company={company}/>
+                           <Authors/>
                         </>
                     </Router>
                 ): role === 'admin' ? (
-            <Router>
-            <div className="App">
-
-                <ButtonAppBar user={user} logout={logout}/>
-                <Switch>
-                    <Route path="/companies" exact render={() =>
-                        <CompaniesContainer/>}/>
-                    <Route path="/graduates" exact render={() => (
-                        <NavBar courses={courses} />)}/>
-                    <Route path="/" exact render={() => (
-                        <NavBar courses={courses} />)}/>
-                    <Route path="/courses" exact render={() => (
-                       <CoursesContainer courses={courses}
-                                         handleChange={this.handleCoursesChange}
-                                         deleteCourse={this.deleteCourse}
-                                         editCourse={this.editCourse}/>
-                    )}/>
-                    <Route path="/graduates/addgraduate" exact render={() => (
-                        <AddGraduate courses={courses}/>
-                    )}/>
-                    <Route path="/graduates/:graduatesid" exact render={({match})=>(<Profile graduatesid={match.params.graduatesid}
-                                                                                                    courses={courses}/>)} />
-                </Switch>
-
-            </div>
-            </Router>) : <div className="progress"> <CircularProgress disableShrink className="progress"/></div> }
+                    <Router>
+                        <div className="App">
+                            <ButtonAppBar user={user} logout={logout}/>
+                            <Switch>
+                                <Route path="/companies" exact render={() =>
+                                    <CompaniesContainer/>}/>
+                                <Route path="/graduates" exact render={() => (
+                                    <NavBar courses={courses} />)}/>
+                                <Route path="/" exact render={() => (
+                                    <NavBar courses={courses} />)}/>
+                                <Route path="/courses" exact render={() => (
+                                <CoursesContainer 
+                                    courses={courses}
+                                    handleChange={this.handleCoursesChange}
+                                    deleteCourse={this.deleteCourse}
+                                    editCourse={this.editCourse}/>
+                                )}/>
+                                <Route path="/graduates/addgraduate" exact render={() => (
+                                    <AddGraduate courses={courses}/>
+                                )}/>
+                                <Route
+                                    path="/graduates/:graduatesid"
+                                    exact
+                                    render={({match})=>(<Profile graduatesid={match.params.graduatesid}
+                                    courses={courses}/>)}
+                                />
+                            </Switch>
+                            <Authors/>
+                        </div>
+                    </Router>) : 
+                    <div className="progress"> <CircularProgress disableShrink className="progress"/></div> }
                 </>)
     }
 }

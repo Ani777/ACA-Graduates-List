@@ -17,7 +17,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 const toolbarStyles = theme => ({
     formControl: {
         minWidth: 170,
-        height: theme.spacing.unit * 4.5, //   //margin='dense'//
+       // height: theme.spacing.unit * 4.5, //   //margin='dense'//
     },
     visibleForSelect: {
         fontSize: theme.spacing.unit * 1.5,
@@ -105,7 +105,7 @@ class Graduate extends Component {
                 <TableCell component="th" scope="row" padding="none">{data.graduate.lastName}</TableCell>
                 <TableCell align="right">{data.graduate.testResults}</TableCell>
                 <TableCell align="right">
-                    <FormControl variant="outlined" className={classes.formControl}>
+                    <FormControl variant="outlined" className={classes.formControl} margin='dense'>
                         <Select
                             displayEmpty
                             multiple

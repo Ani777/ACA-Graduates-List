@@ -4,7 +4,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
 
 
 const styles = theme => ({
@@ -92,8 +91,8 @@ class ProfileForCompanies extends Component {
                                     {works && works.map(work => {
                                         if (work) {
                                             return (
-                                                <a href={work} target="_blank" rel="noopener noreferrer">
-                                                    <Typography className={classes.second} key = {work}>
+                                                <a href={work} target="_blank" rel="noopener noreferrer" key = {work}>
+                                                    <Typography className={classes.second}>
                                                         {`${work.slice(0,30)}...`}
                                                     </Typography>
                                                 </a>
