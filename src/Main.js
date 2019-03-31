@@ -51,15 +51,18 @@ class Main extends Component {
 
 
     componentDidMount() {
-        FireManager.getCourses()
-            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
-            .then(
-                courses => {
-                    this.setState({courses})
+        const { role } = this.props.company;
+        if(role === 'admin') {
+            FireManager.getCourses()
+                .then(querySnapshot => querySnapshot.docs.map(doc => doc.data().name))
+                .then(
+                    courses => {
+                        this.setState({courses})
+                    })
+                .catch(err => {
+                    console.error(err.message)
                 })
-            .catch(err => {
-                console.error(err.message)
-            })
+        }
     }
 
 

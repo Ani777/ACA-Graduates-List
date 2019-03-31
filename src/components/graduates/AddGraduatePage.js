@@ -106,7 +106,6 @@ function AddGraduate(props) {
     const [phoneNumberValidationErrors, setPhoneNumberValidationErrors] = useState([]);
     const [emailValidationErrors, setEmailValidationErrors] = useState([]);
     const [testResultsValidationErrors, setTestResultsValidationErrors] = useState([]);
-    const [feedbackValidationErrors, setFeedbackValidationErrors] = useState([]);
     const [courseValidationErrors, setCourseValidationErrors] = useState([]);
     const [worksValidationErrors, setWorksValidationErrors] = useState([]);
 
@@ -291,14 +290,6 @@ function AddGraduate(props) {
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="feedback">Feedback</InputLabel>
                         <Input name="feedback" type="text"  className={classes.input}  {...feedback}/>
-                        <Hidden xlDown>
-                            <Input  error={!!feedbackValidationErrors.length} {...feedback} />
-                        </Hidden>
-                        {!!feedbackValidationErrors.length && (
-                            feedbackValidationErrors.map(error => (
-                                <Typography color="error" key={error}>{error}</Typography>
-                            ))
-                        )}
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lastName">Test's Results</InputLabel>
